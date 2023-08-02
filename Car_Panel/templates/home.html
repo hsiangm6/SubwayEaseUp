@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+
+        <link
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700"
+            rel="stylesheet" type="text/css" />
+
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+            crossorigin="anonymous" />
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+            crossorigin="anonymous">
+        </script>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+        <script src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
+
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <link
+            href="{{ url_for('static', filename = 'css/main.css') }}"
+            rel="stylesheet" type="text/css" />
+        <!-- <link
+            href="../static/css/main.css"
+            rel="stylesheet" type="text/css" /> -->
+
+    </head>
+    <body class="mt-0 window-size">
+        <div>
+            <div class="row justify-content-center mt-0">
+                <div class="col-md-3">
+                    <div class="row mb-3 justify-content-center">
+                        <img
+                            class="img-fluid"
+                            id="home-logo"
+                            src="{{ url_for('static', filename = 'images/logo.svg') }}"
+                            alt="logo">
+
+                        <h5 class="text-center p-0 m-0">便"捷"e起來</h5>
+
+                    </div>
+
+                    <div class="row">
+                        <form action="{{ url_for('car_onmove_platform') }}"
+                            method="get">
+                            <!-- <label for="station-number"
+                                class="form-label">挑選目前車號</label> -->
+                            <select name="cid" id="cid"
+                                class="form-select mb-1"
+                                aria-label="Default select example" required>
+                                <option selected>車號</option>
+                                <option value="168">168</option>
+                            </select>
+                            <select name="dNo"
+                                id="dNo"
+                                class="form-select mb-1"
+                                aria-label="Default select example" required>
+                                <option selected>車門號</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                            <select name="route"
+                                id="route"
+                                class="form-select mb-1"
+                                aria-label="Default select example" required>
+                                <option selected>選擇線路</option>
+                                <option value="O">橘線</option>
+                                <option value="R">紅線</option>
+                                <option value="C">輕軌</option>
+                            </select>
+                            <select name="route_way"
+                                id="route_way"
+                                class="form-select mb-1"
+                                aria-label="Default select example" required>
+                                <option selected>終點站</option>
+                                <option value="O1">西子灣</option>
+                                <option value="OT1">大寮</option>
+                            </select>
+
+                            <div class="d-flex justify-content-end">
+                                <button type="submit"
+                                    class="btn btn-outline-dark">確認</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- <script type="text/javascript"
+            src="{{ url_for('static', filename = 'js/script.js') }}"></script> -->
+    </body>
+</html>

@@ -1,0 +1,5 @@
+<svg id="subway-map" width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <circle class="station" cx="100" cy="100" r="10" fill="green" />
+  <circle class="station" cx="200" cy="100" r="10" fill="green" />
+  <circle class="station" cx="300" cy="100" r="10" fill="green" />
+</svg>

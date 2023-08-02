@@ -1,0 +1,94 @@
+
+/* car_onmove_platform.html */
+#stationInfo{
+    height: 50vh;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: inherit;
+    /* background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); */
+}
+#stationNameContainer{
+    height: 15vh;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: inherit;
+}
+#subway-map{
+    height: 15vh;
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+#arrivedTimeContainer{
+    height: 15vh;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: inherit;
+}
+.subway-map-station-name{ /*站點上的站名*/
+    color: white;
+    height: 65px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.subway-map-block { /*每個站點區塊*/
+    /* width: 100px; */
+    height: 65px;
+    border: 2px solid;
+    border-radius: 15%;
+    margin: 10px;
+    display: flex;
+    /* display: inline-block; */
+    align-items: center;
+    justify-content: center;
+    background-color: whitesmoke;
+}
+.arrivedTime-block{ /*預計到達時間區塊*/
+  color: white;
+  height: 65px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.arrow-group{
+    font-size: 50px;
+    height: 65px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+.route-icon{
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+/*Arrow shining*/
+:root {
+    --initial-translateX: 0;
+    --initial-move-distance: 0;
+  }
+.flashing-icon {
+    animation: flashingRight 2s infinite;
+  }
+
+  @keyframes flashingRight {
+    0%, 100% {
+      opacity: 0.2;
+      transform: translateX(var(--initial-translateX));
+    }
+    50% {
+      opacity: 1;
+      transform: translateX(calc(var(--initial-translateX) + var(--initial-move-distance)));
+    }
+  }

@@ -1,0 +1,25 @@
+.main-color{
+    background-color: #C7F9CC;
+}
+/* home.html */
+#home-logo{
+    height: 60vh;
+    width : 60vh;
+}
+/* station_platform.html */
+#side-block{
+    height: 65vh;
+}
+#main-block{
+    height: 65vh;
+}
+#main-block-example{
+    width: 98%;
+    height: 98%;
+}
+#bottom-block{
+    height: 20vh;
+}
+.person-fill{
+    height: 75px;
+}

@@ -1,0 +1,206 @@
+.open-door{
+    width: 100px;
+    height: 150px;
+}
+.door-opening-left {
+    animation: doorOpeningLeft 2s infinite;
+  }
+
+@keyframes doorOpeningLeft {
+0%, 100% {
+    transform: translateX(0);
+}
+50% {
+    transform: translateX(-50px);
+}
+}
+.door-opening-right {
+animation: doorOpeningRight 2s infinite;
+}
+
+@keyframes doorOpeningRight {
+0%, 100% {
+    transform: translateX(0);
+}
+50% {
+    transform: translateX(50px);
+}
+}
+.exit-block{
+    width: 30%;
+    height: 25%;
+}
+.exit-icon{
+    width: 10vh;
+    height: 100%;
+}
+#stationLayoutInfo{
+    height: 50vh;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: inherit;
+}
+.facility-icon{
+    width: 90px;
+    
+    /* height: 150px; */
+}
+.svg-reversed{
+    -moz-transform:scaleX(-1);
+    -webkit-transform:scaleX(-1);
+    -o-transform:scaleX(-1);
+    transform:scaleX(-1);
+}
+#facilityContainer{
+    height: 25vh;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: inherit;
+}
+.first-carriage-facilityBlock{
+    margin-top: 10px;
+    width: 935px;
+    height: 20vh;
+    /* border: 0; */
+    /* border: 2px solid black; */
+    /* border-radius: 10px 50px 10px 10px; */
+}
+.facilityBlock{
+    margin-top: 10px;
+    width: 915px;
+    height: 20vh;
+    /* border: 2px solid black; */
+    /* border-radius: 10px 10px 10px 10px; */
+}
+.hollow-facilityBlock{
+    margin-top: 10px;
+    width: 435px;
+    height: 20vh;
+    /* border: 2px solid black; */
+    /* border-radius: 10px 10px 10px 10px; */
+}
+.facility-1{
+    position: absolute;
+    bottom: 10%;
+    left: 82%;
+    
+}
+.facility-2{
+    position: absolute;
+    bottom: 10%;
+    left: 72%;
+}
+.facility-3{
+    position: absolute;
+    bottom: 10%;
+    left: 62%;
+}
+.facility-4{
+    position: absolute;
+    bottom: 10%;
+    left: 52%;
+}
+.facility-5{
+    position: absolute;
+    bottom: 10%;
+    left: 32%;
+}
+.facility-6{
+    position: absolute;
+    bottom: 10%;
+    left: 22%;
+}
+.facility-7{
+    position: absolute;
+    bottom: 10%;
+    left: 12%;
+}
+.facility-8{
+    position: absolute;
+    bottom: 10%;
+    left: 2%;
+}
+#carriageContainer{
+    height: 20vh;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: inherit;
+}
+.carriage-shining{
+    border-radius: 10px 10px 10px 10px;
+}
+.first-carriage{
+    width: 935px;
+    height: 18vh;
+    border: 2px solid black;
+    border-radius: 10px 50px 10px 10px;
+}
+.carriage{
+    width: 915px;
+    height: 18vh;
+    border: 2px solid black;
+    border-radius: 10px 10px 10px 10px;
+}
+.hollow-carriage{
+    width: 435px;
+    height: 18vh;
+    border: 2px solid black;
+    border-radius: 10px 10px 10px 10px;
+}
+.doors{
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.door-1{
+    top: 10%;
+    left: 80%;
+}
+.door-2{
+    top: 10%;
+    left: 60%;
+}
+.door-3{
+    top: 10%;
+    left: 30%;
+}
+.door-4{
+    top: 10%;
+    left: 10%;
+}
+.positionMark-1{
+    top: -10px;
+    left: 83%;
+}
+.positionMark-2{
+    top: 0;
+    left: 63%;
+}
+.positionMark-3{
+    top: 0;
+    left: 33%;
+}
+.positionMark-4{
+    top: 0;
+    left: 13%;
+}
+/*position mark jumping*/
+.position-mark-jump {
+    animation: positionMarkJump 2s infinite;
+  }
+
+  @keyframes positionMarkJump {
+    0%, 100% {
+      transform: translateY(-5px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }

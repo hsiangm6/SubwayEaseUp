@@ -1,0 +1,107 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.h75{
+    font-size: 75px;
+}
+.h60{
+    font-size: 60px;
+}
+.h55{
+    font-size: 55px;
+}
+.h50{
+    font-size: 50px;
+}
+.h40{
+    font-size: 40px;
+}
+.h30{
+    font-size: 30px;
+}
+.h25{
+    font-size: 25px;
+}
+.h20{
+    font-size: 20px;
+}
+.h10{
+    font-size: 10px;
+}
+
+.window-size{
+  height: 100vh;
+  width: 3765px; /*2048px*/
+  background: #C7F9CC;
+  margin: 0!important;
+}
+
+#home-logo{
+  height: 50vh;
+  width : 50vh;
+}
+
+/* car_onstation_platform.html, car_onmove_platform.html */
+.side-block{
+    width: 15%; /*20%*/
+    height: 100vh;
+    margin-left: 0;
+    background-color: white;
+    /*me-3 bg-white rounded-2 p-3 mx-1*/
+}
+.main-block{
+    width: 85%; /*1638px*/
+    height: 100vh;
+    /* background: rgb(233,32,32);
+    background: linear-gradient(90deg, rgba(233,32,32,1) 0%, rgba(246,124,11,1) 50%, rgba(247,205,28,1) 100%); */
+    background: rgb(242,79,7);
+    background: linear-gradient(90deg, rgba(242,79,7,1) 0%, rgba(246,124,11,0.9656845528738839) 50%, rgba(247,205,28,0.8771131243024554) 100%);
+
+
+}

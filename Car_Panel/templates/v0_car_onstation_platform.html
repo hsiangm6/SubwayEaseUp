@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Station Platform</title>
+
+        <link
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700"
+            rel="stylesheet" type="text/css" />
+
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+            crossorigin="anonymous" />
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+            crossorigin="anonymous">
+    </script>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <script src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
+
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <link
+            href="{{ url_for('static', filename = 'css/main.css') }}"
+            rel="stylesheet" type="text/css" />
+        <!-- <link
+            href="../static/css/main.css"
+            rel="stylesheet" type="text/css" /> -->
+    </head>
+    <body class="main-color">
+        <div class="m-0 window-size">
+            <div class="row my-3 mx-1 justify-content-center ">
+                <div class="side-block me-3 bg-white rounded-2 p-3 mx-1">
+                    <!-- <div class="row"> -->
+                    <h4 class="mb-1">終點站 </h4>
+                    <p class="text-center fs-4 mb-3">{南岡山}</p>
+                    <h5>下一站</h5>
+                    <p class="text-center fs-5 text-danger mb-3">{美麗島}</p>
+                    <h5>即將到站時間</h5>
+                    <p class="text-center fs-5 text-danger mb-3">{5}分鐘</p>
+                    <!-- </div> -->
+                    <!-- <div class="row mt-5">
+                        <h3>目的地 {小港}</h3>
+                        <h5>下一班到站時間:</h5>
+                        <p class="text-center fs-3 text-danger">{5}分鐘</p>
+                    </div> -->
+                </div>
+                <div class="main-block bg-white rounded-2 p-3">
+                    <div class="row">
+                        <div class="col-3">
+                            <h5 class="my-1">此站路線</h5>
+                            <p class="my-1 fs-5 text-center text-warning">{黃} 線</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="my-1">{1}號 {中央公園}</p>
+                            <p class="my-1">{2}號 {美麗公園}</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="my-1"></p>
+                            <p class="my-1"></p>
+                        </div>
+                        <div class="col-3">
+                            <p class="my-1">{3}號 {中央公園}</p>
+                            <p class="my-1">{4}號 {美麗公園}</p>
+                        </div>
+                    </div>
+                    <div class="row h-50">
+                        <img
+                            class=" h-100 col-2 justify-content-center img-fluid"
+                            id="escalator-flipped"
+                            src="{{ url_for('static', filename = 'images/escalator_flipped.svg') }}"
+                            alt="escalator-flipped">
+                        <img
+                            class="h-100 col-2 justify-content-center img-fluid"
+                            id="escalator-flipped"
+                            src="{{ url_for('static', filename = 'images/elevator.svg') }}"
+                            alt="escalator-flipped">
+                    </div>
+                    <div class="row">
+                        <div
+                            class="col-2 position-relative rounded-2">
+                            <img
+                                class="img-fluid"
+                                id="carriage"
+                                src="{{ url_for('static', filename = 'images/MRT_Carriage.svg') }}"
+                                alt="carriage">
+                            <h1
+                                class="position-absolute top-0 end-0 text-center my-0 p-0">{1}</h1>
+                        </div>
+
+                        <!-- <div class="col-2 rounded-2 shadow car-number">
+                            <h1 class="text-center my-3">{6}</h1>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <hr>
+        <!-- <script type="text/javascript"
+            src="{{ url_for('static', filename = 'js/script.js') }}"></script> -->
+    </body>
+</html>
