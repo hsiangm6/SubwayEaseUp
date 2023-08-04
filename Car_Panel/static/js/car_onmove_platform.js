@@ -58,7 +58,7 @@ function startAnimation(arrowGroupCount) {
 
 // Present state in car and make sure whether entering thenstation(start from worker())
 function present_car(data) {
-    if (data[0]['leave_station'] == (data[0]['enter_station'] + 1)) {
+    if (data[0]['leave_station'] != (data[0]['enter_station'])) {
         startAnimation(data[0]['enter_station']);
     } else if (data[0]['leave_station'] == (data[0]['enter_station'])) {
         const redirectUrl = '/SubwayEaseUp/car/car_onstation_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
@@ -98,7 +98,6 @@ function present_arrivedTime(data) {
     } else {
         for (let i = data[0]['leave_station']; i < stationNum; i++) {
             const arrivedTimeBlockText = document.querySelectorAll(`#arrivedTime-block-${i} p`);
-            let intervalMinute = arrivedTimeArr.timeInterval[stationNum - 1 - data[0]['enter_station']][stationNum - 1 - i];
             let remain = Math.ceil((intervalMinute * 60 - nowInterval) / 60);
             if (nowInterval >= 0 && remain >= 0) {
                 arrivedTimeBlockText[0].innerText = `${remain}`;
@@ -295,7 +294,7 @@ function get_station() {
             get_arrivedTimeInterval();
 
             // Insert Data For Demo or Test
-            setTimeout(demo_insert, 10000);
+            // setTimeout(demo_insert, 120000);
         })
         .catch(error => {
             console.error('Error:', error);

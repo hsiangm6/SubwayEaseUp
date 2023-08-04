@@ -26,10 +26,7 @@ animation: doorOpeningRight 2s infinite;
     transform: translateX(50px);
 }
 }
-.exit-block{
-    width: 30%;
-    height: 25%;
-}
+
 .exit-icon{
     width: 10vh;
     height: 100%;

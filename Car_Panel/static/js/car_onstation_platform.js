@@ -32,12 +32,12 @@ function worker() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
-            if (data[0]['leave_station'] == (data[0]['enter_station'] + 1)) {
+            if (data[0]['leave_station'] != (data[0]['enter_station'])) {
                 const redirectUrl = '/SubwayEaseUp/car/car_onmove_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
                 window.location.href = redirectUrl;
             }
             present_car(data);
-            // setTimeout(worker, 5000);
+            setTimeout(worker, 5000);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -45,11 +45,49 @@ function worker() {
 }
 
 // Present Data
-function present_station(data) {
+function present_station(data, exit_data) {
+    // Add exit
+    const exitGroup_1 = document.getElementById('exitGroup-1');
+    const exitGroup_2 = document.getElementById('exitGroup-2');
+    exitGroup_1.innerHTML = "";
+    exitGroup_2.innerHTML = "";
+    exit_data.forEach((item) => {
+        let exitBlock = document.createElement('div');
+        exitBlock.className = "col-3 h-25 d-flex flex-row m-1 border-0";
+        let chineseChars = item['eName'].match(/[\u4e00-\u9fa5]/gu);
+        let englishChars = item['eName_en'].match(/[a-zA-Z]/g);
+        if (chineseChars.length > 7 || englishChars.length > 24 || item['eName_en'].length > 20) {
+            exitBlock.innerHTML = `<div
+                                class="exit-icon d-flex justify-content-center align-items-center bg-primary rounded-2 border-0">
+                                <p class="h40 text-center">${item['eNo']}</p>
+                                </div>
+                                <div class="ms-3 d-flex flex-column">
+                                    <p class="h20">${item['eName']}</p>
+                                    <p class="h15 mt-2">${item['eName_en']}</p>
+                                </div>`;
+        } else {
+            exitBlock.innerHTML = `<div
+                                class="exit-icon d-flex justify-content-center align-items-center bg-primary rounded-2 border-0">
+                                <p class="h40 text-center">${item['eNo']}</p>
+                                </div>
+                                <div class="ms-3 d-flex flex-column">
+                                    <p class="h25">${item['eName']}</p>
+                                    <p class="h20">${item['eName_en']}</p>
+                                </div>`;
+        }
+
+        if (item['ePosition'] < 3) {
+            exitGroup_1.appendChild(exitBlock);
+        } else {
+            exitGroup_2.appendChild(exitBlock);
+        }
+    });
+
+
     // Add current position mark
-    let carriageGroup_1 = document.getElementById('carriageGroup-1')
-    let carriageGroup_2 = document.getElementById('carriageGroup-2')
-    let carriageGroup_3 = document.getElementById('carriageGroup-3')
+    let carriageGroup_1 = document.getElementById('carriageGroup-1');
+    let carriageGroup_2 = document.getElementById('carriageGroup-2');
+    let carriageGroup_3 = document.getElementById('carriageGroup-3');
     let positionMark = document.createElement('div');
     positionMark.className = "translate-middle position-absolute";
     positionMark.innerHTML = `<div class="position-mark-jump position-relative py-2 px-4 text-bg-primary border border-primary rounded-pill">
@@ -72,7 +110,7 @@ function present_station(data) {
         carriageGroup_3.appendChild(positionMark)
     }
 
-
+    //Add facility
     let facilityGroup_1 = document.getElementById('facilityGroup-1')
     let facilityGroup_2 = document.getElementById('facilityGroup-2')
     let facilityGroup_3 = document.getElementById('facilityGroup-3')
@@ -188,7 +226,7 @@ function get_initial_onstation_data() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
-            if (data['car'][0]['leave_station'] == (data['car'][0]['enter_station'] + 1)) {
+            if (data['car'][0]['leave_station'] != (data['car'][0]['enter_station'])) {
                 const redirectUrl = '/SubwayEaseUp/car/car_onmove_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
                 window.location.href = redirectUrl;
             }
@@ -204,9 +242,9 @@ function get_initial_onstation_data() {
                 arrived_station_ch[0].innerText = '--';
                 arrived_station_en[0].innerText = '--';
             }
-            present_station(data['station']);
+            present_station(data['station'], data['station_exit']);
             setTimeout(worker, 5000);
-            // setTimeout(demo_insert, 10000);
+            // setTimeout(demo_insert, 60000);
         })
         .catch(error => {
             console.error('Error:', error);

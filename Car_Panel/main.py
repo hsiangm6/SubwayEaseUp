@@ -72,13 +72,16 @@ def get_initial_onstation_data():
     final_result['car']=car_list
 
     # Get Station Info
-    sql = text('SELECT station.sid,  station.sName,  station.english_name, fl.facility_type, fl.facility_way, fl.relative_position FROM station JOIN (SELECT * FROM facility_location WHERE way=:route_way ORDER BY relative_position DESC) AS fl ON fl.sid=station.sid WHERE route=:route AND route_order=:route_order')
+    sql = text('SELECT station.sid,  station.sName,  station.english_name, fl.facility_type, fl.facility_way, fl.relative_position FROM station JOIN (SELECT * FROM facility_location WHERE way=:route_way ORDER BY relative_position) AS fl ON fl.sid=station.sid WHERE route=:route AND route_order=:route_order')
     result = db.session.execute(sql, {'route_way': route_way, 'route': route, 'route_order': car_list[0]['enter_station']})
-
-    # sql=text('SELECT station.sid,  station.sName,  station.english_name, fl.facility_type, fl.facility_way, fl.relative_position FROM station JOIN (SELECT * FROM facility_location WHERE way=:route_way ORDER BY relative_position) AS fl ON fl.sid=station.sid WHERE route=:route AND route_order=:route_order')
-    # result = db.session.execute(sql, {'route_way': route_way,'route': route, 'route_order': car_list[0]['enter_station']})
     station_list = [{'sid': row[0], 'sName': row[1], 'english_name': row[2], 'facility_type': row[3], 'facility_way': row[4], 'relative_position': row[5]} for row in result]
     final_result['station']=station_list
+
+    # Get Station Exit
+    exit_sql = text('SELECT * FROM `station_exit` WHERE sid=:sid ORDER BY ePosition')
+    exit_result = db.session.execute(exit_sql, {'sid': station_list[0]['sid']})
+    exit_list = [{'idx': row[0], 'sid': row[1], 'eNo': row[2], 'eName': row[3], 'eName_en': row[4], 'ePosition': row[5]} for row in exit_result]
+    final_result['station_exit']=exit_list
     
     return jsonify(final_result)
 
