@@ -47,14 +47,14 @@ def get_car_data():
     route_way=request.json.get('route_way')
     finalArr={}
     # Get Car Info
+    access_signal_sql=text('SELECT cid, leave_station, enter_station, timestamp, route_way FROM (SELECT a1.* FROM access_signal AS a1 INNER JOIN ( SELECT cid, MAX(timestamp) AS max_timestamp FROM access_signal WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 50 MINUTE) GROUP BY cid ) AS a2 ON a1.cid = a2.cid AND a1.timestamp = a2.max_timestamp WHERE route_way = :route_way AND leave_station <= :route_order) AS filtered_data ORDER BY ABS(leave_station - :route_order), ABS(enter_station - :route_order) LIMIT 1;')
     if(route_way=='OT1' or route_way=='R24' or route_way=='C37'):
-        "INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`) VALUES ('168','OT1','1','0');"
-        "SELECT cid, leave_station, enter_station, timestamp FROM (SELECT a1.* FROM access_signal AS a1 INNER JOIN ( SELECT cid, MAX(timestamp) AS max_timestamp FROM access_signal GROUP BY cid ) AS a2 ON a1.cid = a2.cid AND a1.timestamp = a2.max_timestamp WHERE route_way = 'OT1' AND leave_station <= 2  AND leave_station=(enter_station-1)) AS filtered_data ORDER BY ABS(leave_station - 2), timestamp DESC LIMIT 1;"
-        access_signal_sql=text('SELECT cid, leave_station, enter_station, timestamp, route_way FROM (SELECT a1.* FROM access_signal AS a1 INNER JOIN ( SELECT cid, MAX(timestamp) AS max_timestamp FROM access_signal WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 50 MINUTE) GROUP BY cid ) AS a2 ON a1.cid = a2.cid AND a1.timestamp = a2.max_timestamp WHERE route_way = :route_way AND leave_station <= :route_order) AS filtered_data ORDER BY ABS(leave_station - :route_order), ABS(enter_station - :route_order) LIMIT 1;')
+        access_signal_result = db.session.execute(access_signal_sql, {'route_way':route_way,'route_order': route_order})
     else:
-        access_signal_sql=text('SELECT cid, leave_station, enter_station, timestamp, route_way FROM (SELECT a1.* FROM access_signal AS a1 INNER JOIN ( SELECT cid, MAX(timestamp) AS max_timestamp FROM access_signal WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 50 MINUTE) GROUP BY cid ) AS a2 ON a1.cid = a2.cid AND a1.timestamp = a2.max_timestamp WHERE route_way = :route_way AND leave_station >= :route_order) AS filtered_data ORDER BY ABS(leave_station - :route_order), ABS(enter_station - :route_order) LIMIT 1;')
+        access_signal_result = db.session.execute(access_signal_sql, {'route_way':route_way,'route_order': 5-1-int(route_order)})
+        # access_signal_sql=text('SELECT cid, leave_station, enter_station, timestamp, route_way FROM (SELECT a1.* FROM access_signal AS a1 INNER JOIN ( SELECT cid, MAX(timestamp) AS max_timestamp FROM access_signal WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 50 MINUTE) GROUP BY cid ) AS a2 ON a1.cid = a2.cid AND a1.timestamp = a2.max_timestamp WHERE route_way = :route_way AND leave_station >= :route_order) AS filtered_data ORDER BY ABS(leave_station - :route_order), ABS(enter_station - :route_order) LIMIT 1;')
     
-    access_signal_result = db.session.execute(access_signal_sql, {'route_way':route_way,'route_order': route_order})
+    # access_signal_result = db.session.execute(access_signal_sql, {'route_way':route_way,'route_order': route_order})
     access_signal_list = [{'cid': row[0], 'leave_station': row[1], 'enter_station': row[2], 'timestamp': row[3], 'route_way': row[4]} for row in access_signal_result]
 
     if access_signal_list ==[]:

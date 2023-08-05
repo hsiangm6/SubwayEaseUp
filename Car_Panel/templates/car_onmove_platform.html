@@ -38,15 +38,6 @@
             href="{{ url_for('static', filename = 'css/car_onmove_platform.css') }}"
             rel="stylesheet" type="text/css" />
 
-        <!-- leaflet地圖庫 -->
-        <!-- <link rel="stylesheet"
-            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-            crossorigin />
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin></script> -->
-
     </head>
     <body>
         <div class="window-size row">
@@ -55,35 +46,9 @@
                 <div class="row d-flex justify-content-center h-75">
                     <div
                         class="col-10">
-                        <div class="row d-flex justify-content-center my-5">
-                            {% if route == "O" %}
-                            <div class="route-icon rounded-3 mx-2"
-                                style="background-color: orange;">
-                                <p class="h75 text-center ms-2">O</p>
-                            </div>
-                            <div class="col-5 mx-1">
-                                <p class="h50 my-2 p-0">橘線</p>
-                                <p class="my-2 p-0 fs-5">Orange Line</p>
-                            </div>
-                            {% elif route == "R" %}
-                            <div class="route-icon rounded-3 mx-2"
-                                style="background-color: red;">
-                                <p class="h75 text-center ms-2">R</p>
-                            </div>
-                            <div class="col-5 mx-1">
-                                <p class="h50 my-2 p-0">紅線</p>
-                                <p class="my-2 p-0 fs-5">Red Line</p>
-                            </div>
-                            {% else %}
-                            <div class="route-icon rounded-3 mx-2"
-                                style="background-color: greenyellow;">
-                                <p class="h75 text-center ms-2">C</p>
-                            </div>
-                            <div class="col-5 mx-1">
-                                <p class="h50 my-2 p-0">輕軌</p>
-                                <p class="my-2 p-0 fs-5">LRT</p>
-                            </div>
-                            {% endif %}
+                        <div id="route_icon_container"
+                            class="row d-flex justify-content-center my-5">
+
                         </div>
                         <div class="row d-flex justify-content-center my-5 mx-2">
                             <div class="mx-2">

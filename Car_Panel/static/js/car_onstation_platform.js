@@ -2,8 +2,8 @@ var url_string = window.location.href;
 var url = new URL(url_string);
 var cid = url.searchParams.get("cid");
 var dNo = url.searchParams.get("dNo");
-var route = url.searchParams.get("route");
-var route_way = url.searchParams.get("route_way");
+var route_way = "";
+var route = "";
 
 
 function present_car(data) {
@@ -32,6 +32,7 @@ function worker() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             if (data[0]['leave_station'] != (data[0]['enter_station'])) {
                 const redirectUrl = '/SubwayEaseUp/car/car_onmove_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
                 window.location.href = redirectUrl;
@@ -212,8 +213,7 @@ function get_initial_onstation_data() {
     const requestData = {
         'cid': cid,
         'dNo': dNo,
-        'route': route,
-        'route_way': route_way
+
     };
     const requestOptions = {
         method: 'POST', // 或 'GET'，視伺服器端需求而定
@@ -226,25 +226,83 @@ function get_initial_onstation_data() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
+            console.log(data);
+            route_way = data['route_way'][0];
+            route = route_way[0]
             if (data['car'][0]['leave_station'] != (data['car'][0]['enter_station'])) {
                 const redirectUrl = '/SubwayEaseUp/car/car_onmove_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
                 window.location.href = redirectUrl;
             }
-            arrived_station_sid = document.getElementsByClassName('arrived_station_sid');
-            arrived_station_ch = document.getElementsByClassName('arrived_station_ch');
-            arrived_station_en = document.getElementsByClassName('arrived_station_en');
+            route_icon_container = document.getElementById('route_icon_container');
+
             if (data['station'].length > 0) {
-                arrived_station_sid[0].innerText = data['station'][0]['sid'];
-                arrived_station_ch[0].innerText = data['station'][0]['sName'];
-                arrived_station_en[0].innerText = data['station'][0]['english_name'];
+                if (route == 'O') {
+                    route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
+                    style="background-color: orange;">
+                    <p
+                        class="h75 text-center ms-2 arrived_station_sid">${data['station'][0]['sid']}</p>
+                    <!--sName-->
+                </div>
+                <div class="col-12 mx-1">
+                    <p
+                        class="h50 my-2 p-0 text-center arrived_station_ch">${data['station'][0]['sName']}</p>
+                    <!--sid-->
+                    <p
+                        class="my-2 p-0 fs-5 text-center arrived_station_en">${data['station'][0]['english_name']}</p>
+                    <!--english_name-->
+                </div>`;
+                } else if (route == 'R') {
+                    route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
+                    style="background-color: red;">
+                    <p
+                        class="h75 text-center ms-2 arrived_station_sid">${data['station'][0]['sid']}</p>
+                    <!--sName-->
+                </div>
+                <div class="col-12 mx-1">
+                    <p
+                        class="h50 my-2 p-0 text-center arrived_station_ch">${data['station'][0]['sName']}</p>
+                    <!--sid-->
+                    <p
+                        class="my-2 p-0 fs-5 text-center arrived_station_en">${data['station'][0]['english_name']}</p>
+                    <!--english_name-->
+                </div>`;
+                } else if (route == 'C') {
+                    route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
+                    style="background-color: greenyellow;">
+                    <p
+                        class="h75 text-center ms-2 arrived_station_sid">${data['station'][0]['sid']}</p>
+                    <!--sName-->
+                </div>
+                <div class="col-12 mx-1">
+                    <p
+                        class="h50 my-2 p-0 text-center arrived_station_ch">${data['station'][0]['sName']}</p>
+                    <!--sid-->
+                    <p
+                        class="my-2 p-0 fs-5 text-center arrived_station_en">${data['station'][0]['english_name']}</p>
+                    <!--english_name-->
+                </div>`;
+                }
+
             } else {
-                arrived_station_sid[0].innerText = '--';
-                arrived_station_ch[0].innerText = '--';
-                arrived_station_en[0].innerText = '--';
+                route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2">
+                    <p
+                        class="h75 text-center ms-2 arrived_station_sid">--</p>
+                    <!--sName-->
+                </div>
+                <div class="col-12 mx-1">
+                    <p
+                        class="h50 my-2 p-0 text-center arrived_station_ch">--</p>
+                    <!--sid-->
+                    <p
+                        class="my-2 p-0 fs-5 text-center arrived_station_en">--</p>
+                    <!--english_name-->
+                </div>`;
+
             }
             present_station(data['station'], data['station_exit']);
             setTimeout(worker, 5000);
             // setTimeout(demo_insert, 60000);
+            // setTimeout(demo_insert, 10000);
         })
         .catch(error => {
             console.error('Error:', error);

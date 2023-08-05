@@ -38,14 +38,6 @@
             href="{{ url_for('static', filename = 'css/car_onstation_platform.css') }}"
             rel="stylesheet" type="text/css" />
 
-        <!-- leaflet地圖庫 -->
-        <!-- <link rel="stylesheet"
-            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-            crossorigin />
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin></script> -->
         <script>
             var baseStaticUrl = "{{ url_for('static', filename='') }}";
         </script>
@@ -57,37 +49,9 @@
                 <div class="row d-flex justify-content-center h-75">
                     <div
                         class="col-10">
-                        <div class="row d-flex justify-content-center mt-5 mb-3">
-                            {% if route == "O" %}
-                            <div class="route-icon rounded-3 mx-2"
-                                style="background-color: orange;">
-                                <p
-                                    class="h75 text-center ms-2 arrived_station_sid">--</p>
-                                <!--sName-->
-                            </div>
-                            {% elif route == "R" %}
-                            <div class="route-icon rounded-3 mx-2"
-                                style="background-color: red;">
-                                <p
-                                    class="h75 text-center ms-2 arrived_station_sid">--</p>
-                                <!--sName-->
-                            </div>
-                            {% else %}
-                            <div class="route-icon rounded-3 mx-2"
-                                style="background-color: greenyellow;">
-                                <p
-                                    class="h75 text-center ms-2 arrived_station_sid">--</p>
-                                <!--sName-->
-                            </div>
-                            {% endif %}
-                            <div class="col-12 mx-1">
-                                <p
-                                    class="h50 my-2 p-0 text-center arrived_station_ch">--</p>
-                                <!--sid-->
-                                <p
-                                    class="my-2 p-0 fs-5 text-center arrived_station_en">--</p>
-                                <!--english_name-->
-                            </div>
+                        <div id="route_icon_container"
+                            class="row d-flex justify-content-center mt-5 mb-3">
+
                         </div>
                         <div
                             class="row d-flex flex-row justify-content-center my-2">
@@ -128,18 +92,6 @@
                     <div
                         class="col-5 mx-3 d-flex">
                         <div id="exitGroup-2" class="row w-100">
-                            <!-- <div
-                                class="col-3 h-25 d-flex flex-row m-1 border-0">
-                                <div
-                                    class="exit-icon d-flex justify-content-center align-items-center bg-primary rounded-2 me-3 border-0">
-                                    <p class="h50 text-center">1</p>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <p class="h30">駁二藝術特區(蓬萊倉庫群)</p>
-                                    <p class="h20 text-center">Pier-2 Art
-                                        Center(Penglai Area)qweqweqwe</p>
-                                </div>
-                            </div> -->
 
                         </div>
                     </div>
@@ -150,20 +102,6 @@
 
                         </div>
                     </div>
-                    <!-- <p id="degree-of-congestion"
-                        class="h30 text-center text-white">---</p>
-                    <div class="d-flex flex-column mx-5">
-                        <p class="h30 text-center text-white">空氣品質:</p>
-                        <p class="h10 text-center text-white mt-2">Air Quality</p>
-                    </div>
-                    <p id="air-quality" class="h30 text-center text-white">---</p>
-
-                    <div class="d-flex flex-column mx-5">
-                        <p class="h30 text-center text-white">音量:</p>
-                        <p class="h10 text-center text-white mt-2">Volumn</p>
-                    </div>
-                    <p id="volumn" class="h30 text-center text-white">---</p> -->
-
                 </div>
                 <div class="m-0 d-flex flex-row"
                     id="facilityContainer">

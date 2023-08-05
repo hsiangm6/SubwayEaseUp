@@ -2,8 +2,10 @@ var url_string = window.location.href;
 var url = new URL(url_string);
 var cid = url.searchParams.get("cid");
 var dNo = url.searchParams.get("dNo");
-var route = url.searchParams.get("route");
-var route_way = url.searchParams.get("route_way");
+var route_way = "";
+var route = "";
+var stationNum = 0;
+
 
 const stationBlockWidth = 60;
 const arrowContainerWidth = 50;
@@ -93,14 +95,20 @@ function present_arrivedTime(data) {
 
             if (nowInterval >= 0 && remain >= 0) {
                 arrivedTimeBlockText[0].innerText = `${remain}`;
+            } else {
+                arrivedTimeBlockText[0].innerText = `${intervalMinute}`;
             }
         }
     } else {
         for (let i = data[0]['leave_station']; i < stationNum; i++) {
             const arrivedTimeBlockText = document.querySelectorAll(`#arrivedTime-block-${i} p`);
+            //intervalMinute裡的index包含'5'指的是總站數
+            let intervalMinute = arrivedTimeArr.timeInterval[stationNum - 1 - data[0]['enter_station']][stationNum - 1 - i];
             let remain = Math.ceil((intervalMinute * 60 - nowInterval) / 60);
             if (nowInterval >= 0 && remain >= 0) {
                 arrivedTimeBlockText[0].innerText = `${remain}`;
+            } else {
+                arrivedTimeBlockText[0].innerText = `${intervalMinute}`;
             }
         }
     }
@@ -127,7 +135,7 @@ function worker() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
-
+            console.log(data);
             present_car(data);
             present_arrivedTime(data);
             setTimeout(worker, 5000);
@@ -151,7 +159,7 @@ function present_station(data) { //data['station']
     const subwayMap = document.getElementById('subway-map');
     // 計算區塊間的等間距間距（包括區塊本身的寬度和邊距）
     const totalBlockWidth = stationBlockWidth + 2 * 10 + arrowContainerWidth * 2; // 假設每個區塊寬度是 100px，左右邊距各為 10px
-    const totalSpacing = (subwayMap.clientWidth - 60) - (totalBlockWidth * (stationNum - 1) + stationBlockWidth + 2 * 10); //50是左右padding
+    const totalSpacing = (subwayMap.clientWidth - 60) - (totalBlockWidth * (stationNum - 1) + stationBlockWidth + 2 * 10); //60是左右padding
     // 計算每個區塊之間的間距
     const spacing = totalSpacing / (stationNum - 1);
 
@@ -214,21 +222,18 @@ function present_station(data) { //data['station']
             arrow.classList.add(`arrow-group`);
             arrow.classList.add(`bi`);
             arrow.classList.add(`bi-caret-right`);
-            // arrowContainer.innerHTML = `<i class="bi bi-caret-right"></i>
-            // <i class="bi bi-caret-right-fill"></i>`;
             arrow.style.width = `${arrowContainerWidth}px`;
             const arrowTranslateX = (index + 0.5) * (spacing) + arrowContainerWidth / 2;
             arrowPositionArr.push([]);
             arrowPositionArr[index][0] = arrowTranslateX - spacing / 4;
             arrow.style.transform = `translateX(${arrowTranslateX}px)`;
             subwayMap.appendChild(arrow);
+
             arrowFill = document.createElement('i')
             arrowFill.setAttribute('id', `arrow-right-group-${arrowGroupCount}`);
             arrowFill.classList.add(`arrow-group`);
             arrowFill.classList.add(`bi`);
             arrowFill.classList.add(`bi-caret-right-fill`);
-            // arrowContainer.innerHTML = `<i class="bi bi-caret-right"></i>
-            // <i class="bi bi-caret-right-fill"></i>`;
             arrowFill.style.width = `${arrowContainerWidth}px`;
             const arrowFillTranslateX = (index + 0.5) * (spacing) + arrowContainerWidth / 2;
             arrowPositionArr[index][1] = arrowFillTranslateX - spacing / 4;
@@ -263,8 +268,8 @@ function get_station() {
     const requestData = {
         'cid': cid,
         'dNo': dNo,
-        'route': route,
-        'route_way': route_way
+        // 'route': route,
+        // 'route_way': route_way
     };
     const requestOptions = {
         method: 'POST', // 或 'GET'，視伺服器端需求而定
@@ -277,13 +282,46 @@ function get_station() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
+            route_way = data['car'][0]['route_way'];
+            route = route_way[0]
             if (data['car'][0]['leave_station'] == data['station'][0]['enter_station']) {
                 const redirectUrl = '/SubwayEaseUp/car/car_onstation_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
                 window.location.href = redirectUrl;
             }
             final_sation_ch = document.getElementById('final_sation_ch');
             final_sation_en = document.getElementById('final_sation_en');
-            if (data['station'].length > 0) {
+
+            stationNum = data['station'].length;
+            route_icon_container = document.getElementById('route_icon_container');
+            if (stationNum > 0) {
+                if (route == 'O') {
+                    route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
+                        style="background-color: orange;">
+                        <p class="h75 text-center ms-2">O</p>
+                    </div>
+                    <div class="col-5 mx-1">
+                        <p class="h50 my-2 p-0">橘線</p>
+                        <p class="my-2 p-0 fs-5">Orange Line</p>
+                    </div>`;
+                } else if (route == 'R') {
+                    route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
+                        style="background-color: red;">
+                        <p class="h75 text-center ms-2">R</p>
+                    </div>
+                    <div class="col-5 mx-1">
+                        <p class="h50 my-2 p-0">紅線</p>
+                        <p class="my-2 p-0 fs-5">Red Line</p>
+                    </div>`;
+                } else if (route == 'C') {
+                    route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
+                        style="background-color: greenyellow;">
+                        <p class="h75 text-center ms-2">C</p>
+                    </div>
+                    <div class="col-5 mx-1">
+                        <p class="h50 my-2 p-0">輕軌</p>
+                        <p class="my-2 p-0 fs-5">LRT</p>
+                    </div>`;
+                }
                 final_sation_ch.innerText = data['station'][data['station'].length - 1]['sName'];
                 final_sation_en.innerText = data['station'][data['station'].length - 1]['english_name'];
             } else {
@@ -295,6 +333,7 @@ function get_station() {
 
             // Insert Data For Demo or Test
             // setTimeout(demo_insert, 120000);
+            // setTimeout(demo_insert, 10000);
         })
         .catch(error => {
             console.error('Error:', error);

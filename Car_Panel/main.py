@@ -5,9 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, render_template, redirect, url_for, jsonify, json, Response, send_from_directory
 from sqlalchemy import text
 import datetime
-# import io
-# import base64
-# import matplotlib.pyplot as plt
+
 
 app = Flask(__name__) 
 
@@ -47,21 +45,17 @@ def car_onstation_platform():
     cid = request.args.get('cid') # car id(車次)
     dNo = request.args.get('dNo') # door number(車門號)
     cNo = (int(dNo)//4)+1 #carriage number(車廂號)
-    route = request.args.get('route')
-    route_way = request.args.get('route_way')
     now= datetime.datetime.now()
     hour = str(now.hour).zfill(2)
     minute = str(now.minute).zfill(2)
     
-    return render_template('car_onstation_platform.html', cid=cid, cNo=cNo, dNo=dNo, route=route, route_way=route_way, hour=hour, minute=minute)
+    return render_template('car_onstation_platform.html', cid=cid, cNo=cNo, dNo=dNo, hour=hour, minute=minute)
 
 @app.route('/get_initial_onstation_data', methods=['POST'])
 def get_initial_onstation_data():
     
     cid=request.json.get('cid')
     dNo=request.json.get('dNo')
-    route=request.json.get('route')
-    route_way=request.json.get('route_way')
     cNo = int(dNo)//4 + 1
     final_result={}
 
@@ -71,9 +65,16 @@ def get_initial_onstation_data():
     car_list =  [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volumn': row[4], 'leave_station': row[5], 'enter_station': row[6], 'route_way': row[7], 'timestamp':row[8] } for row in car_result]
     final_result['car']=car_list
 
+    route_way=car_list[0]['route_way']
+    route=route_way[0]
+    final_result['route_way']=[route_way]
+
     # Get Station Info
-    sql = text('SELECT station.sid,  station.sName,  station.english_name, fl.facility_type, fl.facility_way, fl.relative_position FROM station JOIN (SELECT * FROM facility_location WHERE way=:route_way ORDER BY relative_position) AS fl ON fl.sid=station.sid WHERE route=:route AND route_order=:route_order')
-    result = db.session.execute(sql, {'route_way': route_way, 'route': route, 'route_order': car_list[0]['enter_station']})
+    sql = text('SELECT station.sid,  station.sName,  station.english_name, fl.facility_type, fl.facility_way, fl.relative_position FROM station LEFT JOIN (SELECT * FROM facility_location WHERE way=:route_way ORDER BY relative_position) AS fl ON fl.sid=station.sid WHERE route=:route AND route_order=:route_order')
+    if route_way=="OT1" or route_way=="R24" or route_way=="C37":
+        result = db.session.execute(sql, {'route_way': route_way, 'route': route, 'route_order': car_list[0]['enter_station']})
+    elif route_way=="O1" or route_way=="R3" or route_way=="C1": 
+        result = db.session.execute(sql, {'route_way': route_way, 'route': route, 'route_order': 5-1-car_list[0]['enter_station']}) #5代表的是總站數，如果站數更改，此處也要更改
     station_list = [{'sid': row[0], 'sName': row[1], 'english_name': row[2], 'facility_type': row[3], 'facility_way': row[4], 'relative_position': row[5]} for row in result]
     final_result['station']=station_list
 
@@ -90,18 +91,14 @@ def car_onmove_platform():
     cid = request.args.get('cid') # car id(車次)
     dNo = request.args.get('dNo') # door number(車門號)
     cNo = (int(dNo)//4)+1 #carriage number(車廂號)
-    route = request.args.get('route')
-    route_way = request.args.get('route_way')
     now= datetime.datetime.now()
     hour = str(now.hour).zfill(2)
     minute = str(now.minute).zfill(2)
-    return render_template('car_onmove_platform.html', cid=cid, cNo=cNo, dNo=dNo, route=route, route_way=route_way, hour=hour, minute=minute)
+    return render_template('car_onmove_platform.html', cid=cid, cNo=cNo, dNo=dNo, hour=hour, minute=minute)
 
 
 @app.route('/get_station_data', methods=['POST'])
 def get_station_data():
-    route=request.json.get('route')
-    route_way=request.json.get('route_way')
     cid=request.json.get('cid')
     dNo=request.json.get('dNo')
 
@@ -110,7 +107,8 @@ def get_station_data():
     car_sql=text('SELECT cid, route_way, leave_station, enter_station, timestamp FROM access_signal WHERE cid=:cid ORDER BY timestamp DESC LIMIT 1')
     car_result = db.session.execute(car_sql, {'cid': cid})
     car_list =  [{'cid': row[0], 'route_way':row[1], 'leave_station': row[2], 'enter_station': row[3], 'timestamp':row[4]} for row in car_result]
-        
+    route_way=car_list[0]['route_way']
+    route=route_way[0]
     # Get Station Info
     if route_way=="OT1" or route_way=="R24" or route_way=="C37":
         sql=text('SELECT * FROM station WHERE route=:route ORDER BY route_order')

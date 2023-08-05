@@ -33,9 +33,6 @@
         <link
             href="{{ url_for('static', filename = 'css/main.css') }}"
             rel="stylesheet" type="text/css" />
-        <!-- <link
-            href="../static/css/main.css"
-            rel="stylesheet" type="text/css" /> -->
 
     </head>
     <body class="mt-0 window-size">
@@ -56,8 +53,7 @@
                     <div class="row">
                         <form action="{{ url_for('car_onmove_platform') }}"
                             method="get">
-                            <!-- <label for="station-number"
-                                class="form-label">挑選目前車號</label> -->
+
                             <select name="cid" id="cid"
                                 class="form-select mb-1"
                                 aria-label="Default select example" required>
@@ -73,23 +69,6 @@
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
-                            <select name="route"
-                                id="route"
-                                class="form-select mb-1"
-                                aria-label="Default select example" required>
-                                <option selected>選擇線路</option>
-                                <option value="O">橘線</option>
-                                <option value="R">紅線</option>
-                                <option value="C">輕軌</option>
-                            </select>
-                            <select name="route_way"
-                                id="route_way"
-                                class="form-select mb-1"
-                                aria-label="Default select example" required>
-                                <option selected>終點站</option>
-                                <option value="O1">西子灣</option>
-                                <option value="OT1">大寮</option>
-                            </select>
 
                             <div class="d-flex justify-content-end">
                                 <button type="submit"
@@ -101,7 +80,5 @@
                 </div>
             </div>
         </div>
-        <!-- <script type="text/javascript"
-            src="{{ url_for('static', filename = 'js/script.js') }}"></script> -->
     </body>
 </html>
