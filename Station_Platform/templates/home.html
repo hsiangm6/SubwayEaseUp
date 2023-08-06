@@ -52,21 +52,21 @@
                     <div class="row mb-3">
                         <form action="{{ url_for('get_station_data') }}"
                             method="get">
+                            <label for="sid" class="mb-2 fs-5">車站名稱</label>
                             <select name="sid" id="sid"
                                 class="form-select my-1"
                                 aria-label="Default select example" required>
-                                <option selected>車站名稱</option>
-                                <option value="O1">西子灣</option>
+                                <option value="O1" selected>西子灣</option>
                                 <option value="O2">鹽埕埔</option>
                                 <option value="O4">市議會(舊址)</option>
                                 <option value="O5">美麗島</option>
                                 <option value="OT1">大寮(前庄)</option>
                             </select>
+                            <label for="route-way" class="mb-2 fs-5">路線方向</label>
                             <select name="route-way" id="route-way"
                                 class="form-select my-1"
                                 aria-label="Default select example" required>
-                                <option selected>路線方向</option>
-                                <option value="OT1">大寮(前庄)</option>
+                                <option value="OT1" selected>大寮(前庄)</option>
                                 <option value="O1">西子灣</option>
                             </select>
                             <div class="mt-3 d-flex justify-content-end">
@@ -75,10 +75,8 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
-
     </body>
 </html>

@@ -1,18 +1,20 @@
-var url_string = window.location.href;
-var url = new URL(url_string);
-var cid = url.searchParams.get("cid");
-var dNo = url.searchParams.get("dNo");
-var route_way = "";
-var route = "";
-var stationNum = 0;
+const url_string = window.location.href;
+const url = new URL(url_string);
+const cid = url.searchParams.get("cid");
+const dNo = url.searchParams.get("dNo");
+let route_way = "";
+let route = "";
+let stationNum = 0;
 
 
 const stationBlockWidth = 60;
 const arrowContainerWidth = 50;
 const stationNameWidth = 90;
 const arrivedTimeBlockWidth = 90;
-var arrowPositionArr = []; //Record arrow position for the animation
-var arrivedTimeArr = {};
+const arrowPositionArr = []; //Record arrow position for the animation
+let arrivedTimeArr = {
+    timeInterval: undefined
+};
 
 //Start arrow animation, opacity change(start from present_car())
 function startAnimation(arrowGroupCount) {
@@ -58,23 +60,22 @@ function startAnimation(arrowGroupCount) {
     }
 }
 
-// Present state in car and make sure whether entering thenstation(start from worker())
+// Present state in car and make sure whether entering then station(start from worker())
 function present_car(data) {
-    if (data[0]['leave_station'] != (data[0]['enter_station'])) {
+    if (data[0]['leave_station'] !== (data[0]['enter_station'])) {
         startAnimation(data[0]['enter_station']);
-    } else if (data[0]['leave_station'] == (data[0]['enter_station'])) {
-        const redirectUrl = '/SubwayEaseUp/car/car_onstation_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
-        window.location.href = redirectUrl;
+    } else if (data[0]['leave_station'] === (data[0]['enter_station'])) {
+        window.location.href = '/SubwayEaseUp/car/car_on_station_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
     }
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
-    currTime = document.getElementsByClassName('currTime');
+    let currTime = document.getElementsByClassName('currTime');
     currTime[0].innerText = `${hours}:${minutes}`;
 
-    degree_of_congestion = document.getElementById('degree-of-congestion');
-    air_quality = document.getElementById('air-quality');
-    volumn = document.getElementById('volumn');
+    let degree_of_congestion = document.getElementById('degree-of-congestion');
+    let air_quality = document.getElementById('air-quality');
+    let volumn = document.getElementById('volumn');
     degree_of_congestion.innerText = data[0]['pNum'];
     air_quality.innerText = data[0]['air'];
     volumn.innerText = data[0]['volumn'];
@@ -85,9 +86,9 @@ function present_car(data) {
 function present_arrivedTime(data) {
 
     const now = new Date().getTime();
-    const timestamp = new Date(data[0]['timestamp']).getTime() - (8 * 60 * 60 * 1000);;
+    const timestamp = new Date(data[0]['timestamp']).getTime() - (8 * 60 * 60 * 1000);
     let nowInterval = (now - timestamp) / 1000;
-    if (data[0]['route_way'] == 'OT1' || data[0]['route_way'] == 'R24' || data[0]['route_way'] == 'C37') {
+    if (data[0]['route_way'] === 'OT1' || data[0]['route_way'] === 'R24' || data[0]['route_way'] === 'C37') {
         for (let i = data[0]['leave_station']; i < stationNum; i++) {
             const arrivedTimeBlockText = document.querySelectorAll(`#arrivedTime-block-${i} p`);
             let intervalMinute = arrivedTimeArr.timeInterval[data[0]['enter_station']][i];
@@ -112,9 +113,6 @@ function present_arrivedTime(data) {
             }
         }
     }
-
-
-    return
 }
 
 //Update Data every 5 seconds(start from get_arrivedTimeInterval())
@@ -145,53 +143,56 @@ function worker() {
         });
 }
 
-var stationNum = 0;
+stationNum = 0;
+
 // Present Station Data(sid block, sName block, arrived time, arrow)(start from get_station())
 function present_station(data) { //data['station']
     // Calculate position of station name 
     const stationNameContainer = document.getElementById('stationNameContainer');
-    const totalstationNameWidth = stationNameWidth + 2 * 10; // 假設每個區塊寬度是 100px，左右邊距各為 10px
+    const totalStationNameWidth = stationNameWidth + 2 * 10; // 假設每個區塊寬度是 100px，左右 邊距各為 10px
     stationNum = data.length;
-    const totalstationNameSpacing = (stationNameContainer.clientWidth - 30) - (totalstationNameWidth * (stationNum - 1) + stationNameWidth + 2 * 10);
-    const stationNamespacing = totalstationNameSpacing / (stationNum - 1);
+    const totalStationNameSpacing = (stationNameContainer.clientWidth - 30) - (totalStationNameWidth * (stationNum - 1) + stationNameWidth + 2 * 10);
+    const stationNamespacing = totalStationNameSpacing / (stationNum - 1);
 
     // Calculate position of sid block 
     const subwayMap = document.getElementById('subway-map');
     // 計算區塊間的等間距間距（包括區塊本身的寬度和邊距）
-    const totalBlockWidth = stationBlockWidth + 2 * 10 + arrowContainerWidth * 2; // 假設每個區塊寬度是 100px，左右邊距各為 10px
+    const totalBlockWidth = stationBlockWidth + 2 * 10 + arrowContainerWidth * 2; // 假設每個區塊寬度是 100px，左右 邊距各為 10px
     const totalSpacing = (subwayMap.clientWidth - 60) - (totalBlockWidth * (stationNum - 1) + stationBlockWidth + 2 * 10); //60是左右padding
     // 計算每個區塊之間的間距
     const spacing = totalSpacing / (stationNum - 1);
 
     // Calculate position of station name 
     const arrivedTimeContainer = document.getElementById('arrivedTimeContainer');
-    const totalArrivedTimeWidth = arrivedTimeBlockWidth + 2 * 10; // 假設每個區塊寬度是 100px，左右邊距各為 10px
+    const totalArrivedTimeWidth = arrivedTimeBlockWidth + 2 * 10; // 假設每個區塊寬度是 100px，左右 邊距各為 10px
     const totalArrivedTimeSpacing = (arrivedTimeContainer.clientWidth - 30) - (totalArrivedTimeWidth * (stationNum - 1) + arrivedTimeBlockWidth + 2 * 10);
     const arrivedTimeSpacing = totalArrivedTimeSpacing / (stationNum - 1);
 
-    var arrowGroupCount = 0;
+    let arrowGroupCount = 0;
 
     // 在<div id="subway-map">裡動態生成區塊並呈現
     data.forEach((data, index) => { //stationContainer(stationName, routeBlock)
         //station name
+        const sName = data["sName"];
+        const sId = data["sid"];
         const stationName = document.createElement('div');
         stationName.classList.add('subway-map-station-name');
         stationName.setAttribute('id', `subway-map-station-name-${index}`);
         stationName.style.width = `${stationNameWidth}px`;
-        stationName.innerHTML = `<p class="h30 text-center">${data.sName}</p>`;
-        const stationNametranslateX = index * (stationNamespacing);
-        stationName.style.transform = `translateX(${stationNametranslateX}px)`;
+        stationName.innerHTML = `<p class="h30 text-center">${sName}</p>`;
+        const stationNameTranslateX = index * (stationNamespacing);
+        stationName.style.transform = `translateX(${stationNameTranslateX}px)`;
         stationNameContainer.appendChild(stationName);
 
         //Station Block
         const block = document.createElement('div');
         block.classList.add('subway-map-block');
         block.setAttribute('id', `subway-map-block-${index}`);
-        block.innerHTML = `<p class="h30 text-center">${data.sid}</p>`;
+        block.innerHTML = `<p class="h30 text-center">${sId}</p>`;
         block.style.width = `${stationBlockWidth}px`;
-        if (route == "O") {
+        if (route === "O") {
             block.style.borderColor = 'orange';
-        } else if (route == "R") {
+        } else if (route === "R") {
             block.style.borderColor = 'red';
         } else {
             block.style.borderColor = 'greenyellow';
@@ -216,6 +217,8 @@ function present_station(data) { //data['station']
         arrivedTimeContainer.appendChild(arrivedTime);
 
         //Arrow
+        let arrow;
+        let arrowFill;
         if (arrowGroupCount < stationNum - 1) {
             arrow = document.createElement('i')
             arrow.setAttribute('id', `arrow-left-group-${arrowGroupCount}`);
@@ -284,17 +287,16 @@ function get_station() {
         .then(data => {
             route_way = data['car'][0]['route_way'];
             route = route_way[0]
-            if (data['car'][0]['leave_station'] == data['station'][0]['enter_station']) {
-                const redirectUrl = '/SubwayEaseUp/car/car_onstation_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
-                window.location.href = redirectUrl;
+            if (data['car'][0]['leave_station'] === data['station'][0]['enter_station']) {
+                window.location.href = '/SubwayEaseUp/car/car_on_station_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
             }
-            final_sation_ch = document.getElementById('final_sation_ch');
-            final_sation_en = document.getElementById('final_sation_en');
+            let final_station_ch = document.getElementById('final_station_ch');
+            let final_station_en = document.getElementById('final_station_en');
 
             stationNum = data['station'].length;
-            route_icon_container = document.getElementById('route_icon_container');
+            let route_icon_container = document.getElementById('route_icon_container');
             if (stationNum > 0) {
-                if (route == 'O') {
+                if (route === 'O') {
                     route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
                         style="background-color: orange;">
                         <p class="h75 text-center ms-2">O</p>
@@ -303,7 +305,7 @@ function get_station() {
                         <p class="h50 my-2 p-0">橘線</p>
                         <p class="my-2 p-0 fs-5">Orange Line</p>
                     </div>`;
-                } else if (route == 'R') {
+                } else if (route === 'R') {
                     route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
                         style="background-color: red;">
                         <p class="h75 text-center ms-2">R</p>
@@ -312,7 +314,7 @@ function get_station() {
                         <p class="h50 my-2 p-0">紅線</p>
                         <p class="my-2 p-0 fs-5">Red Line</p>
                     </div>`;
-                } else if (route == 'C') {
+                } else if (route === 'C') {
                     route_icon_container.innerHTML = `<div class="route-icon rounded-3 mx-2"
                         style="background-color: greenyellow;">
                         <p class="h75 text-center ms-2">C</p>
@@ -322,24 +324,23 @@ function get_station() {
                         <p class="my-2 p-0 fs-5">LRT</p>
                     </div>`;
                 }
-                final_sation_ch.innerText = data['station'][data['station'].length - 1]['sName'];
-                final_sation_en.innerText = data['station'][data['station'].length - 1]['english_name'];
+                final_station_ch.innerText = data['station'][data['station'].length - 1]['sName'];
+                final_station_en.innerText = data['station'][data['station'].length - 1]['english_name'];
             } else {
-                final_sation_ch.innerText = '---';
-                final_sation_en.innerText = '---';
+                final_station_ch.innerText = '---';
+                final_station_en.innerText = '---';
             }
             present_station(data['station']);
             get_arrivedTimeInterval();
 
             // Insert Data For Demo or Test
             // setTimeout(demo_insert, 120000);
-            // setTimeout(demo_insert, 10000);
+            setTimeout(demo_insert, 10000);
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
-
 
 // Insert Data For Demo or Test(start from get_station())
 function demo_insert() {
@@ -358,9 +359,9 @@ function demo_insert() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
-            if (data['message'] == 2) {
+            if (data['message'] === 2) {
                 console.log("Final Station");
-            } else if (data['message'] == 1) {
+            } else if (data['message'] === 1) {
                 console.log("Insert Success");
             }
 
@@ -369,4 +370,3 @@ function demo_insert() {
             console.error('Error:', error);
         });
 }
-

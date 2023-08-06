@@ -51,21 +51,20 @@
                     </div>
 
                     <div class="row">
-                        <form action="{{ url_for('car_onmove_platform') }}"
+                        <form action="{{ url_for('car_on_move_platform') }}"
                             method="get">
-
+                            <label for="cid" class="mb-2 fs-5">車次編號</label>
                             <select name="cid" id="cid"
                                 class="form-select mb-1"
                                 aria-label="Default select example" required>
-                                <option selected>車號</option>
-                                <option value="168">168</option>
+                                <option value="168" selected>168</option>
                             </select>
+                            <label for="dNo" class="mb-2 fs-5">車門編號</label>
                             <select name="dNo"
                                 id="dNo"
                                 class="form-select mb-1"
                                 aria-label="Default select example" required>
-                                <option selected>車門號</option>
-                                <option value="1">1</option>
+                                <option value="1" selected>1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
@@ -76,7 +75,6 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>

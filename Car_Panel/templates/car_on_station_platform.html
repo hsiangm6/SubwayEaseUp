@@ -35,11 +35,11 @@
             href="{{ url_for('static', filename = 'css/main.css') }}"
             rel="stylesheet" type="text/css" />
         <link
-            href="{{ url_for('static', filename = 'css/car_onstation_platform.css') }}"
+            href="{{ url_for('static', filename = 'css/car_on_station_platform.css') }}"
             rel="stylesheet" type="text/css" />
 
         <script>
-            var baseStaticUrl = "{{ url_for('static', filename='') }}";
+            const baseStaticUrl = "{{ url_for('static', filename='') }}";
         </script>
     </head>
     <body>
@@ -203,6 +203,6 @@
         <hr class="p-0 m-0">
 
         <script type="text/javascript"
-            src="{{ url_for('static', filename = 'js/car_onstation_platform.js')}}"></script>
+            src="{{ url_for('static', filename = 'js/car_on_station_platform.js')}}"></script>
     </body>
 </html>

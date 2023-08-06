@@ -1,16 +1,16 @@
-var url_string = window.location.href;
-var url = new URL(url_string);
-var sid = url.searchParams.get("sid");
-var route_order = url.searchParams.get("route_order");
-var route_way = url.searchParams.get("route_way");
-var arrivedTimeArr = {};
+const url_string = window.location.href;
+const url = new URL(url_string);
+const sid = url.searchParams.get("sid");
+const route_order = url.searchParams.get("route_order");
+const route_way = url.searchParams.get("route_way");
+let arrivedTimeArr = {};
 
 function present_car(data) {
 
     // Present degree of congestion
-    carriage_1 = document.getElementById('carriage-1');
-    carriage_2 = document.getElementById('carriage-2');
-    carriage_3 = document.getElementById('carriage-3');
+    let carriage_1 = document.getElementById('carriage-1');
+    let carriage_2 = document.getElementById('carriage-2');
+    let carriage_3 = document.getElementById('carriage-3');
 
     carriage_1.innerHTML = '';
     carriage_2.innerHTML = '';
@@ -49,34 +49,33 @@ function present_car(data) {
             alt="person-fill">`;
         }
 
-        if (data.cNo == 1) {
+        if (data["cNo"] === 1) {
             carriage_1.appendChild(perFillContainer)
-        } else if (data.cNo == 2) {
+        } else if (data["cNo"] === 2) {
             carriage_2.appendChild(perFillContainer)
-        } else if (data.cNo == 3) {
+        } else if (data["cNo"] === 3) {
             carriage_3.appendChild(perFillContainer)
         }
 
     });
-    return
 }
 
 function presentArrivedTime(data) {
     let arrivedTimeContainer = document.getElementById('arrived-time-interval');
 
     const now = new Date().getTime();
-    const timestamp = new Date(data[0]['timestamp']).getTime() - (8 * 60 * 60 * 1000);;
+    const timestamp = new Date(data[0]['timestamp']).getTime() - (8 * 60 * 60 * 1000);
     let nowInterval = (now - timestamp) / 1000;
-    let intervalMinute = null;
+    let intervalMinute;
 
-    if (data[0]['route_way'] == 'OT1' || data[0]['route_way'] == 'R24' || data[0]['route_way'] == 'C37') {
+    if (data[0]['route_way'] === 'OT1' || data[0]['route_way'] === 'R24' || data[0]['route_way'] === 'C37') {
         intervalMinute = arrivedTimeArr.timeInterval[data[0]['enter_station']][route_order];
     } else {
         // 5=number of station, if the number of station changes, remember to change the number on the line below
         intervalMinute = arrivedTimeArr.timeInterval[5 - 1 - data[0]['enter_station']][5 - 1 - route_order];
 
     }
-    if (data[0]['leave_station'] != data[0]['enter_station']) {
+    if (data[0]['leave_station'] !== data[0]['enter_station']) {
         let remain = Math.ceil((intervalMinute * 60 - nowInterval) / 60);
         if (nowInterval >= 0 && remain >= 0) {
             arrivedTimeContainer.innerText = `${remain}`;
@@ -84,16 +83,13 @@ function presentArrivedTime(data) {
             arrivedTimeContainer.innerText = '未發車';
         }
     } else {
-        if (data[0]['leave_station'] != route_order) {
+        if (data[0]['leave_station'] !== route_order) {
             arrivedTimeContainer.innerText = `${intervalMinute}`;
         } else {
             arrivedTimeContainer.innerText = '已到站';
         }
 
     }
-
-
-    return
 }
 
 
@@ -118,10 +114,10 @@ function worker() {
             const now = new Date();
             const hours = now.getHours().toString().padStart(2, '0');
             const minutes = now.getMinutes().toString().padStart(2, '0');
-            currTime = document.getElementsByClassName('currTime');
+            let currTime = document.getElementsByClassName('currTime');
             currTime[0].innerText = `${hours}:${minutes}`;
             console.log(data['access_signal']);
-            if (data['access_signal'].length == 0 && data['car_info'].length == 0) {
+            if (data['access_signal'].length === 0 && data['car_info'].length === 0) {
                 setTimeout(worker, 5000);
             } else {
                 presentArrivedTime(data['access_signal']);
