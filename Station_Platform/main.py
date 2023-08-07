@@ -114,6 +114,7 @@ def get_car_data():
 @app.route('/get_arrived_time_interval', methods=['GET', 'POST'])
 def get_arrived_time_interval():
     with open('Station_Platform/static/json/arrivedTimeInterval.json') as json_file:
+    # with open('../Station_Platform/static/json/arrivedTimeInterval.json') as json_file:
         data = json.load(json_file)
     return jsonify(data)
 
@@ -143,7 +144,7 @@ def access_signal():
 def carriage_info():
     c_id = request.args.get('c_id') #車次
     c_no = request.args.get('cNo')   #車廂號
-    p_num = request.args.get('pNum') #車廂人數
+    p_num = request.args.get('pNum') #壅擠程度
     air = request.args.get('air')   #空氣品質
     volume = request.args.get('volume') #音量
     
@@ -155,7 +156,7 @@ def carriage_info():
     db.session.execute(insert_sql, {
             'cid': c_id,
             'cNo': c_no,
-            'pNum': None,
+            'pNum': p_num,
             'air': air,
             'volume': volume})
     

@@ -19,12 +19,12 @@ function present_car(data) {
     data.forEach((data) => { //stationContainer(stationName, routeBlock)
         let perFillContainer = document.createElement('div');
         // perFillContainer.className = "mt-1 d-flex flex-row justify-content-center";
-        if (data['pNum'] < 20) {
+        if (data['pNum'] === "不壅擠") {
             perFillContainer.innerHTML = `<img
             class="img-fluid person-fill"
             src="${baseStaticUrl}images/person-green.svg"
             alt="person-fill">`;
-        } else if (data['pNum'] >= 20 && data['pNum'] < 40) {
+        } else if (data['pNum'] === "尚可") {
             perFillContainer.innerHTML = `<img
             class="img-fluid person-fill"
             src="${baseStaticUrl}images/person-yellow.svg"
@@ -34,7 +34,7 @@ function present_car(data) {
             src="${baseStaticUrl}images/person-yellow.svg"
             alt="person-fill">`;
 
-        } else if (data['pNum'] >= 40) {
+        } else if (data['pNum'] === "壅擠") {
             perFillContainer.innerHTML = `<img
             class="img-fluid person-fill"
             src="${baseStaticUrl}images/person-red.svg"

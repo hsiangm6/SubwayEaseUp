@@ -78,9 +78,38 @@ function present_car(data) {
     let degree_of_congestion = document.getElementById('degree-of-congestion');
     let air_quality = document.getElementById('air-quality');
     let volume = document.getElementById('volume');
-    degree_of_congestion.innerText = data[0]['pNum'];
+    // degree_of_congestion.innerText = data[0]['pNum'];
     air_quality.innerText = data[0]['air'];
     volume.innerText = data[0]['volume'];
+    if (data[0]['pNum'] === "不壅擠") {
+        degree_of_congestion.innerHTML = `<img
+        class="img-fluid person-fill"
+        src="${baseStaticUrl}images/person-green.svg"
+        alt="person-fill">`;
+    } else if (data[0]['pNum'] === "尚可") {
+        degree_of_congestion.innerHTML = `<img
+        class="img-fluid person-fill"
+        src="${baseStaticUrl}images/person-yellow.svg"
+        alt="person-fill">
+        <img
+        class="img-fluid person-fill"
+        src="${baseStaticUrl}images/person-yellow.svg"
+        alt="person-fill">`;
+
+    } else if (data[0]['pNum'] === "壅擠") {
+        degree_of_congestion.innerHTML = `<img
+        class="img-fluid person-fill"
+        src="${baseStaticUrl}images/person-red.svg"
+        alt="person-fill">
+        <img
+        class="img-fluid person-fill"
+        src="${baseStaticUrl}images/person-red.svg"
+        alt="person-fill">
+        <img
+        class="img-fluid person-fill"
+        src="${baseStaticUrl}images/person-red.svg"
+        alt="person-fill">`;
+    }
 
 }
 

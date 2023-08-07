@@ -198,7 +198,8 @@ def get_car_data():
 
 @app.route('/get_arrivedTimeInterval', methods=['GET', 'POST'])
 def get_arrived_time_interval():
-    with open('Car_Panel/static/json/arrivedTimeInterval.json') as json_file:
+    with open('../Car_Panel/static/json/arrivedTimeInterval.json') as json_file:
+    # with open('Car_Panel/static/json/arrivedTimeInterval.json') as json_file:
         data = json.load(json_file)
     return jsonify(data)
 
