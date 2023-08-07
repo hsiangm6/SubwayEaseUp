@@ -2,7 +2,7 @@
 # (Press CTRL+C to quit)
 # 教學: https://ithelp.ithome.com.tw/articles/10258223
 import datetime
-
+import random
 from flask import Flask, request, render_template, jsonify, json, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
@@ -198,8 +198,8 @@ def get_car_data():
 
 @app.route('/get_arrivedTimeInterval', methods=['GET', 'POST'])
 def get_arrived_time_interval():
-    with open('../Car_Panel/static/json/arrivedTimeInterval.json') as json_file:
-    # with open('Car_Panel/static/json/arrivedTimeInterval.json') as json_file:
+    # with open('../Car_Panel/static/json/arrivedTimeInterval.json') as json_file:
+    with open('Car_Panel/static/json/arrivedTimeInterval.json') as json_file:
         data = json.load(json_file)
     return jsonify(data)
 
@@ -222,9 +222,11 @@ def demo_insert():
                 car_result]
 
     # It has been to final station
-    if car_list[0]['enter_station'] == 3:
-        return jsonify({'message': 2})
+    if car_list[0]['enter_station'] == 1:
+        return jsonify({'message': 'Final Station'})
+    
 
+    #Insert access_signal
     pro_sql = text(
         'INSERT INTO `access_signal`(`cid`, `leave_station`, `enter_station`, `route_way`) '
         'VALUES (:cid, :leave, :enter, :route_way);')
@@ -238,10 +240,61 @@ def demo_insert():
             'cid': c_id, 'leave': car_list[0]['leave_station'],
             'enter': car_list[0]['enter_station'] + 1,
             'route_way': car_list[0]['route_way']})
-
     db.session.commit()
 
-    return jsonify({'message': 1})
+    #Insert carriage_info
+    # p_num_test=random.randint(0, 2)
+
+    # if p_num_test==0:
+    #     p_num="不壅擠"
+    # elif p_num_test==1:
+    #     p_num="尚可"
+    # elif p_num_test==2:
+    #     p_num="壅擠"
+
+    # ci_sql = text(
+    # 'INSERT INTO `carriage_info`(`cid`, `cNo`, `pNum`, `air`, `volume`) '
+    # 'VALUES (:cid, :cNo, :pNum, :air, :volume);')
+    
+    # db.session.execute(ci_sql, {
+    #     'cid': c_id, 
+    #     'cNo': 1,
+    #     'pNum': p_num,
+    #     'air': random.random(),
+    #     'volume': random.randint(20, 100)})
+    
+    # db.session.commit()
+
+    return jsonify({'message': 'Insert Success'})
+
+@app.route('/demo_insert_carriage_info', methods=['POST'])
+def demo_insert_carriage_info():
+    c_id = request.json.get('cid')
+
+    #Insert carriage_info
+    p_num_test=random.randint(0, 2)
+
+    if p_num_test==0:
+        p_num="不壅擠"
+    elif p_num_test==1:
+        p_num="尚可"
+    elif p_num_test==2:
+        p_num="壅擠"
+
+    ci_sql = text(
+    'INSERT INTO `carriage_info`(`cid`, `cNo`, `pNum`, `air`, `volume`) '
+    'VALUES (:cid, :cNo, :pNum, :air, :volume);')
+    
+    db.session.execute(ci_sql, {
+        'cid': c_id, 
+        'cNo': 1,
+        'pNum': p_num,
+        'air': random.random(),
+        'volume': random.randint(20, 100)})
+    
+    db.session.commit()
+
+    return jsonify({'message': 'Insert Success'})
 
 
 if __name__ == '__main__':

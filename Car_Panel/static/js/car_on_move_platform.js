@@ -79,7 +79,7 @@ function present_car(data) {
     let air_quality = document.getElementById('air-quality');
     let volume = document.getElementById('volume');
     // degree_of_congestion.innerText = data[0]['pNum'];
-    air_quality.innerText = data[0]['air'];
+    air_quality.innerText = data[0]['air'].toFixed(2);
     volume.innerText = data[0]['volume'];
     if (data[0]['pNum'] === "不壅擠") {
         degree_of_congestion.innerHTML = `<img
@@ -123,7 +123,7 @@ function present_arrivedTime(data) {
         for (let i = data[0]['leave_station']; i < stationNum; i++) {
             const arrivedTimeBlockText = document.querySelectorAll(`#arrivedTime-block-${i} p`);
             let intervalMinute = arrivedTimeArr.timeInterval[data[0]['enter_station']][i];
-            let remain = Math.ceil((intervalMinute * 60 - nowInterval) / 60);
+            let remain = Math.round((intervalMinute * 60 - nowInterval) / 60);
 
             if (nowInterval >= 0 && remain >= 0) {
                 arrivedTimeBlockText[0].innerText = `${remain}`;
@@ -136,7 +136,7 @@ function present_arrivedTime(data) {
             const arrivedTimeBlockText = document.querySelectorAll(`#arrivedTime-block-${i} p`);
             //intervalMinute裡的index包含'5'指的是總站數
             let intervalMinute = arrivedTimeArr.timeInterval[stationNum - 1 - data[0]['enter_station']][stationNum - 1 - i];
-            let remain = Math.ceil((intervalMinute * 60 - nowInterval) / 60);
+            let remain = Math.round((intervalMinute * 60 - nowInterval) / 60);
             if (nowInterval >= 0 && remain >= 0) {
                 arrivedTimeBlockText[0].innerText = `${remain}`;
             } else {
@@ -167,6 +167,7 @@ function worker() {
             console.log(data);
             present_car(data);
             present_arrivedTime(data);
+            demo_insert_carriage_info();
             setTimeout(worker, 5000);
         })
         .catch(error => {
@@ -365,8 +366,8 @@ function get_station() {
             get_arrivedTimeInterval();
 
             // Insert Data For Demo or Test
-            // setTimeout(demo_insert, 120000);
-            setTimeout(demo_insert, 10000);
+            setTimeout(demo_insert, 120000);
+            // setTimeout(demo_insert, 10000);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -377,7 +378,6 @@ function get_station() {
 function demo_insert() {
     const requestData = {
         'cid': cid,
-        'dNo': dNo,
     };
     const requestOptions = {
         method: 'POST', // 或 'GET'，視伺服器端需求而定
@@ -390,11 +390,31 @@ function demo_insert() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
-            if (data['message'] === 2) {
-                console.log("Final Station");
-            } else if (data['message'] === 1) {
-                console.log("Insert Success");
-            }
+            console.log(data['message']);
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Insert Data For Demo or Test(start from worker())
+function demo_insert_carriage_info() {
+    const requestData = {
+        'cid': cid,
+    };
+    const requestOptions = {
+        method: 'POST', // 或 'GET'，視伺服器端需求而定
+        headers: {
+            'Content-Type': 'application/json' // 指定資料格式為 JSON
+        },
+        body: JSON.stringify(requestData) // 將要傳送的資料轉換為 JSON 格式
+    };
+    fetch('/demo_insert_carriage_info', requestOptions) // 使用 fetch API 發送 GET 請求到 /get_data 路由
+        // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
+        .then(response => response.json())
+        .then(data => {
+            console.log(data['message']);
 
         })
         .catch(error => {

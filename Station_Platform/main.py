@@ -4,6 +4,8 @@
 from flask import Flask, request, render_template, redirect, url_for, jsonify, json, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+import random
+
 
 app = Flask(__name__)
 
@@ -163,6 +165,45 @@ def carriage_info():
     db.session.commit()
     
     return jsonify({'message': 'Success'})
+
+@app.route('/demo_insert', methods=['POST'])
+def demo_insert():
+    leave_station = request.json.get('leave_station')
+    enter_station = request.json.get('enter_station')
+
+    accs_sql = text(
+    'INSERT INTO `access_signal`(`cid`, `leave_station`, `enter_station`, `route_way`) '
+    'VALUES (:cid, :leave, :enter, :route_way);')
+    
+    db.session.execute(accs_sql, {
+        'cid': 168, 'leave': leave_station,
+        'enter': enter_station,
+        'route_way': 'OT1'})
+    db.session.commit()
+
+    p_num_test=random.randint(0, 2)
+
+    if p_num_test==0:
+        p_num="不壅擠"
+    elif p_num_test==1:
+        p_num="尚可"
+    elif p_num_test==2:
+        p_num="壅擠"
+
+    ci_sql = text(
+    'INSERT INTO `carriage_info`(`cid`, `cNo`, `pNum`, `air`, `volume`) '
+    'VALUES (:cid, :cNo, :pNum, :air, :volume);')
+    
+    db.session.execute(ci_sql, {
+        'cid': 168, 
+        'cNo': 1,
+        'pNum': p_num,
+        'air': random.random(),
+        'volume': random.randint(20, 100)})
+    
+    db.session.commit()
+
+    return jsonify({'leave_station': leave_station, 'enter_station': enter_station})
 
 if __name__ == '__main__':
     app.debug = True

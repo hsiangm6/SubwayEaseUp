@@ -297,8 +297,8 @@ function get_initial_on_station_data() {
             }
             present_station(data['station'], data['station_exit']);
             setTimeout(worker, 5000);
-            // setTimeout(demo_insert, 60000);
-            setTimeout(demo_insert, 10000);
+            setTimeout(demo_insert, 30000);
+            // setTimeout(demo_insert, 10000);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -322,11 +322,8 @@ function demo_insert() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
-            if (data['message'] === 2) {
-                console.log("Final Station");
-            } else if (data['message'] === 1) {
-                console.log("Insert Success");
-            }
+            console.log(data['message']);
+
         })
         .catch(error => {
             console.error('Error:', error);
