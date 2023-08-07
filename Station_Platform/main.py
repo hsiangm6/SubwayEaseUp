@@ -142,8 +142,8 @@ def access_signal():
 @app.route('/carriage_info', methods=['GET', 'POST'])
 def carriage_info():
     c_id = request.args.get('c_id') #車次
-    cNo = request.args.get('cNo')   #車廂號
-    pNum = request.args.get('pNum') #車廂人數
+    c_no = request.args.get('cNo')   #車廂號
+    p_num = request.args.get('pNum') #車廂人數
     air = request.args.get('air')   #空氣品質
     volume = request.args.get('volume') #音量
     
@@ -154,7 +154,7 @@ def carriage_info():
     
     db.session.execute(insert_sql, {
             'cid': c_id,
-            'cNo': cNo,
+            'cNo': c_no,
             'pNum': None,
             'air': air,
             'volume': volume})
