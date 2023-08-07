@@ -106,3 +106,16 @@ table {
 
 
 }
+
+.flashingColon {
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0%, 100% {
+      opacity: 0;
+  }
+  50% {
+      opacity: 1;
+  }
+}

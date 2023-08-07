@@ -73,7 +73,12 @@
                     <div class="col-6">
                         <p class="h25 text-white mb-2">現在時間</p>
                         <p class="h10 text-white mb-3 ps-3">Current Time</p>
-                        <p class="currTime h55 text-white text-center">{{hour}}:{{minute}}</p>
+                        <div class="d-flex justify-content-center">
+                            <span id="hoursContainer" class="h55 text-white">00</span>
+                            <span id="colon"
+                                class="flashingColon h50 text-white">:</span>
+                            <span id="minutesContainer" class="h55 text-white">00</span>
+                        </div>
                     </div>
 
                     <div class="col-6">
@@ -104,7 +109,7 @@
                         <p class="h30 text-center text-white">音量:</p>
                         <p class="h10 text-center text-white mt-2">Volume</p>
                     </div>
-                    <p id="volumn" class="h30 text-center text-white">---</p>
+                    <p id="volume" class="h30 text-center text-white">---</p>
 
                 </div>
                 <div class="m-0 d-flex flex-row"
@@ -126,5 +131,6 @@
 
         <script type="text/javascript"
             src="{{ url_for('static', filename = 'js/car_on_move_platform.js')}}"></script>
+
     </body>
 </html>

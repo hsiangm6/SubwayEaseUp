@@ -1,7 +1,7 @@
 # 執行(terminal): flask run --->瀏覽器訪問 127.0.0.1:5000
 # (Press CTRL+C to quit)
 # 教學: https://ithelp.ithome.com.tw/articles/10258223
-from flask import Flask, request, render_template, redirect, url_for, jsonify, json
+from flask import Flask, request, render_template, redirect, url_for, jsonify, json, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
@@ -22,6 +22,11 @@ db.init_app(app)  # 初始化db物件，將其與app關聯
 @app.route('/SubwayEaseUp/station/home')  # 裝飾器
 def home():
     return render_template('home.html')
+
+@app.route('/favicon.ico')
+def favicon():
+    # 返回該圖片作為 favicon.ico 圖標
+    return send_from_directory(app.static_folder, 'images/logo.svg', mimetype='image/svg+xml')
 
 
 @app.route('/SubwayEaseUp/station/get_station_data', methods=['GET'])  # 裝飾器
@@ -89,7 +94,7 @@ def get_car_data():
         car_list = []
     else:
         car_sql = text(
-            'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volumn, ci.timestamp '
+            'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volume, ci.timestamp '
             'FROM carriage_info AS ci JOIN ('
             '   SELECT cNo, MAX(timestamp) AS max_timestamp '
             '   FROM carriage_info WHERE cid = :accs_cid GROUP BY cNo'
@@ -97,7 +102,7 @@ def get_car_data():
             'ON ci.cNo = max_ci.cNo AND ci.timestamp = max_ci.max_timestamp;'
         )
         car_result = db.session.execute(car_sql, {'accs_cid': access_signal_list[0]['cid']})
-        car_list = [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volumn': row[4], 'timestamp': row[5]}
+        car_list = [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volume': row[4], 'timestamp': row[5]}
                     for row in car_result]
 
     final_arr['access_signal'] = access_signal_list
@@ -106,12 +111,57 @@ def get_car_data():
     return jsonify(final_arr)
 
 
-@app.route('/get_arrivedTimeInterval', methods=['GET', 'POST'])
+@app.route('/get_arrived_time_interval', methods=['GET', 'POST'])
 def get_arrived_time_interval():
-    with open('../Station_Platform/static/json/arrivedTimeInterval.json') as json_file:
+    with open('Station_Platform/static/json/arrivedTimeInterval.json') as json_file:
         data = json.load(json_file)
     return jsonify(data)
 
+
+@app.route('/access_signal', methods=['GET', 'POST'])
+def access_signal():
+    c_id = request.args.get('c_id') #車次
+    route_way = request.args.get('route_way') #路線方向
+    leave_station = request.args.get('leave_station') #離站數
+    enter_station = request.args.get('enter_station') #進站數
+
+    insert_sql = text(
+        'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`) '
+        'VALUES (:cid, :route_way, :leave, :enter);')
+    
+    db.session.execute(insert_sql, {
+            'cid': c_id,
+            'route_way': route_way,
+            'leave': leave_station,
+            'enter': enter_station})
+    
+    db.session.commit()
+
+    return jsonify({'message': 'Success'})
+
+@app.route('/carriage_info', methods=['GET', 'POST'])
+def carriage_info():
+    c_id = request.args.get('c_id') #車次
+    cNo = request.args.get('cNo')   #車廂號
+    pNum = request.args.get('pNum') #車廂人數
+    air = request.args.get('air')   #空氣品質
+    volume = request.args.get('volume') #音量
+    
+
+    insert_sql = text(
+        'INSERT INTO `carriage_info`(`cid`, `cNo`, `pNum`, `air`, `volume`) '
+        'VALUES (:cid, :cNo, :pNum, :air, :volume);')
+    
+    db.session.execute(insert_sql, {
+            'cid': c_id,
+            'cNo': cNo,
+            'pNum': None,
+            'air': air,
+            'volume': volume})
+    
+    db.session.commit()
+    
+    return jsonify({'message': 'Success'})
 
 if __name__ == '__main__':
     app.debug = True

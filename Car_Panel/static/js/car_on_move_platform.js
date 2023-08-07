@@ -70,15 +70,17 @@ function present_car(data) {
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
-    let currTime = document.getElementsByClassName('currTime');
-    currTime[0].innerText = `${hours}:${minutes}`;
+    let hoursContainer = document.getElementById('hoursContainer');
+    let minutesContainer = document.getElementById('minutesContainer');
+    hoursContainer.innerText = `${hours}`;
+    minutesContainer.innerText = `${minutes}`;
 
     let degree_of_congestion = document.getElementById('degree-of-congestion');
     let air_quality = document.getElementById('air-quality');
-    let volumn = document.getElementById('volumn');
+    let volume = document.getElementById('volume');
     degree_of_congestion.innerText = data[0]['pNum'];
     air_quality.innerText = data[0]['air'];
-    volumn.innerText = data[0]['volumn'];
+    volume.innerText = data[0]['volume'];
 
 }
 

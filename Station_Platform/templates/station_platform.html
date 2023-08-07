@@ -1,138 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Station Platform</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Station Platform</title>
 
-    <link
+        <link
             href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700"
-            rel="stylesheet" type="text/css"/>
+            rel="stylesheet" type="text/css" />
 
-    <link
+        <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-            crossorigin="anonymous"/>
+            crossorigin="anonymous" />
 
-    <script
+        <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
             crossorigin="anonymous">
     </script>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <script src="https://code.jquery.com/jquery-3.6.1.js"
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <script src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
             crossorigin="anonymous"></script>
 
-    <script
+        <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <link
+        <link
             href="{{ url_for('static', filename = 'css/main.css') }}"
-            rel="stylesheet" type="text/css"/>
-    <script>
+            rel="stylesheet" type="text/css" />
+        <script>
         const baseStaticUrl = "{{ url_for('static', filename='') }}";
     </script>
-</head>
-<body class="main-color">
-<div class="row justify-content-center mt-3">
-    <div id="side-block"
-         class="col-3 d-flex flex-column justify-content-center bg-white me-5 rounded-2 p-3">
-        <div class="row mb-3 pb-1 d-flex justify-content-center">
-            {% if route == "O" %}
-                <div
+    </head>
+    <body class="main-color">
+        <div class="row justify-content-center mt-3">
+            <div id="side-block"
+                class="col-3 d-flex flex-column justify-content-center bg-white me-5 rounded-2 p-3">
+                <div class="row mb-3 pb-1 d-flex justify-content-center">
+                    {% if route == "O" %}
+                    <div
                         class="col-10 d-flex justify-content-center align-items-center pt-2 rounded-3"
                         style="background-color: orange;">
-                    <h3 class="text-center d-flex justify-content-center">
-                        {{ sName }} {{ sid }}
-                    </h3>
-                </div>
-            {% elif route == "R" %}
-                <div
+                        <h3 class="text-center d-flex justify-content-center">
+                            {{ sName }} {{ sid }}
+                        </h3>
+                    </div>
+                    {% elif route == "R" %}
+                    <div
                         class="col-10 d-flex justify-content-center align-items-center pt-2 rounded-3"
                         style="background-color: red;">
-                    <h3 class="text-center">
-                        {{ sName }} {{ sid }}
-                    </h3>
-                </div>
-            {% else %}
-                <div
+                        <h3 class="text-center">
+                            {{ sName }} {{ sid }}
+                        </h3>
+                    </div>
+                    {% else %}
+                    <div
                         class="col-10 d-flex justify-content-center align-items-center pt-2 rounded-3"
                         style="background-color: greenyellow;">
-                    <h3 class="text-center">
-                        {{ sName }} {{ sid }}
-                    </h3>
+                        <h3 class="text-center">
+                            {{ sName }} {{ sid }}
+                        </h3>
+                    </div>
+                    {% endif %}
+                    <h6
+                        class="mt-1 text-center w-100 d-flex justify-content-center">{{
+                        english_name }}</h6>
+                    <h5 class="mt-1">下一班到站時間:</h5>
+                    <div class="d-flex flex-column">
+                        <p id='arrived-time-interval'
+                            class="text-center fs-2 text-danger mt-2 mb-0">未發車</p>
+                        <p class="fs-6 text-end mt-0">分鐘/min</p>
+                    </div>
+
                 </div>
-            {% endif %}
-            <h6
-                    class="mt-1 text-center w-100 d-flex justify-content-center">{{ english_name }}</h6>
-            <h5 class="mt-1">下一班到站時間:</h5>
-            <div class="d-flex flex-column">
-                <p id='arrived-time-interval'
-                   class="text-center fs-2 text-danger mt-2 mb-0">--</p>
-                <p class="fs-6 text-end mt-0">分鐘/min</p>
+                <div class="row d-flex flex-column mt-1">
+                    <p class="fs-5 m-0">現在時間/Time</p>
+                    <div class="d-flex justify-content-center">
+                        <span id="hoursContainer" class="fs-1">00</span>
+                        <span id="colon"
+                            class="flashingColon fs-2 m-1">:</span>
+                        <span id="minutesContainer" class="fs-1">00</span>
+                    </div>
+                </div>
             </div>
+            <div id="main-block"
+                class="col-8 bg-white rounded-2 p-3 d-flex align-items-center">
+                <img
+                    class="img-fluid mx-2"
+                    id="main-block-example"
+                    src="{{ url_for('static', filename = 'images/main-block-example.jpg') }}"
+                    alt="main-block-example">
+            </div>
+        </div>
+        <div class="row" id="bottom-block"> <!-- carriage-->
+            <div
+                class="col-2 mx-2 d-flex align-items-center">
+                <img
+                    class="img-fluid"
+                    id="carriage"
+                    src="{{ url_for('static', filename = 'images/MRT_Carriage.svg') }}"
+                    alt="carriage">
 
-        </div>
-        <div class="row d-flex flex-column mt-1">
-            <p class="fs-5 m-0">現在時間/Time</p>
-            <p class="currTime fs-1 text-center">--:--</p>
-        </div>
-    </div>
-    <div id="main-block"
-         class="col-8 bg-white rounded-2 p-3 d-flex align-items-center">
-        <img
-                class="img-fluid mx-2"
-                id="main-block-example"
-                src="{{ url_for('static', filename = 'images/main-block-example.jpg') }}"
-                alt="main-block-example">
-    </div>
-</div>
-<div class="row" id="bottom-block"> <!-- carriage-->
-    <div
-            class="col-2 mx-2 d-flex align-items-center">
-        <img
-                class="img-fluid"
-                id="carriage"
-                src="{{ url_for('static', filename = 'images/MRT_Carriage.svg') }}"
-                alt="carriage">
+            </div>
+            <div
+                class="col-3 bg-white rounded-3 my-4 mx-2 p-0">
+                <div class="row m-0">
+                    <h4 class="text-center mt-1">第 1 車</h4>
+                </div>
+                <div id="carriage-1"
+                    class="mt-1 d-flex flex-row justify-content-center">
+                </div>
 
-    </div>
-    <div
-            class="col-3 bg-white rounded-3 my-4 mx-2 p-0">
-        <div class="row m-0">
-            <h4 class="text-center mt-1">第 1 車</h4>
-        </div>
-        <div id="carriage-1"
-             class="mt-1 d-flex flex-row justify-content-center">
-        </div>
+            </div>
+            <div
+                class="col-3 bg-white rounded-3 my-4 mx-2 p-0">
+                <div class="row m-0">
+                    <h4 class="text-center mt-1">第 2 車</h4>
+                </div>
+                <div id="carriage-2"
+                    class="mt-1 d-flex flex-row justify-content-center">
+                </div>
 
-    </div>
-    <div
-            class="col-3 bg-white rounded-3 my-4 mx-2 p-0">
-        <div class="row m-0">
-            <h4 class="text-center mt-1">第 2 車</h4>
-        </div>
-        <div id="carriage-2"
-             class="mt-1 d-flex flex-row justify-content-center">
-        </div>
+            </div>
+            <div
+                class="col-3 bg-white rounded-3 my-4 mx-2 p-0">
+                <div class="row m-0">
+                    <h4 class="text-center mt-1">第 3 車</h4>
+                </div>
+                <div id="carriage-3"
+                    class="mt-1 d-flex flex-row justify-content-center">
+                </div>
 
-    </div>
-    <div
-            class="col-3 bg-white rounded-3 my-4 mx-2 p-0">
-        <div class="row m-0">
-            <h4 class="text-center mt-1">第 3 車</h4>
-        </div>
-        <div id="carriage-3"
-             class="mt-1 d-flex flex-row justify-content-center">
+            </div>
         </div>
 
-    </div>
-</div>
-
-<script type="text/javascript"
-        src="{{ url_for('static', filename = 'js/script.js') }}"></script>
-</body>
+        <script type="text/javascript"
+            src="{{ url_for('static', filename = 'js/script.js') }}"></script>
+    </body>
 </html>

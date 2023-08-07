@@ -65,7 +65,7 @@ def get_initial_on_station_data():
 
     # Get Car Info
     car_sql = text(
-        'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volumn, accs.leave_station, accs.enter_station, accs.route_way, accs.timestamp '
+        'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volume, accs.leave_station, accs.enter_station, accs.route_way, accs.timestamp '
         'FROM carriage_info AS ci JOIN ( '
         '   SELECT cid, route_way, leave_station, enter_station, timestamp '
         '   FROM access_signal '
@@ -80,7 +80,7 @@ def get_initial_on_station_data():
     )
 
     car_result = db.session.execute(car_sql, {'cid': c_id, 'cNo': c_no})
-    car_list = [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volumn': row[4], 'leave_station': row[5],
+    car_list = [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volume': row[4], 'leave_station': row[5],
                  'enter_station': row[6], 'route_way': row[7], 'timestamp': row[8]} for row in car_result]
     final_result['car'] = car_list
 
@@ -188,9 +188,9 @@ def get_car_data():
     c_no = int(d_no) // 4 + 1  # carriage number(車廂號)
     # Get Car Info
     car_sql = text(
-        'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volumn, accs.leave_station, accs.enter_station, accs.route_way, accs.timestamp FROM carriage_info AS ci JOIN ( SELECT cid, leave_station, enter_station, route_way, timestamp FROM access_signal WHERE cid=:cid ORDER BY timestamp DESC LIMIT 1) AS accs ON ci.cid=accs.cid WHERE ci.cid=:cid AND ci.cNo=:cNo ORDER BY ci.timestamp DESC LIMIT 1;')
+        'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volume, accs.leave_station, accs.enter_station, accs.route_way, accs.timestamp FROM carriage_info AS ci JOIN ( SELECT cid, leave_station, enter_station, route_way, timestamp FROM access_signal WHERE cid=:cid ORDER BY timestamp DESC LIMIT 1) AS accs ON ci.cid=accs.cid WHERE ci.cid=:cid AND ci.cNo=:cNo ORDER BY ci.timestamp DESC LIMIT 1;')
     car_result = db.session.execute(car_sql, {'cid': c_id, 'cNo': c_no})
-    car_list = [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volumn': row[4], 'leave_station': row[5],
+    car_list = [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volume': row[4], 'leave_station': row[5],
                  'enter_station': row[6], 'route_way': row[7], 'timestamp': row[8]} for row in car_result]
 
     return jsonify(car_list)

@@ -10,8 +10,12 @@ function present_car() {
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
-    let currTime = document.getElementsByClassName('currTime');
-    currTime[0].innerText = `${hours}:${minutes}`;
+    let hoursContainer = document.getElementById('hoursContainer');
+    let minutesContainer = document.getElementById('minutesContainer');
+    hoursContainer.innerText = `${hours}`;
+    minutesContainer.innerText = `${minutes}`;
+
+
     return true;
 }
 
@@ -301,6 +305,7 @@ function get_initial_on_station_data() {
         });
 }
 
+// Insert Data For Demo or Test(start from get_initial_on_station_data())
 function demo_insert() {
     const requestData = {
         'cid': cid,

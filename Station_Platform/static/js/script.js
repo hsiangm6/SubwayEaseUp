@@ -114,8 +114,11 @@ function worker() {
             const now = new Date();
             const hours = now.getHours().toString().padStart(2, '0');
             const minutes = now.getMinutes().toString().padStart(2, '0');
-            let currTime = document.getElementsByClassName('currTime');
-            currTime[0].innerText = `${hours}:${minutes}`;
+            let hoursContainer = document.getElementById('hoursContainer');
+            let minutesContainer = document.getElementById('minutesContainer');
+            hoursContainer.innerText = `${hours}`;
+            minutesContainer.innerText = `${minutes}`;
+
             console.log(data['access_signal']);
             if (data['access_signal'].length === 0 && data['car_info'].length === 0) {
                 setTimeout(worker, 5000);
@@ -135,7 +138,7 @@ function worker() {
 
 $(document).ready(get_arrivedTimeInterval);
 function get_arrivedTimeInterval() {
-    fetch('/get_arrivedTimeInterval')
+    fetch('/get_arrived_time_interval')
         .then(response => response.json())
         .then(data => {
             // 在這裡使用data，它是解析後的JSON物件
@@ -147,16 +150,3 @@ function get_arrivedTimeInterval() {
             console.error('Error:', error);
         });
 }
-
-//get-car-data: access_signal_sql
-// SELECT cid, leave_station, enter_station, timestamp, route_way
-// FROM (SELECT a1.*
-//       FROM access_signal AS a1
-//       INNER JOIN (
-//           SELECT cid, MAX(timestamp) AS max_timestamp
-//           FROM access_signal
-//           WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 50 MINUTE)
-//           GROUP BY cid )
-//      AS a2 ON a1.cid = a2.cid AND a1.timestamp = a2.max_timestamp
-//      WHERE route_way = 'OT1' AND leave_station <= 1) AS filtered_data
-//      ORDER BY ABS(leave_station - 1), ABS(enter_station - 1) LIMIT 1;
