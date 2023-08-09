@@ -32,7 +32,8 @@ animation: doorOpeningRight 2s infinite;
     height: 100%;
 }
 #stationLayoutInfo{
-    height: 50vh;
+    /* height: 50vh; */
+    height: 100%;
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
@@ -50,7 +51,8 @@ animation: doorOpeningRight 2s infinite;
     transform:scaleX(-1);
 }
 #facilityContainer{
-    height: 25vh;
+    height: 100%;
+    /* height: 25vh; */
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
@@ -59,40 +61,37 @@ animation: doorOpeningRight 2s infinite;
 .first-carriage-facilityBlock{
     margin-top: 10px;
     width: 935px;
-    height: 20vh;
-    /* border: 0; */
-    /* border: 2px solid black; */
-    /* border-radius: 10px 50px 10px 10px; */
+    /* height: 20vh; */
+    height: 100%;
 }
 .facilityBlock{
     margin-top: 10px;
     width: 915px;
-    height: 20vh;
-    /* border: 2px solid black; */
-    /* border-radius: 10px 10px 10px 10px; */
+    /* height: 20vh; */
+    height: 100%;
+    
 }
 .hollow-facilityBlock{
     margin-top: 10px;
     width: 435px;
-    height: 20vh;
-    /* border: 2px solid black; */
-    /* border-radius: 10px 10px 10px 10px; */
+    /* height: 20vh; */
+    height: 100%;
 }
 .facility-1{
     position: absolute;
     bottom: 10%;
-    left: 82%;
+    left: 88%;
     
 }
 .facility-2{
     position: absolute;
     bottom: 10%;
-    left: 72%;
+    left: 75%;
 }
 .facility-3{
     position: absolute;
     bottom: 10%;
-    left: 62%;
+    left: 63%;
 }
 .facility-4{
     position: absolute;
@@ -102,17 +101,17 @@ animation: doorOpeningRight 2s infinite;
 .facility-5{
     position: absolute;
     bottom: 10%;
-    left: 32%;
+    left: 38%;
 }
 .facility-6{
     position: absolute;
     bottom: 10%;
-    left: 22%;
+    left: 26%;
 }
 .facility-7{
     position: absolute;
     bottom: 10%;
-    left: 12%;
+    left: 13%;
 }
 .facility-8{
     position: absolute;
@@ -120,7 +119,15 @@ animation: doorOpeningRight 2s infinite;
     left: 2%;
 }
 #carriageContainer{
-    height: 20vh;
+    /* height: 20vh; */
+    height: 100%;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: inherit;
+}
+#cNoContainer{
+    height: 50%;
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
@@ -131,23 +138,29 @@ animation: doorOpeningRight 2s infinite;
 }
 .first-carriage{
     width: 935px;
-    height: 18vh;
+    /* height: 18vh; */
+    height: 90%;
     border: 2px solid black;
     border-radius: 10px 50px 10px 10px;
 }
 .carriage{
     width: 915px;
-    height: 18vh;
+    /* height: 18vh; */
+    height: 90%;
     border: 2px solid black;
     border-radius: 10px 10px 10px 10px;
 }
 .hollow-carriage{
     width: 435px;
-    height: 18vh;
+    /* height: 18vh; */
+    height: 90%;
     border: 2px solid black;
     border-radius: 10px 10px 10px 10px;
 }
-.doors{
+#dNo-1{
+    border-radius: 0px 50px 10px 0px;
+}
+/* .doors{
     width: 50px;
     height: 50px;
     background-color: rgba(255, 255, 255, 0.7);
@@ -171,22 +184,22 @@ animation: doorOpeningRight 2s infinite;
 .door-4{
     top: 10%;
     left: 10%;
-}
+} */
 .positionMark-1{
     top: -10px;
-    left: 83%;
+    left: 87%;
 }
 .positionMark-2{
     top: 0;
-    left: 63%;
+    left: 62%;
 }
 .positionMark-3{
     top: 0;
-    left: 33%;
+    left: 37%;
 }
 .positionMark-4{
     top: 0;
-    left: 13%;
+    left: 12%;
 }
 /*position mark jumping*/
 .position-mark-jump {
@@ -195,7 +208,7 @@ animation: doorOpeningRight 2s infinite;
 
   @keyframes positionMarkJump {
     0%, 100% {
-      transform: translateY(-5px);
+      transform: translateY(0px);
     }
     50% {
       transform: translateY(-20px);

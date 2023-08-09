@@ -85,9 +85,7 @@ def get_car_data():
     else:
         access_signal_result = db.session.execute(access_signal_sql,
                                                   {'route_way': route_way, 'route_order': 5 - 1 - int(route_order)})
-        # access_signal_sql=text('SELECT cid, leave_station, enter_station, timestamp, route_way FROM (SELECT a1.* FROM access_signal AS a1 INNER JOIN ( SELECT cid, MAX(timestamp) AS max_timestamp FROM access_signal WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 50 MINUTE) GROUP BY cid ) AS a2 ON a1.cid = a2.cid AND a1.timestamp = a2.max_timestamp WHERE route_way = :route_way AND leave_station >= :route_order) AS filtered_data ORDER BY ABS(leave_station - :route_order), ABS(enter_station - :route_order) LIMIT 1;')
 
-    # access_signal_result = db.session.execute(access_signal_sql, {'route_way':route_way,'route_order': route_order})
     access_signal_list = [
         {'cid': row[0], 'leave_station': row[1], 'enter_station': row[2], 'timestamp': row[3], 'route_way': row[4]} for
         row in access_signal_result]
@@ -96,7 +94,7 @@ def get_car_data():
         car_list = []
     else:
         car_sql = text(
-            'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volume, ci.timestamp '
+            'SELECT ci.cid, ci.cNo, ci.dNo, ci.pNum, ci.air, ci.volume, ci.timestamp '
             'FROM carriage_info AS ci JOIN ('
             '   SELECT cNo, MAX(timestamp) AS max_timestamp '
             '   FROM carriage_info WHERE cid = :accs_cid GROUP BY cNo'
@@ -104,7 +102,7 @@ def get_car_data():
             'ON ci.cNo = max_ci.cNo AND ci.timestamp = max_ci.max_timestamp;'
         )
         car_result = db.session.execute(car_sql, {'accs_cid': access_signal_list[0]['cid']})
-        car_list = [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volume': row[4], 'timestamp': row[5]}
+        car_list = [{'cid': row[0], 'cNo': row[1], 'dNo': row[2], 'pNum': row[3], 'air': row[4], 'volume': row[5], 'timestamp': row[6]}
                     for row in car_result]
 
     final_arr['access_signal'] = access_signal_list
@@ -152,12 +150,13 @@ def carriage_info():
     
 
     insert_sql = text(
-        'INSERT INTO `carriage_info`(`cid`, `cNo`, `pNum`, `air`, `volume`) '
-        'VALUES (:cid, :cNo, :pNum, :air, :volume);')
+        'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`) '
+        'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume);')
     
     db.session.execute(insert_sql, {
             'cid': c_id,
             'cNo': c_no,
+            'dNo': 1,
             'pNum': p_num,
             'air': air,
             'volume': volume})
@@ -191,15 +190,17 @@ def demo_insert():
         p_num="壅擠"
 
     ci_sql = text(
-    'INSERT INTO `carriage_info`(`cid`, `cNo`, `pNum`, `air`, `volume`) '
-    'VALUES (:cid, :cNo, :pNum, :air, :volume);')
+    'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`) '
+    'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume);')
+    
     
     db.session.execute(ci_sql, {
         'cid': 168, 
         'cNo': 1,
+        'dNo': 1,
         'pNum': p_num,
-        'air': random.random(),
-        'volume': random.randint(20, 100)})
+        'air': random.random() * 2.5,
+        'volume': random.random() * 2.5})
     
     db.session.commit()
 

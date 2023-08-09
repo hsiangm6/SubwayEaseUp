@@ -16,9 +16,27 @@ function present_car(data) {
     carriage_2.innerHTML = '';
     carriage_3.innerHTML = '';
 
+    let carrWarn_1 = document.getElementById('carrWarn-1');
+    let carrWarn_2 = document.getElementById('carrWarn-2');
+    let carrWarn_3 = document.getElementById('carrWarn-3');
+    carrWarn_1.style.display = "none";
+    carrWarn_2.style.display = "none";
+    carrWarn_3.style.display = "none";
     data.forEach((data) => { //stationContainer(stationName, routeBlock)
+
+        //Show warning icon
+        if (data['air'] > 2 || data['volume'] > 2) {
+            if (data['cNo'] === 1) {
+                carrWarn_1.style.display = "";
+            } else if (data['cNo'] === 2) {
+                carrWarn_2.style.display = "";
+            } else {
+                carrWarn_3.style.display = "";
+            }
+        }
+
+        // Show degree of congestion in every carriage
         let perFillContainer = document.createElement('div');
-        // perFillContainer.className = "mt-1 d-flex flex-row justify-content-center";
         if (data['pNum'] === "不壅擠") {
             perFillContainer.innerHTML = `<img
             class="img-fluid person-fill"
@@ -50,11 +68,17 @@ function present_car(data) {
         }
 
         if (data["cNo"] === 1) {
-            carriage_1.appendChild(perFillContainer)
+            if (carriage_1.innerHTML === "") {
+                carriage_1.appendChild(perFillContainer)
+            }
         } else if (data["cNo"] === 2) {
-            carriage_2.appendChild(perFillContainer)
+            if (carriage_2.innerHTML === "") {
+                carriage_2.appendChild(perFillContainer)
+            }
         } else if (data["cNo"] === 3) {
-            carriage_3.appendChild(perFillContainer)
+            if (carriage_3.innerHTML === "") {
+                carriage_3.appendChild(perFillContainer)
+            }
         }
 
     });

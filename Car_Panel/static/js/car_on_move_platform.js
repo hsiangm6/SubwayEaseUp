@@ -61,7 +61,7 @@ function startAnimation(arrowGroupCount) {
 }
 
 // Present state in car and make sure whether entering then station(start from worker())
-function present_car(data) {
+function present_car(data, all_carriage_info) {
     if (data[0]['leave_station'] !== (data[0]['enter_station'])) {
         startAnimation(data[0]['enter_station']);
     } else if (data[0]['leave_station'] === (data[0]['enter_station'])) {
@@ -76,11 +76,23 @@ function present_car(data) {
     minutesContainer.innerText = `${minutes}`;
 
     let degree_of_congestion = document.getElementById('degree-of-congestion');
-    let air_quality = document.getElementById('air-quality');
-    let volume = document.getElementById('volume');
+    let warningContainer = document.getElementById('warning-container');
+    warningContainer.innerHTML = "";
+    for (let i = 0; i < all_carriage_info.length; i++) {
+        if (all_carriage_info[i]['air'] > 2 || all_carriage_info[i]['volume'] > 2) {
+            let warning = document.createElement('div');
+            warning.className = "d-flex position-relative flex-row align-items-center justify-content-center mx-3 p-1 bg-white rounded-3 warning flashingColon";
+            warning.innerHTML = `<i class="bi bi-exclamation-triangle-fill text-danger h55"></i>
+            <p class="top-0 start-100 translate-middle h30 position-absolute text-center text-white rounded-circle bg-primary px-2 py-1">${all_carriage_info[i]['dNo']}</p>`;
+            warningContainer.appendChild(warning);
+        }
+    }
+
+    // let air_quality = document.getElementById('air-quality');
+    // let volume = document.getElementById('volume');
     // degree_of_congestion.innerText = data[0]['pNum'];
-    air_quality.innerText = data[0]['air'].toFixed(2);
-    volume.innerText = data[0]['volume'];
+    // air_quality.innerText = data[0]['air'].toFixed(2);
+    // volume.innerText = data[0]['volume'];
     if (data[0]['pNum'] === "不壅擠") {
         degree_of_congestion.innerHTML = `<img
         class="img-fluid person-fill"
@@ -164,9 +176,9 @@ function worker() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            present_car(data);
-            present_arrivedTime(data);
+            console.log(data['car_info']);
+            present_car(data['car_info'], data['all_carriage_info']);
+            present_arrivedTime(data['car_info']);
             demo_insert_carriage_info();
             setTimeout(worker, 5000);
         })

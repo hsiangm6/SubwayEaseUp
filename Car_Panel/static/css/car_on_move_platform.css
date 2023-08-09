@@ -1,6 +1,7 @@
 /* car_on_move_platform.html */
 #stationInfo{
-    height: 50vh;
+    height: 50%;
+    /* height: 50vh; */
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
@@ -12,22 +13,31 @@
 .person-fill{ /*icon of degree of congestion*/
   height: 65px;
 }
+.warning{
+  height: 35%;
+  /* height: 15vh; */
+  /* width: 15vh; */
+  width: 75%;
+}
 
 #stationNameContainer{
-    height: 15vh;
+    /* height: 15vh; */
+    height: 15%;
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;
     background-color: inherit;
 }
 #subway-map{
-    height: 15vh;
+    /* height: 15vh; */
+    height: 15%;
     width: 100%;
     padding-left: 30px;
     padding-right: 30px;
 }
 #arrivedTimeContainer{
-    height: 15vh;
+    /* height: 15vh; */
+    height: 15%;
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;

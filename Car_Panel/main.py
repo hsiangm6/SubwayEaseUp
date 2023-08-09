@@ -88,7 +88,7 @@ def get_initial_on_station_data():
     route = route_way[0]
     final_result['route_way'] = [route_way]
 
-    # Get Station Info
+    # Get Station Info(relative_position of facility(0~11))
     sql = text(
         'SELECT station.sid,  station.sName,  station.english_name, fl.facility_type, fl.facility_way, fl.relative_position '
         'FROM station LEFT JOIN ('
@@ -186,14 +186,43 @@ def get_car_data():
     c_id = request.json.get('cid')  # car id(車次)
     d_no = request.json.get('dNo')
     c_no = int(d_no) // 4 + 1  # carriage number(車廂號)
+    final_arr={}
+
     # Get Car Info
     car_sql = text(
-        'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volume, accs.leave_station, accs.enter_station, accs.route_way, accs.timestamp FROM carriage_info AS ci JOIN ( SELECT cid, leave_station, enter_station, route_way, timestamp FROM access_signal WHERE cid=:cid ORDER BY timestamp DESC LIMIT 1) AS accs ON ci.cid=accs.cid WHERE ci.cid=:cid AND ci.cNo=:cNo ORDER BY ci.timestamp DESC LIMIT 1;')
-    car_result = db.session.execute(car_sql, {'cid': c_id, 'cNo': c_no})
+        'SELECT ci.cid, ci.cNo, ci.pNum, ci.air, ci.volume, '
+        'accs.leave_station, accs.enter_station, accs.route_way, accs.timestamp '
+        'FROM carriage_info AS ci '
+        'JOIN ( '
+        '       SELECT cid, leave_station, enter_station, route_way, timestamp '
+        '       FROM access_signal '
+        '       WHERE cid=:cid '
+        '       ORDER BY timestamp DESC LIMIT 1 '
+        ') AS accs ON ci.cid=accs.cid '
+        'WHERE ci.cid=:cid AND ci.cNo=:cNo  AND ci.dNo=:dNo '
+        'ORDER BY ci.timestamp DESC LIMIT 1;')
+    car_result = db.session.execute(car_sql, {'cid': c_id, 'cNo': c_no, 'dNo': d_no})
     car_list = [{'cid': row[0], 'cNo': row[1], 'pNum': row[2], 'air': row[3], 'volume': row[4], 'leave_station': row[5],
                  'enter_station': row[6], 'route_way': row[7], 'timestamp': row[8]} for row in car_result]
 
-    return jsonify(car_list)
+    # Get Warning about air and volume
+    all_carr_info_sql = text(
+                        'SELECT cid, cNo, dNo, pNum, air, volume, timestamp '
+                        'FROM carriage_info AS ci '
+                        'WHERE (ci.cid, ci.cNo, ci.dNo, ci.timestamp) IN ( '
+                        '    SELECT ci2.cid, ci2.cNo, ci2.dNo, MAX(ci2.timestamp) '
+                        '    FROM carriage_info AS ci2 '
+                        '    WHERE ci2.cid = :cid '
+                        '    GROUP BY ci2.cid, ci2.cNo, ci2.dNo '
+                        ');'
+    )
+    all_carr_info_result = db.session.execute(all_carr_info_sql, {'cid': c_id})
+    all_carr_info_list = [{'cid': row[0], 'cNo': row[1], 'dNo': row[2], 'pNum': row[3], 'air': row[4], 'volume': row[5], 'timestamp':row[6]} for row in all_carr_info_result]
+    
+    final_arr['car_info']=car_list
+    final_arr['all_carriage_info']=all_carr_info_list
+
+    return jsonify(final_arr)
 
 
 @app.route('/get_arrivedTimeInterval', methods=['GET', 'POST'])
@@ -242,29 +271,6 @@ def demo_insert():
             'route_way': car_list[0]['route_way']})
     db.session.commit()
 
-    #Insert carriage_info
-    # p_num_test=random.randint(0, 2)
-
-    # if p_num_test==0:
-    #     p_num="不壅擠"
-    # elif p_num_test==1:
-    #     p_num="尚可"
-    # elif p_num_test==2:
-    #     p_num="壅擠"
-
-    # ci_sql = text(
-    # 'INSERT INTO `carriage_info`(`cid`, `cNo`, `pNum`, `air`, `volume`) '
-    # 'VALUES (:cid, :cNo, :pNum, :air, :volume);')
-    
-    # db.session.execute(ci_sql, {
-    #     'cid': c_id, 
-    #     'cNo': 1,
-    #     'pNum': p_num,
-    #     'air': random.random(),
-    #     'volume': random.randint(20, 100)})
-    
-    # db.session.commit()
-
     return jsonify({'message': 'Insert Success'})
 
 @app.route('/demo_insert_carriage_info', methods=['POST'])
@@ -282,15 +288,16 @@ def demo_insert_carriage_info():
         p_num="壅擠"
 
     ci_sql = text(
-    'INSERT INTO `carriage_info`(`cid`, `cNo`, `pNum`, `air`, `volume`) '
-    'VALUES (:cid, :cNo, :pNum, :air, :volume);')
+    'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`) '
+    'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume);')
     
     db.session.execute(ci_sql, {
         'cid': c_id, 
         'cNo': 1,
+        'dNo': 1,
         'pNum': p_num,
-        'air': random.random(),
-        'volume': random.randint(20, 100)})
+        'air': random.random() * 2.5,
+        'volume': random.random() * 2.5})
     
     db.session.commit()
 

@@ -5,7 +5,7 @@ const dNo = url.searchParams.get("dNo");
 let route_way = "";
 let route = "";
 
-function present_car() {
+function present_car(all_carriage_info) {
 
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
@@ -15,8 +15,34 @@ function present_car() {
     hoursContainer.innerText = `${hours}`;
     minutesContainer.innerText = `${minutes}`;
 
+    let warningContainer_1 = document.getElementById('warning-container-1');
+    warningContainer_1.style.display = "none";
+    let warningContainer_2 = document.getElementById('warning-container-2');
+    warningContainer_2.style.display = "none";
+    let warningContainer_3 = document.getElementById('warning-container-3');
+    warningContainer_3.style.display = "none";
 
-    return true;
+    // Show warning
+    for (let i = 0; i < all_carriage_info.length; i++) {
+        let dNoContainer = document.getElementById(`dNo-${all_carriage_info[i]['dNo']}`);
+
+        if (all_carriage_info[i]['air'] > 2 || all_carriage_info[i]['volume'] > 2) {
+            dNoContainer.style.backgroundColor = "rgba(255, 0, 0, 0.9)";
+            if (all_carriage_info[i]['dNo'] >= 1 && all_carriage_info[i]['dNo'] <= 4) {
+                warningContainer_1.style.display = "";
+            } else if (all_carriage_info[i]['dNo'] >= 5 && all_carriage_info[i]['dNo'] <= 8) {
+                warningContainer_2.style.display = "";
+            } else {
+                warningContainer_3.style.display = "";
+            }
+
+
+        } else {
+            dNoContainer.style.backgroundColor = "inherit";
+
+        }
+    }
+
 }
 
 function worker() {
@@ -35,11 +61,11 @@ function worker() {
         // 處理伺服器回傳的響應（response）。這裡使用 then 方法處理 Promise 物件，並將響應的內容轉換為文字格式（使用 response.text() 方法）
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            if (data[0]['leave_station'] !== (data[0]['enter_station'])) {
+            console.log(data['car_info']);
+            if (data['car_info'][0]['leave_station'] !== (data['car_info'][0]['enter_station'])) {
                 window.location.href = '/SubwayEaseUp/car/car_on_move_platform?cid=' + cid + '&dNo=' + dNo + '&route=' + route + '&route_way=' + route_way;
             }
-            present_car(data);
+            present_car(data['all_carriage_info']);
             setTimeout(worker, 5000);
         })
         .catch(error => {
@@ -56,7 +82,8 @@ function present_station(data, exit_data) {
     exitGroup_2.innerHTML = "";
     exit_data.forEach((item) => {
         let exitBlock = document.createElement('div');
-        exitBlock.className = "col-3 h-25 d-flex flex-row m-1 border-0";
+        exitBlock.className = "col-3 d-flex flex-row m-1 border-0";
+        exitBlock.style.height = "40%";
         let chineseChars = item['eName'].match(/[\u4e00-\u9fa5]/gu);
         let englishChars = item['eName_en'].match(/[a-zA-Z]/g);
         if (chineseChars.length > 7 || englishChars.length > 24 || item['eName_en'].length > 20) {
@@ -165,8 +192,8 @@ function present_station(data, exit_data) {
         //Set class
         let relativePosition = item['relative_position'];
         if (relativePosition >= 0 && relativePosition < 4) {
-            const index = 2 * (relativePosition % 4) + 1;
-            if (facilityList[1][index] == null) {
+            const index = 2 * Math.floor(relativePosition % 4) + 1;
+            if (facilityList[1][index] === null) {
                 facilityList[1][index] = item['facility_type'];
                 facility.classList.add(`facility-${index}`);
             } else {
@@ -176,8 +203,8 @@ function present_station(data, exit_data) {
 
             facilityGroup_1.appendChild(facility);
         } else if (relativePosition >= 4 && relativePosition < 8) {
-            const index = 2 * (relativePosition % 4) + 1;
-            if (facilityList[2][index] == null) {
+            const index = 2 * Math.floor(relativePosition % 4) + 1;
+            if (facilityList[2][index] === null) {
                 facilityList[2][index] = item['facility_type'];
                 facility.classList.add(`facility-${index}`);
             } else {
@@ -186,8 +213,8 @@ function present_station(data, exit_data) {
             }
             facilityGroup_2.appendChild(facility);
         } else if (relativePosition >= 8 && relativePosition < 12) {
-            const index = 2 * (relativePosition % 4) + 1;
-            if (facilityList[3][index] == null) {
+            const index = 2 * Math.floor(relativePosition % 4) + 1;
+            if (facilityList[3][index] === null) {
                 facilityList[3][index] = item['facility_type'];
                 facility.classList.add(`facility-${index}`);
             } else {
@@ -295,8 +322,9 @@ function get_initial_on_station_data() {
                 </div>`;
 
             }
-            present_station(data['station'], data['station_exit']);
-            setTimeout(worker, 5000);
+            present_station(data['station'], data['station_exit']); // relative_position of facility(0~11)
+            worker();
+            // setTimeout(worker, 5000);
             setTimeout(demo_insert, 30000);
             // setTimeout(demo_insert, 10000);
         })

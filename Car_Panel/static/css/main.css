@@ -76,29 +76,35 @@ table {
     font-size: 10px;
 }
 
+
 .window-size{
-  height: 98vh;
+  height: 558px;
+  /* height: 140px; */
+  /* height: 98vh; */
   width: 3765px; /*2048px*/
   background: #C7F9CC;
   margin: 0!important;
 }
 
 #home-logo{
-  height: 50vh;
+  height: 50%;
+  /* height: 50vh; */
   width : 50vh;
 }
 
 /* car_on_station_platform.html, car_on_move_platform.html */
 .side-block{
     width: 15%; /*20%*/
-    height: 98vh;
+    height: 100%;
+    /* height: 98vh; */
     margin-left: 0;
     background-color: white;
     /*me-3 bg-white rounded-2 p-3 mx-1*/
 }
 .main-block{
     width: 85%; /*1638px*/
-    height: 98vh;
+    height: 100%;
+    /* height: 98vh; */
     /* background: rgb(233,32,32);
     background: linear-gradient(90deg, rgba(233,32,32,1) 0%, rgba(246,124,11,1) 50%, rgba(247,205,28,1) 100%); */
     background: rgb(242,79,7);
