@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import random
 
-
 app = Flask(__name__)
 
 # 設置資料庫連接地址
@@ -24,6 +23,7 @@ db.init_app(app)  # 初始化db物件，將其與app關聯
 @app.route('/SubwayEaseUp/station/home')  # 裝飾器
 def home():
     return render_template('home.html')
+
 
 @app.route('/favicon.ico')
 def favicon():
@@ -102,7 +102,8 @@ def get_car_data():
             'ON ci.cNo = max_ci.cNo AND ci.timestamp = max_ci.max_timestamp;'
         )
         car_result = db.session.execute(car_sql, {'accs_cid': access_signal_list[0]['cid']})
-        car_list = [{'cid': row[0], 'cNo': row[1], 'dNo': row[2], 'pNum': row[3], 'air': row[4], 'volume': row[5], 'timestamp': row[6]}
+        car_list = [{'cid': row[0], 'cNo': row[1], 'dNo': row[2], 'pNum': row[3], 'air': row[4], 'volume': row[5],
+                     'timestamp': row[6]}
                     for row in car_result]
 
     final_arr['access_signal'] = access_signal_list
@@ -114,56 +115,57 @@ def get_car_data():
 @app.route('/get_arrived_time_interval', methods=['GET', 'POST'])
 def get_arrived_time_interval():
     with open('Station_Platform/static/json/arrivedTimeInterval.json') as json_file:
-    # with open('../Station_Platform/static/json/arrivedTimeInterval.json') as json_file:
+        # with open('../Station_Platform/static/json/arrivedTimeInterval.json') as json_file:
         data = json.load(json_file)
     return jsonify(data)
 
 
 @app.route('/access_signal', methods=['GET', 'POST'])
 def access_signal():
-    c_id = request.args.get('c_id') #車次
-    route_way = request.args.get('route_way') #路線方向
-    leave_station = request.args.get('leave_station') #離站數
-    enter_station = request.args.get('enter_station') #進站數
+    c_id = request.args.get('c_id')  # 車次
+    route_way = request.args.get('route_way')  # 路線方向
+    leave_station = request.args.get('leave_station')  # 離站數
+    enter_station = request.args.get('enter_station')  # 進站數
 
     insert_sql = text(
         'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`) '
         'VALUES (:cid, :route_way, :leave, :enter);')
-    
+
     db.session.execute(insert_sql, {
-            'cid': c_id,
-            'route_way': route_way,
-            'leave': leave_station,
-            'enter': enter_station})
-    
+        'cid': c_id,
+        'route_way': route_way,
+        'leave': leave_station,
+        'enter': enter_station})
+
     db.session.commit()
 
     return jsonify({'message': 'Success'})
 
+
 @app.route('/carriage_info', methods=['GET', 'POST'])
 def carriage_info():
-    c_id = request.args.get('c_id') #車次
-    c_no = request.args.get('cNo')   #車廂號
-    p_num = request.args.get('pNum') #壅擠程度
-    air = request.args.get('air')   #空氣品質
-    volume = request.args.get('volume') #音量
-    
+    c_id = request.args.get('c_id')  # 車次
+    c_no = request.args.get('cNo')  # 車廂號
+    p_num = request.args.get('pNum')  # 壅擠程度
+    air = request.args.get('air')  # 空氣品質
+    volume = request.args.get('volume')  # 音量
 
     insert_sql = text(
         'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`) '
         'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume);')
-    
+
     db.session.execute(insert_sql, {
-            'cid': c_id,
-            'cNo': c_no,
-            'dNo': 1,
-            'pNum': p_num,
-            'air': air,
-            'volume': volume})
-    
+        'cid': c_id,
+        'cNo': c_no,
+        'dNo': 1,
+        'pNum': p_num,
+        'air': air,
+        'volume': volume})
+
     db.session.commit()
-    
+
     return jsonify({'message': 'Success'})
+
 
 @app.route('/demo_insert', methods=['POST'])
 def demo_insert():
@@ -171,40 +173,41 @@ def demo_insert():
     enter_station = request.json.get('enter_station')
 
     accs_sql = text(
-    'INSERT INTO `access_signal`(`cid`, `leave_station`, `enter_station`, `route_way`) '
-    'VALUES (:cid, :leave, :enter, :route_way);')
-    
+        'INSERT INTO `access_signal`(`cid`, `leave_station`, `enter_station`, `route_way`) '
+        'VALUES (:cid, :leave, :enter, :route_way);')
+
     db.session.execute(accs_sql, {
         'cid': 168, 'leave': leave_station,
         'enter': enter_station,
         'route_way': 'OT1'})
     db.session.commit()
 
-    p_num_test=random.randint(0, 2)
+    p_num_test = random.randint(0, 2)
+    p_num = ''
 
-    if p_num_test==0:
-        p_num="不壅擠"
-    elif p_num_test==1:
-        p_num="尚可"
-    elif p_num_test==2:
-        p_num="壅擠"
+    if p_num_test == 0:
+        p_num = "不壅擠"
+    elif p_num_test == 1:
+        p_num = "尚可"
+    elif p_num_test == 2:
+        p_num = "壅擠"
 
     ci_sql = text(
-    'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`) '
-    'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume);')
-    
-    
+        'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`) '
+        'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume);')
+
     db.session.execute(ci_sql, {
-        'cid': 168, 
+        'cid': 168,
         'cNo': 1,
         'dNo': 1,
         'pNum': p_num,
         'air': random.random() * 2.5,
         'volume': random.random() * 2.5})
-    
+
     db.session.commit()
 
     return jsonify({'leave_station': leave_station, 'enter_station': enter_station})
+
 
 if __name__ == '__main__':
     app.debug = True

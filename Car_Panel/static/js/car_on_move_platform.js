@@ -309,8 +309,10 @@ function get_arrivedTimeInterval() {
             console.error('Error:', error);
         });
 }
+
 // Get Station Data
 $(document).ready(get_station);
+
 function get_station() {
     const requestData = {
         'cid': cid,

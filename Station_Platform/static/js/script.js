@@ -168,6 +168,7 @@ function worker() {
 
 
 $(document).ready(get_arrivedTimeInterval);
+
 function get_arrivedTimeInterval() {
     fetch('/get_arrived_time_interval')
         .then(response => response.json())
@@ -202,7 +203,7 @@ function demo_insert(leave_station, enter_station) {
         .then(response => response.json())
         .then(data => {
             if (data['leave_station'] !== 2) { // Set station_order=1
-                if (data['leave_station'] == data['enter_station']) {
+                if (data['leave_station'] === data['enter_station']) {
                     // setTimeout(() => demo_insert(data['leave_station'] + 1, data['enter_station']), 10000);
                     setTimeout(() => demo_insert(data['leave_station'] + 1, data['enter_station']), 30000);
                 } else {
