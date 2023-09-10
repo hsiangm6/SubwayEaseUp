@@ -148,8 +148,8 @@ def carriage_info():
     c_id = request.args.get('c_id')  # 車次
     c_no = request.args.get('cNo')  # 車廂號
     p_num = request.args.get('pNum')  # 壅擠程度
-    air = request.args.get('air')  # 空氣品質
-    volume = request.args.get('volume')  # 音量
+    air = request.args.get('air')  # 有毒氣體
+    volume = request.args.get('volume')  # 異常聲音
 
     insert_sql = text(
         'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`) '
@@ -212,4 +212,5 @@ def demo_insert():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(port=5001)
+    app.run(port=5001, host="0.0.0.0") #允許外部設備連接
+    # app.run(port=5001)

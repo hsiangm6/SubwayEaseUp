@@ -308,4 +308,5 @@ def demo_insert_carriage_info():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(port=5000)
+    app.run(port=5000, host="0.0.0.0") #允許外部設備連接
+    # app.run(port=5000)
