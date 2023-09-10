@@ -1,3 +1,4 @@
+#車載面板伺服器
 # 執行(terminal): flask run --->瀏覽器訪問 127.0.0.1:5000
 # (Press CTRL+C to quit)
 # 教學: https://ithelp.ithome.com.tw/articles/10258223
@@ -119,7 +120,7 @@ def get_arrived_time_interval():
         data = json.load(json_file)
     return jsonify(data)
 
-
+#進站訊號
 @app.route('/access_signal', methods=['GET', 'POST'])
 def access_signal():
     c_id = request.args.get('c_id')  # 車次
@@ -141,7 +142,7 @@ def access_signal():
 
     return jsonify({'message': 'Success'})
 
-
+#車廂內部資訊
 @app.route('/carriage_info', methods=['GET', 'POST'])
 def carriage_info():
     c_id = request.args.get('c_id')  # 車次
