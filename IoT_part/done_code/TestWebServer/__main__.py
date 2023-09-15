@@ -14,6 +14,7 @@ def index():
 @app.route('/test')
 def receive_signal():
     test = request.args.get('test')
+    print(test)
 
     return render_template(
         'index.html'
