@@ -46,7 +46,7 @@ static boolean connectWiFi(String wifi_name, String password, int timeout) {
 // 初始化 Wifi
 static void wifiSetUp(String wifi_name, String password) {
   Serial.begin(9600);
-  ESP8266.begin(9600);
+  ESP8266.begin(115200);
 
   // 重複直到連接上 Wifi
   do {

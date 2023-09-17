@@ -21,7 +21,7 @@ static void acceleration_setup() {
   Serial.println("MPU6050 initialized.");
 }
 
-static void acceleration_loop(int count) {
+static void acceleration_loop(int count, float acc[]) {
   /* Get new sensor events with the readings */
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
@@ -50,4 +50,8 @@ static void acceleration_loop(int count) {
     prey = a.acceleration.y;
     prez = a.acceleration.z;
   }
+
+  acc[0] = a.acceleration.x - prex;
+  acc[1] = a.acceleration.y - prey;
+  acc[2] = a.acceleration.z - prez;
 }

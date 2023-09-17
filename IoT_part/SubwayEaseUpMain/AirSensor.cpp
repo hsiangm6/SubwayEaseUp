@@ -14,8 +14,9 @@ static void air_setup() {
   Serial.println(rzero);
 }
 
-static void air_loop() {
+static float air_loop() {
   Serial.print("\tCO2 ppm value: ");
   float ppm = gasSensor.getPPM();
   Serial.print(ppm);
+  return(ppm);
 }
