@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{11ac30d9-df2e-404f-a943-1f633f06f014}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>main.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>Global|PythonCore|3.10</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="main.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="static\css\car_on_move_platform.css" />
+    <Content Include="static\css\car_on_station_platform.css" />
+    <Content Include="static\css\main.css" />
+    <Content Include="static\images\display_panel.svg" />
+    <Content Include="static\images\elevator.svg" />
+    <Content Include="static\images\escalator.svg" />
+    <Content Include="static\images\left-door.svg" />
+    <Content Include="static\images\logo.svg" />
+    <Content Include="static\images\MRT_Carriage.svg" />
+    <Content Include="static\images\person-green.svg" />
+    <Content Include="static\images\person-red.svg" />
+    <Content Include="static\images\person-yellow.svg" />
+    <Content Include="static\images\right-door.svg" />
+    <Content Include="static\images\stairs.svg" />
+    <Content Include="static\images\station.svg" />
+    <Content Include="static\js\car_on_move_platform.js" />
+    <Content Include="static\js\car_on_station_platform.js" />
+    <Content Include="templates\car_on_move_platform.html" />
+    <Content Include="templates\car_on_station_platform.html" />
+    <Content Include="templates\home.html" />
+    <Content Include="templates\v0_car_on_station_platform.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="static\" />
+    <Folder Include="static\css" />
+    <Folder Include="static\images" />
+    <Folder Include="static\js" />
+    <Folder Include="templates" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.10" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>
