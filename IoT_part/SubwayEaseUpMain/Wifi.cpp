@@ -1,34 +1,52 @@
 #include <SoftwareSerial.h>
-#include "WiFiEsp.h"
+#include <WiFiEsp.h>
 
-SoftwareSerial ESP8266(11, 12);  // Arduino 的 RX, TX
+static SoftwareSerial ESP8266(11, 12);  // Arduino 的 RX, TX
 
-unsigned long realtime = 0;
-bool FAIL_8266 = false;
+static unsigned long realtime = 0;
+static bool FAIL_8266 = false;
 
 // 下方參考
 // http://andrewpythonarduino.blogspot.com/2018/05/python27esp8266-and-iot.html
-void setup() {
-  wifiSetUp("", "");
-}
-
-void loop() {
-  if ((millis() - realtime) >= 10000)  // 10秒 Update 一次
-  {
-    realtime = millis();
-    sendToServer("", "", "/test?test=test", true);
-  }
-}
 
 // 確認連接狀態
-boolean isWifiConnect() {
+static boolean isWifiConnect() {
   return !FAIL_8266;
 }
 
+// 發送命令給 ESP8266 並顯示在 Serial
+static void sendESP8266cmd(String cmd, int waitTime) {
+  Serial.println("> " + cmd);
+  ESP8266.println(cmd);
+  delay(waitTime);
+}
+
+// 連線到 WiFi
+static boolean connectWiFi(String wifi_name, String password, int timeout) {
+  // 設置成 station MODE
+  sendESP8266cmd("AT+CWMODE=1", 2000);
+  Serial.println("[INFO] WiFi Mode:STA");
+
+  // 重複重連直到 timeout 次數
+  do {
+    String cmd = "AT+CWJAP=\"" + wifi_name + "\",\"" + password + "\"";
+
+    sendESP8266cmd(cmd, 1000);
+    Serial.println("[INFO] Join AP...");
+
+    if (ESP8266.find("OK")) {
+      Serial.println("> OK");
+      sendESP8266cmd("AT+CIPMUX=0", 1000);
+      return true;
+    }
+  } while ((timeout--) > 0);
+  return false;
+}
+
 // 初始化 Wifi
-void wifiSetUp(String wifi_name, String password) {
+static void wifiSetUp(String wifi_name, String password) {
   Serial.begin(9600);
-  ESP8266.begin(9600);
+  ESP8266.begin(115200);
 
   // 重複直到連接上 Wifi
   do {
@@ -59,30 +77,8 @@ void wifiSetUp(String wifi_name, String password) {
   } while (FAIL_8266);
 }
 
-// 連線到 WiFi
-boolean connectWiFi(String wifi_name, String password, int timeout) {
-  // 設置成 station MODE
-  sendESP8266cmd("AT+CWMODE=1", 2000);
-  Serial.println("[INFO] WiFi Mode:STA");
-
-  // 重複重連直到 timeout 次數
-  do {
-    String cmd = "AT+CWJAP=\"" + wifi_name + "\",\"" + password + "\"";
-
-    sendESP8266cmd(cmd, 1000);
-    Serial.println("[INFO] Join AP...");
-
-    if (ESP8266.find("OK")) {
-      Serial.println("> OK");
-      sendESP8266cmd("AT+CIPMUX=0", 1000);
-      return true;
-    }
-  } while ((timeout--) > 0);
-  return false;
-}
-
 // 發送到伺服器
-boolean sendToServer(String ip, String port, String msg, short use_get) {
+static boolean sendToServer(String ip, String port, String msg, short use_get) {
   if (FAIL_8266) return false;
 
   // 連線伺服器指令
@@ -123,11 +119,4 @@ boolean sendToServer(String ip, String port, String msg, short use_get) {
     Serial.println("[ERROR] Update Error");
     return false;
   }
-}
-
-// 發送命令給 ESP8266 並顯示在 Serial
-void sendESP8266cmd(String cmd, int waitTime) {
-  Serial.println("> " + cmd);
-  ESP8266.println(cmd);
-  delay(waitTime);
 }
