@@ -6,7 +6,7 @@
 static Adafruit_MPU6050 mpu;  //acceleration define
 /*PING DEFINE _END*/
 
-static float prex, prey, prez;
+static float prex, prey, prez, acc_sum, acc[3];;
 
 static void acceleration_setup() {
   if (!mpu.begin()) {
@@ -21,7 +21,7 @@ static void acceleration_setup() {
   Serial.println("MPU6050 initialized.");
 }
 
-static void acceleration_loop(int count, float acc[]) {
+static float acceleration_loop(int count) {
   /* Get new sensor events with the readings */
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
@@ -54,4 +54,7 @@ static void acceleration_loop(int count, float acc[]) {
   acc[0] = a.acceleration.x - prex;
   acc[1] = a.acceleration.y - prey;
   acc[2] = a.acceleration.z - prez;
+
+  acc_sum=abs(acc[0])+abs(acc[1])+abs(acc[2]);
+  return(acc_sum);
 }

@@ -9,8 +9,8 @@ int count = 0;
 /*value*/
 int sound;
 float ppm;
-float acc[3];
-String ppm_s, sound_s, accx_s, accy_s, accz_s;
+float acc_all;
+String ppm_s, sound_s, acc_all_s;
 
 
 
@@ -29,7 +29,7 @@ void setup() {
 }
 
 void loop() {
-  acceleration_loop(count, acc);
+  acc_all=acceleration_loop(count);
   ppm = air_loop();
   sound = sound_loop();
   delay(1000);
@@ -37,13 +37,11 @@ void loop() {
   /*to string*/
   ppm_s = String(ppm);
   sound_s = String(sound);
-  accx_s=String(acc[0]);
-  accy_s=String(acc[1]);
-  accz_s=String(acc[2]);
+  acc_all_s = String(acc_all);
 
   sendToServer(
     "",
     "",
-    "/transfer_data?ppm=" + ppm_s + "&sound=" + sound_s + "&accX=" + accx_s + "&accY=" + accy_s + "&accZ=" + accz_s,
+    "/transfer_data?ppm=" + ppm_s + "&sound=" + sound_s + "&acc=" + acc_all_s,
     true);
 }
