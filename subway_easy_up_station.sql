@@ -2,9 +2,9 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- 主机： 127.0.0.1
--- 生成日期： 2023-08-09 17:55:33
--- 服务器版本： 10.4.22-MariaDB
+-- 主機： 127.0.0.1
+-- 產生時間： 2023-09-26 14:50:39
+-- 伺服器版本： 10.4.22-MariaDB
 -- PHP 版本： 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `subway_ease_up`
+-- 資料庫: `subway_easy_up_station`
 --
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `access_signal`
+-- 資料表結構 `access_signal`
 --
 
 CREATE TABLE `access_signal` (
@@ -37,7 +37,7 @@ CREATE TABLE `access_signal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 转存表中的数据 `access_signal`
+-- 傾印資料表的資料 `access_signal`
 --
 
 INSERT INTO `access_signal` (`idx`, `cid`, `route_way`, `leave_station`, `enter_station`, `timestamp`) VALUES
@@ -359,12 +359,22 @@ INSERT INTO `access_signal` (`idx`, `cid`, `route_way`, `leave_station`, `enter_
 (323, 168, 'OT1', 2, 1, '2023-08-09 14:14:36'),
 (324, 168, 'OT1', 0, 0, '2023-08-09 14:17:51'),
 (325, 168, 'OT1', 1, 0, '2023-08-09 14:18:28'),
-(326, 168, 'OT1', 1, 1, '2023-08-09 14:20:28');
+(326, 168, 'OT1', 1, 1, '2023-08-09 14:20:28'),
+(327, 168, 'OT1', 0, 0, '2023-08-09 15:59:50'),
+(328, 168, 'OT1', 0, 0, '2023-08-09 16:02:15'),
+(329, 168, 'OT1', 1, 0, '2023-08-09 16:02:50'),
+(330, 168, 'OT1', 1, 1, '2023-08-09 16:04:50'),
+(331, 168, 'OT1', 0, 0, '2023-08-09 16:17:32'),
+(332, 168, 'OT1', 0, 0, '2023-08-09 16:17:34'),
+(333, 168, 'OT1', 1, 0, '2023-08-09 16:18:04'),
+(334, 168, 'OT1', 0, 0, '2023-08-09 16:18:27'),
+(335, 168, 'OT1', 1, 1, '2023-08-09 16:20:05'),
+(336, 168, 'OT1', 2, 1, '2023-08-09 16:20:36');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `carriage_info`
+-- 資料表結構 `carriage_info`
 --
 
 CREATE TABLE `carriage_info` (
@@ -379,7 +389,7 @@ CREATE TABLE `carriage_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 转存表中的数据 `carriage_info`
+-- 傾印資料表的資料 `carriage_info`
 --
 
 INSERT INTO `carriage_info` (`idx`, `cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`, `timestamp`) VALUES
@@ -814,12 +824,75 @@ INSERT INTO `carriage_info` (`idx`, `cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`
 (432, 168, 1, 1, '壅擠', 1.48126, 2.07963, '2023-08-09 14:20:14'),
 (433, 168, 1, 1, '壅擠', 2.35912, 1.13623, '2023-08-09 14:20:19'),
 (434, 168, 1, 1, '不壅擠', 0.0650181, 2.16395, '2023-08-09 14:20:24'),
-(435, 168, 1, 1, '不壅擠', 0.188269, 1.69075, '2023-08-09 14:20:29');
+(435, 168, 1, 1, '不壅擠', 0.188269, 1.69075, '2023-08-09 14:20:29'),
+(436, 168, 1, 1, '壅擠', 1.83508, 2.33605, '2023-08-09 16:02:50'),
+(437, 168, 1, 1, '壅擠', 2.15639, 2.47459, '2023-08-09 16:02:55'),
+(438, 168, 1, 1, '不壅擠', 0.728135, 0.550325, '2023-08-09 16:03:00'),
+(439, 168, 1, 1, '壅擠', 0.330964, 2.27507, '2023-08-09 16:03:05'),
+(440, 168, 1, 1, '壅擠', 1.40604, 1.50755, '2023-08-09 16:03:10'),
+(441, 168, 1, 1, '尚可', 1.60227, 2.17703, '2023-08-09 16:03:15'),
+(442, 168, 1, 1, '壅擠', 0.449964, 1.7029, '2023-08-09 16:03:20'),
+(443, 168, 1, 1, '尚可', 1.07719, 2.19238, '2023-08-09 16:03:26'),
+(444, 168, 1, 1, '不壅擠', 0.745326, 2.33442, '2023-08-09 16:03:31'),
+(445, 168, 1, 1, '不壅擠', 1.7103, 2.12228, '2023-08-09 16:03:36'),
+(446, 168, 1, 1, '尚可', 0.0111075, 1.37524, '2023-08-09 16:03:41'),
+(447, 168, 1, 1, '不壅擠', 2.17534, 1.58952, '2023-08-09 16:03:46'),
+(448, 168, 1, 1, '尚可', 1.58975, 2.2424, '2023-08-09 16:03:51'),
+(449, 168, 1, 1, '不壅擠', 1.61081, 1.41597, '2023-08-09 16:03:56'),
+(450, 168, 1, 1, '壅擠', 0.114842, 0.250806, '2023-08-09 16:04:01'),
+(451, 168, 1, 1, '壅擠', 0.380485, 1.09758, '2023-08-09 16:04:06'),
+(452, 168, 1, 1, '尚可', 1.57651, 1.6099, '2023-08-09 16:04:11'),
+(453, 168, 1, 1, '壅擠', 1.19835, 1.06004, '2023-08-09 16:04:16'),
+(454, 168, 1, 1, '尚可', 0.532014, 0.483717, '2023-08-09 16:04:21'),
+(455, 168, 1, 1, '不壅擠', 2.14646, 0.562197, '2023-08-09 16:04:27'),
+(456, 168, 1, 1, '尚可', 1.02431, 0.814151, '2023-08-09 16:04:33'),
+(457, 168, 1, 1, '尚可', 1.37864, 0.82126, '2023-08-09 16:04:38'),
+(458, 168, 1, 1, '壅擠', 1.24343, 2.00971, '2023-08-09 16:04:43'),
+(459, 168, 1, 1, '壅擠', 1.53776, 0.0171351, '2023-08-09 16:04:48'),
+(460, 168, 1, 1, '尚可', 2.31802, 0.0703245, '2023-08-09 16:04:53'),
+(461, 168, 1, 1, '壅擠', 0.796819, 2.41419, '2023-08-09 16:17:32'),
+(462, 168, 1, 1, '尚可', 1.50132, 2.18555, '2023-08-09 16:17:34'),
+(463, 168, 1, 1, '不壅擠', 1.56244, 1.46836, '2023-08-09 16:18:04'),
+(464, 168, 1, 1, '尚可', 0.111812, 1.36222, '2023-08-09 16:18:27'),
+(465, 168, 1, 1, '尚可', 1.35002, 2.36669, '2023-08-09 16:20:05'),
+(466, 168, 1, 1, '尚可', 2.47832, 2.05713, '2023-08-09 16:20:36'),
+(467, 168, 1, 1, '尚可', 0.413954, 2.05607, '2023-08-09 16:35:23'),
+(468, 168, 1, 1, '壅擠', 0.664594, 1.63797, '2023-08-09 16:35:28'),
+(469, 168, 1, 1, '不壅擠', 1.10404, 0.367284, '2023-08-09 16:35:34'),
+(470, 168, 1, 1, '壅擠', 1.40895, 2.38189, '2023-08-09 16:35:40'),
+(471, 168, 1, 1, '壅擠', 2.22574, 1.1624, '2023-08-09 16:35:46'),
+(472, 168, 1, 1, '尚可', 0.681883, 0.744776, '2023-08-09 16:35:52'),
+(473, 168, 1, 1, '尚可', 0.35034, 0.353622, '2023-08-09 16:35:58'),
+(474, 168, 1, 1, '壅擠', 1.54453, 1.02458, '2023-08-09 16:36:03'),
+(475, 168, 1, 1, '壅擠', 0.735283, 0.944953, '2023-08-09 16:36:09'),
+(476, 168, 1, 1, '尚可', 1.2535, 1.21123, '2023-08-09 16:36:14'),
+(477, 168, 1, 1, '不壅擠', 2.09077, 1.19354, '2023-08-09 16:36:19'),
+(478, 168, 1, 1, '壅擠', 0.167333, 1.4021, '2023-08-09 16:36:25'),
+(479, 168, 1, 1, '壅擠', 2.20722, 0.781878, '2023-08-09 16:36:31'),
+(480, 168, 1, 1, '壅擠', 1.95621, 2.01837, '2023-08-09 16:36:36'),
+(481, 168, 1, 1, '壅擠', 0.354425, 0.0743174, '2023-08-09 16:36:41'),
+(482, 168, 1, 1, '壅擠', 2.08986, 0.488841, '2023-08-09 16:36:46'),
+(483, 168, 1, 1, '尚可', 1.38006, 0.263137, '2023-08-09 16:36:51'),
+(484, 168, 1, 1, '壅擠', 1.84363, 0.584231, '2023-08-09 16:36:56'),
+(485, 168, 1, 1, '壅擠', 1.51228, 1.80663, '2023-08-09 16:37:01'),
+(486, 168, 1, 1, '尚可', 0.695054, 0.777846, '2023-08-09 16:37:07'),
+(487, 168, 1, 1, '尚可', 0.838095, 1.23467, '2023-08-09 16:37:12'),
+(488, 168, 1, 1, '不壅擠', 1.4223, 1.56426, '2023-08-09 16:37:17'),
+(489, 168, 1, 1, '不壅擠', 1.76834, 1.20238, '2023-08-09 16:37:22'),
+(490, 168, 1, 1, '不壅擠', 2.49417, 0.843774, '2023-08-09 16:37:27'),
+(491, 168, 1, 1, '尚可', 1.79632, 1.46962, '2023-08-09 16:37:32'),
+(492, 168, 1, 1, '壅擠', 1.41549, 1.40963, '2023-08-09 16:37:37'),
+(493, 168, 1, 1, '尚可', 0.521913, 0.123139, '2023-08-09 16:37:42'),
+(494, 168, 1, 1, '壅擠', 2.08451, 0.446256, '2023-08-09 16:37:47'),
+(495, 168, 1, 1, '尚可', 0.716693, 0.148329, '2023-08-09 16:37:52'),
+(496, 168, 1, 1, '', 0, 20, '2023-09-10 10:06:50'),
+(497, 168, 1, 1, '', 0, 20, '2023-09-10 10:07:10'),
+(498, 168, 1, 1, '', 0, 20, '2023-09-10 10:07:30');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `facility_location`
+-- 資料表結構 `facility_location`
 --
 
 CREATE TABLE `facility_location` (
@@ -833,7 +906,7 @@ CREATE TABLE `facility_location` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 转存表中的数据 `facility_location`
+-- 傾印資料表的資料 `facility_location`
 --
 
 INSERT INTO `facility_location` (`idx`, `sid`, `sName`, `way`, `facility_type`, `facility_way`, `relative_position`) VALUES
@@ -899,268 +972,7 @@ INSERT INTO `facility_location` (`idx`, `sid`, `sName`, `way`, `facility_type`, 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `pma__bookmark`
---
-
-CREATE TABLE `pma__bookmark` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `dbase` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `user` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `label` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `query` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__central_columns`
---
-
-CREATE TABLE `pma__central_columns` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_type` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_length` text COLLATE utf8_bin DEFAULT NULL,
-  `col_collation` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_isNull` tinyint(1) NOT NULL,
-  `col_extra` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `col_default` text COLLATE utf8_bin DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Central list of columns';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__column_info`
---
-
-CREATE TABLE `pma__column_info` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `column_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `comment` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `mimetype` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `transformation` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `input_transformation` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `input_transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__designer_settings`
---
-
-CREATE TABLE `pma__designer_settings` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `settings_data` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Settings related to Designer';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__export_templates`
---
-
-CREATE TABLE `pma__export_templates` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `export_type` varchar(10) COLLATE utf8_bin NOT NULL,
-  `template_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `template_data` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved export templates';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__favorite`
---
-
-CREATE TABLE `pma__favorite` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `tables` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Favorite tables';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__history`
---
-
-CREATE TABLE `pma__history` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `timevalue` timestamp NOT NULL DEFAULT current_timestamp(),
-  `sqlquery` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='SQL history for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__navigationhiding`
---
-
-CREATE TABLE `pma__navigationhiding` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `item_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `item_type` varchar(64) COLLATE utf8_bin NOT NULL,
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hidden items of navigation tree';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__pdf_pages`
---
-
-CREATE TABLE `pma__pdf_pages` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `page_nr` int(10) UNSIGNED NOT NULL,
-  `page_descr` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__recent`
---
-
-CREATE TABLE `pma__recent` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `tables` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__relation`
---
-
-CREATE TABLE `pma__relation` (
-  `master_db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `master_table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `master_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `foreign_db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `foreign_table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `foreign_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Relation table';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__savedsearches`
---
-
-CREATE TABLE `pma__savedsearches` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `search_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `search_data` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved searches';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__table_coords`
---
-
-CREATE TABLE `pma__table_coords` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `pdf_page_number` int(11) NOT NULL DEFAULT 0,
-  `x` float UNSIGNED NOT NULL DEFAULT 0,
-  `y` float UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__table_info`
---
-
-CREATE TABLE `pma__table_info` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `display_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__table_uiprefs`
---
-
-CREATE TABLE `pma__table_uiprefs` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `prefs` text COLLATE utf8_bin NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__tracking`
---
-
-CREATE TABLE `pma__tracking` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `version` int(10) UNSIGNED NOT NULL,
-  `date_created` datetime NOT NULL,
-  `date_updated` datetime NOT NULL,
-  `schema_snapshot` text COLLATE utf8_bin NOT NULL,
-  `schema_sql` text COLLATE utf8_bin DEFAULT NULL,
-  `data_sql` longtext COLLATE utf8_bin DEFAULT NULL,
-  `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') COLLATE utf8_bin DEFAULT NULL,
-  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database changes tracking for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__userconfig`
---
-
-CREATE TABLE `pma__userconfig` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `timevalue` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `config_data` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User preferences storage for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__usergroups`
---
-
-CREATE TABLE `pma__usergroups` (
-  `usergroup` varchar(64) COLLATE utf8_bin NOT NULL,
-  `tab` varchar(64) COLLATE utf8_bin NOT NULL,
-  `allowed` enum('Y','N') COLLATE utf8_bin NOT NULL DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User groups with configured menu items';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `pma__users`
---
-
-CREATE TABLE `pma__users` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `usergroup` varchar(64) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and their assignments to user groups';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `station`
+-- 資料表結構 `station`
 --
 
 CREATE TABLE `station` (
@@ -1173,7 +985,7 @@ CREATE TABLE `station` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 转存表中的数据 `station`
+-- 傾印資料表的資料 `station`
 --
 
 INSERT INTO `station` (`idx`, `sid`, `sName`, `route`, `route_order`, `english_name`) VALUES
@@ -1186,7 +998,7 @@ INSERT INTO `station` (`idx`, `sid`, `sName`, `route`, `route_order`, `english_n
 -- --------------------------------------------------------
 
 --
--- 表的结构 `station_exit`
+-- 資料表結構 `station_exit`
 --
 
 CREATE TABLE `station_exit` (
@@ -1199,7 +1011,7 @@ CREATE TABLE `station_exit` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 转存表中的数据 `station_exit`
+-- 傾印資料表的資料 `station_exit`
 --
 
 INSERT INTO `station_exit` (`idx`, `sid`, `eNo`, `eName`, `eName_en`, `ePosition`) VALUES
@@ -1226,225 +1038,69 @@ INSERT INTO `station_exit` (`idx`, `sid`, `eNo`, `eName`, `eName_en`, `ePosition
 (21, 'O5', 1, '華南銀行', 'Hua Nan Bank', 4.1);
 
 --
--- 转储表的索引
+-- 已傾印資料表的索引
 --
 
 --
--- 表的索引 `access_signal`
+-- 資料表索引 `access_signal`
 --
 ALTER TABLE `access_signal`
   ADD PRIMARY KEY (`idx`);
 
 --
--- 表的索引 `carriage_info`
+-- 資料表索引 `carriage_info`
 --
 ALTER TABLE `carriage_info`
   ADD PRIMARY KEY (`idx`);
 
 --
--- 表的索引 `facility_location`
+-- 資料表索引 `facility_location`
 --
 ALTER TABLE `facility_location`
   ADD PRIMARY KEY (`idx`);
 
 --
--- 表的索引 `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  ADD PRIMARY KEY (`id`);
-
---
--- 表的索引 `pma__central_columns`
---
-ALTER TABLE `pma__central_columns`
-  ADD PRIMARY KEY (`db_name`,`col_name`);
-
---
--- 表的索引 `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
-
---
--- 表的索引 `pma__designer_settings`
---
-ALTER TABLE `pma__designer_settings`
-  ADD PRIMARY KEY (`username`);
-
---
--- 表的索引 `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
-
---
--- 表的索引 `pma__favorite`
---
-ALTER TABLE `pma__favorite`
-  ADD PRIMARY KEY (`username`);
-
---
--- 表的索引 `pma__history`
---
-ALTER TABLE `pma__history`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
-
---
--- 表的索引 `pma__navigationhiding`
---
-ALTER TABLE `pma__navigationhiding`
-  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
-
---
--- 表的索引 `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  ADD PRIMARY KEY (`page_nr`),
-  ADD KEY `db_name` (`db_name`);
-
---
--- 表的索引 `pma__recent`
---
-ALTER TABLE `pma__recent`
-  ADD PRIMARY KEY (`username`);
-
---
--- 表的索引 `pma__relation`
---
-ALTER TABLE `pma__relation`
-  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
-  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
-
---
--- 表的索引 `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
-
---
--- 表的索引 `pma__table_coords`
---
-ALTER TABLE `pma__table_coords`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
-
---
--- 表的索引 `pma__table_info`
---
-ALTER TABLE `pma__table_info`
-  ADD PRIMARY KEY (`db_name`,`table_name`);
-
---
--- 表的索引 `pma__table_uiprefs`
---
-ALTER TABLE `pma__table_uiprefs`
-  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
-
---
--- 表的索引 `pma__tracking`
---
-ALTER TABLE `pma__tracking`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
-
---
--- 表的索引 `pma__userconfig`
---
-ALTER TABLE `pma__userconfig`
-  ADD PRIMARY KEY (`username`);
-
---
--- 表的索引 `pma__usergroups`
---
-ALTER TABLE `pma__usergroups`
-  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
-
---
--- 表的索引 `pma__users`
---
-ALTER TABLE `pma__users`
-  ADD PRIMARY KEY (`username`,`usergroup`);
-
---
--- 表的索引 `station`
+-- 資料表索引 `station`
 --
 ALTER TABLE `station`
   ADD PRIMARY KEY (`idx`);
 
 --
--- 表的索引 `station_exit`
+-- 資料表索引 `station_exit`
 --
 ALTER TABLE `station_exit`
   ADD PRIMARY KEY (`idx`);
 
 --
--- 在导出的表使用AUTO_INCREMENT
+-- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
 --
 
 --
--- 使用表AUTO_INCREMENT `access_signal`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `access_signal`
 --
 ALTER TABLE `access_signal`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=337;
 
 --
--- 使用表AUTO_INCREMENT `carriage_info`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `carriage_info`
 --
 ALTER TABLE `carriage_info`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=436;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=499;
 
 --
--- 使用表AUTO_INCREMENT `facility_location`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `facility_location`
 --
 ALTER TABLE `facility_location`
   MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
--- 使用表AUTO_INCREMENT `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用表AUTO_INCREMENT `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用表AUTO_INCREMENT `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用表AUTO_INCREMENT `pma__history`
---
-ALTER TABLE `pma__history`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用表AUTO_INCREMENT `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用表AUTO_INCREMENT `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用表AUTO_INCREMENT `station`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `station`
 --
 ALTER TABLE `station`
   MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- 使用表AUTO_INCREMENT `station_exit`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `station_exit`
 --
 ALTER TABLE `station_exit`
   MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;

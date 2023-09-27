@@ -10,7 +10,7 @@ static float prex, prey, prez, acc_sum, acc[3];;
 
 static void acceleration_setup() {
   if (!mpu.begin()) {
-    Serial.println("[ERROR]: Failed to find MPU6050 chip");
+    Serial.println("[ERROR] Failed to find MPU6050 chip");
     while (1) {
       delay(10);
     }
@@ -18,7 +18,7 @@ static void acceleration_setup() {
   mpu.setAccelerometerRange(MPU6050_RANGE_16_G);
   mpu.setGyroRange(MPU6050_RANGE_250_DEG);
   mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
-  Serial.println("MPU6050 initialized.");
+  Serial.println("[INFO] MPU6050 initialized.");
 }
 
 static float acceleration_loop(int count) {

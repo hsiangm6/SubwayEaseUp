@@ -6,11 +6,13 @@ from flask import Flask, request, render_template, redirect, url_for, jsonify, j
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import random
+import aiohttp #提供了异步的 HTTP 客户端和服务器
+import asyncio #Python 提供的异步编程框架
 
 app = Flask(__name__)
 
 # 設置資料庫連接地址
-DB_URI = 'mysql+pymysql://root:@127.0.0.1:3306/subway_ease_up'
+DB_URI = 'mysql+pymysql://root:@127.0.0.1:3306/subway_easy_up_station'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 app.config['SQLALCHEMY_ECHO'] = True
@@ -120,48 +122,55 @@ def get_arrived_time_interval():
         data = json.load(json_file)
     return jsonify(data)
 
-#進站訊號
-@app.route('/access_signal', methods=['GET', 'POST'])
-def access_signal():
-    c_id = request.args.get('c_id')  # 車次
-    route_way = request.args.get('route_way')  # 路線方向
-    leave_station = request.args.get('leave_station')  # 離站數
-    enter_station = request.args.get('enter_station')  # 進站數
+#進站訊號api
+@app.route('/access_signal', methods=['POST'])
+async def access_signal():
+    access_signal_param = request.args.to_dict()
+    c_id = access_signal_param.get('c_id') #車號
+    route_way = access_signal_param.get('route_way') #線路
+    leave_station = access_signal_param.get('leave_station') #離站數
+    enter_station = access_signal_param.get('enter_station') #進站數
+    timestamp = access_signal_param.get('timestamp')
 
     insert_sql = text(
-        'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`) '
-        'VALUES (:cid, :route_way, :leave, :enter);')
+        'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`, `timestamp`) '
+        'VALUES (:cid, :route_way, :leave, :enter, :timestamp);')
 
     db.session.execute(insert_sql, {
         'cid': c_id,
         'route_way': route_way,
         'leave': leave_station,
-        'enter': enter_station})
+        'enter': enter_station,
+        'timestamp': timestamp})
 
     db.session.commit()
 
     return jsonify({'message': 'Success'})
 
-#車廂內部資訊
-@app.route('/carriage_info', methods=['GET', 'POST'])
-def carriage_info():
-    c_id = request.args.get('c_id')  # 車次
-    c_no = request.args.get('cNo')  # 車廂號
-    p_num = request.args.get('pNum')  # 壅擠程度
-    air = request.args.get('air')  # 有毒氣體
-    volume = request.args.get('volume')  # 異常聲音
+#車廂內部資訊api
+@app.route('/carriage_info', methods=['POST'])
+async def carriage_info():
+    carriage_info_param = request.args.to_dict()
+    c_id = carriage_info_param.get('c_id')  # 車次
+    c_no = carriage_info_param.get('c_no')  # 車廂號
+    d_no = carriage_info_param.get('d_no')  # 車廂號
+    p_num = carriage_info_param.get('p_num')  # 壅擠程度
+    air = carriage_info_param.get('air')  # 有毒氣體
+    volume = carriage_info_param.get('volume')  # 異常聲音
+    timestamp = carriage_info_param.get('timestamp')  # 異常聲音
 
     insert_sql = text(
-        'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`) '
-        'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume);')
+        'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`, `timestamp`) '
+        'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume, :timestamp);')
 
     db.session.execute(insert_sql, {
         'cid': c_id,
         'cNo': c_no,
-        'dNo': 1,
+        'dNo': d_no,
         'pNum': p_num,
         'air': air,
-        'volume': volume})
+        'volume': volume,
+        'timestamp': timestamp})
 
     db.session.commit()
 
@@ -209,8 +218,17 @@ def demo_insert():
 
     return jsonify({'leave_station': leave_station, 'enter_station': enter_station})
 
+async def run_flask():
+    await asyncio.gather(
+        #app.run(port=5001, debug=True, host="0.0.0.0")
+        app.run(port=5001, debug=True)
+    )
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run(port=5001, host="0.0.0.0") #允許外部設備連接
+    #loop = asyncio.get_event_loop()
+    #loop.run_until_complete(asyncio.ensure_future(app.run_asyncio()))
+    asyncio.run(run_flask())
+    #app.debug = True
+    #app.run(port=5001, host="0.0.0.0") #允許外部設備連接
+
     # app.run(port=5001)

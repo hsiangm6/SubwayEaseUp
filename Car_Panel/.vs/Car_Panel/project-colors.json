@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "11ac30d9-df2e-404f-a943-1f633f06f014": {
+      "ProjectGuid": "11ac30d9-df2e-404f-a943-1f633f06f014",
+      "DisplayName": "Car_Panel",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

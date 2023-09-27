@@ -11,11 +11,22 @@ def index():
         'index.html'
     )
 
-@app.route('/test')
-def receive_signal():
-    test = request.args.get('test')
-    print(test)
+@app.route('/data')
+def air_sound_data():
+    receive_data = request.args.get('arg')
+    # data = receive_data.split(',')
 
+    print(f'air/sound: {receive_data}')
+    return render_template(
+        'index.html'
+    )
+
+@app.route('/acc')
+def acc_data():
+    receive_data = request.args.get('arg')
+    # data = receive_data.split(',')
+
+    print(f'acc: {receive_data}')
     return render_template(
         'index.html'
     )
