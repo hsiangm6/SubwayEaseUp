@@ -6,7 +6,8 @@
 static Adafruit_MPU6050 mpu;  //acceleration define
 /*PING DEFINE _END*/
 
-static float prex, prey, prez, acc_sum, acc[3];;
+static float prex = 0, prey = 0, prez = 0, acc_sum = 0;
+static int status;// 0->heading toward next station, 1->close to next station, 2-> between two station
 
 static void acceleration_setup() {
   if (!mpu.begin()) {
@@ -46,15 +47,20 @@ static float acceleration_loop(int count) {
     Serial.print(a.acceleration.y - prey);
     Serial.print(", ");
     Serial.print(a.acceleration.z - prez);
+    
+    acc_sum = abs(a.acceleration.x - prex) + abs(a.acceleration.y - prey) + abs(a.acceleration.z - prez);
+
     prex = a.acceleration.x;
     prey = a.acceleration.y;
     prez = a.acceleration.z;
   }
+  if (acc_sum > 3) {
+    digitalWrite(8, HIGH);
+    status=~status;
+  } else {
+    digitalWrite(8, LOW);
+    status=2;
+  }
 
-  acc[0] = a.acceleration.x - prex;
-  acc[1] = a.acceleration.y - prey;
-  acc[2] = a.acceleration.z - prez;
-
-  acc_sum=abs(acc[0])+abs(acc[1])+abs(acc[2]);
-  return(acc_sum);
+  return status;
 }

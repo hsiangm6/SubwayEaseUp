@@ -32,16 +32,20 @@ void loop() {
   acc_all=acceleration_loop(count);
   ppm = air_loop();
   sound = sound_loop();
-  delay(1000);
+  // delay(1000);
   count++;
   /*to string*/
   ppm_s = String(ppm);
   sound_s = String(sound);
   acc_all_s = String(acc_all);
 
+  Serial.println(acc_all_s);
+
+
   sendToServer(
     "",
     "",
     "/transfer_data?ppm=" + ppm_s + "&sound=" + sound_s + "&acc=" + acc_all_s,
     true);
+    
 }
