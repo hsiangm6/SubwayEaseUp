@@ -325,8 +325,8 @@ function get_initial_on_station_data() {
             present_station(data['station'], data['station_exit']); // relative_position of facility(0~11)
             worker();
             // setTimeout(worker, 5000);
-            setTimeout(demo_insert, 30000);
-            // setTimeout(demo_insert, 10000);
+            // setTimeout(demo_insert, 30000);
+            setTimeout(demo_insert, 10000);
         })
         .catch(error => {
             console.error('Error:', error);

@@ -312,7 +312,6 @@ function get_arrivedTimeInterval() {
 
 // Get Station Data
 $(document).ready(get_station);
-
 function get_station() {
     const requestData = {
         'cid': cid,
@@ -380,8 +379,8 @@ function get_station() {
             get_arrivedTimeInterval();
 
             // Insert Data For Demo or Test
-            setTimeout(demo_insert, 120000);
-            // setTimeout(demo_insert, 10000);
+            // setTimeout(demo_insert, 120000);
+            setTimeout(demo_insert, 10000);
         })
         .catch(error => {
             console.error('Error:', error);

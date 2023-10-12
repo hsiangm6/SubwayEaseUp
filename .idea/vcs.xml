@@ -2,5 +2,12 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AlphaPose" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AlphaPose/cython_bbox" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AlphaPose/head_count/img/yolov5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AlphaPose/yolov3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/openpose" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/openpose/3rdparty/caffe" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/openpose/3rdparty/pybind11" vcs="Git" />
   </component>
 </project>

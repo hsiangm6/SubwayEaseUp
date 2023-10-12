@@ -5,7 +5,12 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "其他檔案",
       "ColorIndex": -1
+    },
+    "55c624ae-d5c9-4b37-a4dd-a3edaaa7f4cb": {
+      "ProjectGuid": "55c624ae-d5c9-4b37-a4dd-a3edaaa7f4cb",
+      "DisplayName": "Station_Platform",
+      "ColorIndex": 0
     }
   },
-  "NextColorIndex": 0
+  "NextColorIndex": 1
 }
