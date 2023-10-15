@@ -12,6 +12,6 @@ def record_sound(sample_rate, seconds):
     sounddevice.wait()
 
     # Save as WAV file in 16-bit format
-    wv.write('SoundRecord/recorded.wav', sample_rate, voice_record)
+    wv.write('HumanScreamDetect/SoundRecord/recorded.wav', sample_rate, voice_record)
 
     print('Record End')
