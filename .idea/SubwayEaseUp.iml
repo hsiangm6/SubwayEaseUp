@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="pytorch" jdkType="Python SDK" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/AlphaPose" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/AlphaPose/build" />
+      <excludeFolder url="file://$MODULE_DIR$/AlphaPose/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/AlphaPose/model_files" />
+      <excludeFolder url="file://$MODULE_DIR$/Car_Panel/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/Car_Panel/.vs" />
+      <excludeFolder url="file://$MODULE_DIR$/Sensor_Processing/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/Station_Platform/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/Station_Platform/.vs" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.10" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="jquery-3.7.0" level="application" />
@@ -22,6 +33,7 @@
       <list>
         <option value="$MODULE_DIR$/Car_Panel/templates" />
         <option value="$MODULE_DIR$/Station_Platform/templates" />
+        <option value="$MODULE_DIR$/Sensor_Processing/templates" />
       </list>
     </option>
   </component>
