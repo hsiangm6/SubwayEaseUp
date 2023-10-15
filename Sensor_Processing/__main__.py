@@ -11,8 +11,21 @@ def index():
         'index.html'
     )
 
-def take_photo():
-    pass
+@app.route('/transfer_data')
+def transfer_data():
+    # Get the query parameters from the request
+    ppm = request.args.get('ppm')
+    sound = request.args.get('sound')
+    acc = request.args.get('acc')
+
+    # Print the values to the console
+    print("PPM:", ppm)
+    print("Sound:", sound)
+    print("Acceleration:", acc)
+
+    return render_template(
+        'index.html'
+    )
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

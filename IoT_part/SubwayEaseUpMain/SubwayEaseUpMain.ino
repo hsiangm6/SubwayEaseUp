@@ -35,13 +35,10 @@ void loop() {
     sound_s = String(sound);
     acc_all_s = String(acc_all);
 
-    Serial.println(acc_all_s);
-
-
     sendToServer(
-            "",
-            "",
-            "/transfer_data?ppm=" + ppm_s + "&sound=" + sound_s + "&acc=" + acc_all_s,
+            "192.168.230.160",
+            "5000",
+            "/transfer_data?ppm=" + ppm_s + "&sound=" + sound_s,
             true);
 
 }
