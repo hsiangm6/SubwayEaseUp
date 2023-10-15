@@ -1,4 +1,16 @@
 """Script for single-gpu/multi-gpu demo."""
+import sys
+import os
+
+# Get the current directory of the script
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the relative path to the "AlphaPose" directory
+alpha_pose_directory = os.path.join(current_directory, '..', '..', 'AlphaPose')
+
+# Append the relative path to sys.path
+sys.path.append(alpha_pose_directory)
+
 import argparse
 import os
 import platform

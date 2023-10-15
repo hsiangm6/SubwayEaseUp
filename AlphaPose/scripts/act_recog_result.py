@@ -13,9 +13,9 @@ import numpy as np
 
 
 # get result of action recognition for each img
-def action_recognition():
+def action_recognition(output_dir):
     # 读取 JSON 文件
-    with open('examples/res/alphapose-results.json', 'r') as json_file:  # 替换成你的 JSON 文件路径
+    with open(f'{output_dir}/res/alphapose-results.json', 'r') as json_file:  # 替换成你的 JSON 文件路径
         whole_data = json.load(json_file)
 
     # 使用字典将数据按照 image_id 分组

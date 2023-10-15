@@ -33,7 +33,7 @@ def comprehensive_evaluation(head_count_level: int, action_recognition_level: in
         return 'error', levels_count
 
 
-def crowd_congestion_result(input_img: str='', work_dir: str='', hc_save_img: bool=False, ar_save_img: bool=False):
+def crowd_congestion_result(input_img: str='', work_dir: str='', output_dir: str='',hc_save_img: bool=False, ar_save_img: bool=False):
     """
     Process crowd congestion results for multi or single images.
 
@@ -48,7 +48,7 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', hc_save_img: bo
     """
 
     # Create directories
-    res_dir = os.path.join(work_dir, 'examples', 'res')
+    res_dir = os.path.join(output_dir, 'res')
     vis_dir = os.path.join(res_dir, 'vis')
     vis_head_count_dir = os.path.join(res_dir, 'vis_head_count')
 
@@ -59,9 +59,13 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', hc_save_img: bo
 
     # input directory: multi img
     if os.path.isdir(input_img):
-
         input_dir = input_img
-        head_count_finish_code, head_count_dict = head_count_in_multi(input_dir=input_dir, hc_save_img=hc_save_img)
+
+        head_count_finish_code, head_count_dict = head_count_in_multi(input_dir=input_dir, output_path=output_dir, hc_save_img=hc_save_img)
+
+        print(head_count_finish_code)
+        print(head_count_dict)
+
         if head_count_finish_code != 0:
 
             if ar_save_img is True:
@@ -69,7 +73,7 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', hc_save_img: bo
                            f'--cfg {work_dir}/configs/coco/resnet/256x192_res50_lr1e-3_1x.yaml '
                            f'--checkpoint {work_dir}/pretrained_models/fast_res50_256x192.pth '
                            f'--indir {input_img} '
-                           f'--outdir {work_dir}/examples/res '
+                           f'--outdir {output_dir}/res '
                            f'--save_img '
                            f' --showbox '
                            f'--vis_fast')
@@ -78,14 +82,14 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', hc_save_img: bo
                            f'--cfg {work_dir}/configs/coco/resnet/256x192_res50_lr1e-3_1x.yaml '
                            f'--checkpoint {work_dir}/pretrained_models/fast_res50_256x192.pth '
                            f'--indir {input_img} '
-                           f'--outdir {work_dir}/examples/res ')
+                           f'--outdir {output_dir}/res ')
 
             process = subprocess.Popen(command, shell=True)
 
             # Wait for the command to complete
             process.wait()
 
-            act_recog_dict = action_recognition()
+            act_recog_dict = action_recognition(output_dir)
             final_result = {}
             for img_name in head_count_dict:
                 head_count_info = head_count_dict[img_name]
@@ -115,7 +119,7 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', hc_save_img: bo
                            f'--cfg {work_dir}/configs/coco/resnet/256x192_res50_lr1e-3_1x.yaml '
                            f'--checkpoint {work_dir}/pretrained_models/fast_res50_256x192.pth '
                            f'--image {input_img} '
-                           f'--outdir {work_dir}/examples/res '
+                           f'--outdir {output_dir}/res '
                            f'--save_img '
                            f'--showbox '
                            f'--vis_fast')
@@ -124,14 +128,14 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', hc_save_img: bo
                            f'--cfg {work_dir}/configs/coco/resnet/256x192_res50_lr1e-3_1x.yaml '
                            f'--checkpoint {work_dir}/pretrained_models/fast_res50_256x192.pth '
                            f'--image {input_img} '
-                           f'--outdir {work_dir}/examples/res '
+                           f'--outdir {output_dir}/res '
                            f'--showbox')
 
             process = subprocess.Popen(command, shell=True)
 
             # Wait for the command to complete
             process.wait()
-            act_recog_dict = action_recognition()
+            act_recog_dict = action_recognition(output_dir)
 
             # return act_recog_dict
             final_result = {}

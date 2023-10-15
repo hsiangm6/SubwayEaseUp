@@ -6,7 +6,7 @@ import os
 
 
 # People detection in single photo
-def head_count(img_path="", hc_save_img=False):
+def head_count(img_path="", output_path='', hc_save_img=False):
     # Model
     model = torch.hub.load("ultralytics/yolov5", "yolov5s")  # or yolov5n - yolov5x6, custom
 
@@ -129,10 +129,10 @@ def head_count(img_path="", hc_save_img=False):
             draw.text((10, 10), text, fill=(255, 255, 255), font=font)  # 根据需要调整位置和填充颜色
 
             if hc_save_img is True:
-                output_dir = 'examples/res/vis_head_count'
+                output_dir = f'{output_path}/res/vis_head_count'
                 # 保存修改后的图像到输出目录
-                output_path = os.path.join(output_dir, img_name)
-                img.save(output_path)
+                output_dir = os.path.join(output_dir, img_name)
+                img.save(output_dir)
 
             return 1, all_result
         else:
@@ -142,7 +142,7 @@ def head_count(img_path="", hc_save_img=False):
 
 
 # People detection in multiple photos: version 2
-def head_count_in_multi(input_dir="", hc_save_img=False):
+def head_count_in_multi(input_dir='', output_path='', hc_save_img=False):
     # Model
     model = torch.hub.load("ultralytics/yolov5", "yolov5s")  # or yolov5n - yolov5x6, custom
 
@@ -273,10 +273,10 @@ def head_count_in_multi(input_dir="", hc_save_img=False):
                 draw.text((10, 10), text, fill=(255, 255, 255), font=font)  # 根据需要调整位置和填充颜色
 
                 if hc_save_img is True:
-                    output_dir = 'examples/res/vis_head_count'
+                    output_dir = f'{output_path}/res/vis_head_count'
                     # 保存修改后的图像到输出目录
-                    output_path = os.path.join(output_dir, img_name)
-                    img.save(output_path)
+                    output_dir = os.path.join(output_dir, img_name)
+                    img.save(output_dir)
 
             else:
                 return 0, "The file is not image."
@@ -287,7 +287,7 @@ def head_count_in_multi(input_dir="", hc_save_img=False):
 
 
 # People detection in single photo: version 1
-def head_count_v1(img_path="", hc_save_img=False):
+def head_count_v1(img_path='', output_path='', hc_save_img=False):
     # Model
     model = torch.hub.load("ultralytics/yolov5", "yolov5s")  # or yolov5n - yolov5x6, custom
 
@@ -396,10 +396,10 @@ def head_count_v1(img_path="", hc_save_img=False):
             draw.text((10, 10), text, fill=(255, 255, 255), font=font)  # 根据需要调整位置和填充颜色
 
             if hc_save_img is True:
-                output_dir = 'examples/res/vis_head_count'
+                output_dir = f'{output_path}/res/vis_head_count'
                 # 保存修改后的图像到输出目录
-                output_path = os.path.join(output_dir, img_name)
-                img.save(output_path)
+                output_dir = os.path.join(output_dir, img_name)
+                img.save(output_dir)
 
             return 1, all_result
         else:
@@ -409,7 +409,7 @@ def head_count_v1(img_path="", hc_save_img=False):
 
 
 # People detection in multiple photos: version 1
-def head_count_in_multi_v1(input_dir="", hc_save_img=False):
+def head_count_in_multi_v1(input_dir='', output_path='', hc_save_img=False):
     # Model
     model = torch.hub.load("ultralytics/yolov5", "yolov5s")  # or yolov5n - yolov5x6, custom
 
@@ -524,10 +524,10 @@ def head_count_in_multi_v1(input_dir="", hc_save_img=False):
                 draw.text((10, 10), text, fill=(255, 255, 255), font=font)  # 根据需要调整位置和填充颜色
 
                 if hc_save_img is True:
-                    output_dir = 'examples/res/vis_head_count'
+                    output_dir = f'{output_path}/res/vis_head_count'
                     # 保存修改后的图像到输出目录
-                    output_path = os.path.join(output_dir, img_name)
-                    img.save(output_path)
+                    output_dir = os.path.join(output_dir, img_name)
+                    img.save(output_dir)
 
             else:
                 return 0, "The file is not image."
