@@ -88,7 +88,7 @@ static boolean sendToServer(String ip, String port, String msg, short use_get) {
     // 檢查是否連線成功
     if (!ESP8266.find("OK")) {
         // TCP 失敗
-        Serial.println("[ERROR] TCP Error");
+        Serial.println("[ERROR] TCP Close");
         sendESP8266cmd("AT+CIPCLOSE", 1000);
         return false;
     }

@@ -13,7 +13,7 @@ float acc_all;
 String ppm_s, sound_s, acc_all_s;
 
 void setup() {
-    wifiSetUp("OPPO A9 2020", "c8d4c408aaff");
+    wifiSetUp("", "");
 
     Serial.begin(9600);
     while (!Serial) {
@@ -36,9 +36,9 @@ void loop() {
     acc_all_s = String(acc_all);
 
     sendToServer(
-            "192.168.230.160",
-            "5000",
-            "/transfer_data?ppm=" + ppm_s + "&sound=" + sound_s,
+            "",
+            "",
+            "/data?p=" + ppm_s + "&s=" + sound_s + "&a=" + acc_all_s,
             true);
 
 }

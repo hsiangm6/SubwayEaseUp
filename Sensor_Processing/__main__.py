@@ -11,12 +11,12 @@ def index():
         'index.html'
     )
 
-@app.route('/transfer_data')
+@app.route('/data')
 def transfer_data():
     # Get the query parameters from the request
-    ppm = request.args.get('ppm')
-    sound = request.args.get('sound')
-    acc = request.args.get('acc')
+    ppm = request.args.get('p')
+    sound = request.args.get('s')
+    acc = request.args.get('a')
 
     # Print the values to the console
     print("PPM:", ppm)
