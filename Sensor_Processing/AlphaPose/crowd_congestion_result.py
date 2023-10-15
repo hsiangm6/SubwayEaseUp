@@ -63,9 +63,6 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', output_dir: str
 
         head_count_finish_code, head_count_dict = head_count_in_multi(input_dir=input_dir, output_path=output_dir, hc_save_img=hc_save_img)
 
-        print(head_count_finish_code)
-        print(head_count_dict)
-
         if head_count_finish_code != 0:
 
             if ar_save_img is True:
