@@ -7,15 +7,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(__file__))
-from abc import ABC, abstractmethod
-import platform
-import numpy as np
 from collections import deque
-import itertools
-import os.path as osp
-import time
-import torch
-import torch.nn.functional as F
 import torch.nn as nn
 
 from utils.utils import *
@@ -23,9 +15,6 @@ from utils.log import logger
 from utils.kalman_filter import KalmanFilter
 from tracking.matching import *
 from tracking.basetrack import BaseTrack, TrackState
-from utils.transform import build_transforms
-from ReidModels.ResBnLin import ResModel
-from ReidModels.osnet import *
 from ReidModels.osnet_ain import osnet_ain_x1_0
 from ReidModels.resnet_fc import resnet50_fc512
 

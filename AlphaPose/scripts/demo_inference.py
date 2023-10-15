@@ -5,13 +5,10 @@ import platform
 import sys
 import time
 
+import natsort
 import numpy as np
 import torch
 from tqdm import tqdm
-import natsort
-
-import sys
-sys.path.append(r'C:/xampp/htdocs/SubwayEaseUp/AlphaPose')
 
 from trackers.tracker_api import Tracker
 from trackers.tracker_cfg import cfg as tcfg
@@ -24,10 +21,6 @@ from alphapose.utils.transforms import flip, flip_heatmap
 from alphapose.utils.vis import getTime
 from alphapose.utils.webcam_detector import WebCamDetectionLoader
 from alphapose.utils.writer import DataWriter
-
-
-# import sys
-# sys.path.append(r'C:/Users/hsian/AlphaPose')
 from detector.apis import get_detector
 
 """----------------------------- Demo options -----------------------------"""
@@ -101,7 +94,7 @@ args.gpus = [int(i) for i in args.gpus.split(',')] if torch.cuda.device_count() 
 args.device = torch.device("cuda:" + str(args.gpus[0]) if args.gpus[0] >= 0 else "cpu")
 args.detbatch = args.detbatch * len(args.gpus)
 args.posebatch = args.posebatch * len(args.gpus)
-args.tracking = args.pose_track or args.pose_flow or args.detector=='tracker'
+args.tracking = args.pose_track or args.pose_flow or args.detector == 'tracker'
 
 if not args.sp:
     torch.multiprocessing.set_start_method('forkserver', force=True)
@@ -156,7 +149,8 @@ def print_finish_info():
     print('===========================> Finish Model Running.')
     if (args.save_img or args.save_video) and not args.vis_fast:
         print('===========================> Rendering remaining images in the queue...')
-        print('===========================> If this step takes too long, you can enable the --vis_fast flag to use fast rendering (real-time).')
+        print(
+            '===========================> If this step takes too long, you can enable the --vis_fast flag to use fast rendering (real-time).')
 
 
 def loop():
@@ -180,7 +174,8 @@ if __name__ == "__main__":
         det_loader = FileDetectionLoader(input_source, cfg, args)
         det_worker = det_loader.start()
     else:
-        det_loader = DetectionLoader(input_source, get_detector(args), cfg, args, batchSize=args.detbatch, mode=mode, queueSize=args.qsize)
+        det_loader = DetectionLoader(input_source, get_detector(args), cfg, args, batchSize=args.detbatch, mode=mode,
+                                     queueSize=args.qsize)
         det_worker = det_loader.start()
 
     # Load pose model
@@ -207,6 +202,7 @@ if __name__ == "__main__":
     queueSize = 2 if mode == 'webcam' else args.qsize
     if args.save_video and mode != 'image':
         from alphapose.utils.writer import DEFAULT_VIDEO_SAVE_OPT as video_save_opt
+
         if mode == 'video':
             video_save_opt['savepath'] = os.path.join(args.outputpath, 'AlphaPose_' + os.path.basename(input_source))
         else:
@@ -262,7 +258,8 @@ if __name__ == "__main__":
                     ckpt_time, pose_time = getTime(ckpt_time)
                     runtime_profile['pt'].append(pose_time)
                 if args.pose_track:
-                    boxes,scores,ids,hm,cropped_boxes = track(tracker,args,orig_img,inps,boxes,hm,cropped_boxes,im_name,scores)
+                    boxes, scores, ids, hm, cropped_boxes = track(tracker, args, orig_img, inps, boxes, hm,
+                                                                  cropped_boxes, im_name, scores)
                 hm = hm.cpu()
                 writer.save(boxes, scores, ids, hm, cropped_boxes, orig_img, im_name)
                 if args.profile:
@@ -273,12 +270,14 @@ if __name__ == "__main__":
                 # TQDM
                 im_names_desc.set_description(
                     'det time: {dt:.4f} | pose time: {pt:.4f} | post processing: {pn:.4f}'.format(
-                        dt=np.mean(runtime_profile['dt']), pt=np.mean(runtime_profile['pt']), pn=np.mean(runtime_profile['pn']))
+                        dt=np.mean(runtime_profile['dt']), pt=np.mean(runtime_profile['pt']),
+                        pn=np.mean(runtime_profile['pn']))
                 )
         print_finish_info()
-        while(writer.running()):
+        while (writer.running()):
             time.sleep(1)
-            print('===========================> Rendering remaining ' + str(writer.count()) + ' images in the queue...', end='\r')
+            print('===========================> Rendering remaining ' + str(writer.count()) + ' images in the queue...',
+                  end='\r')
         writer.stop()
         det_loader.stop()
     except Exception as e:
@@ -290,9 +289,10 @@ if __name__ == "__main__":
         # Thread won't be killed when press Ctrl+C
         if args.sp:
             det_loader.terminate()
-            while(writer.running()):
+            while writer.running():
                 time.sleep(1)
-                print('===========================> Rendering remaining ' + str(writer.count()) + ' images in the queue...', end='\r')
+                print('===========================> Rendering remaining ' + str(
+                    writer.count()) + ' images in the queue...', end='\r')
             writer.stop()
         else:
             # subprocesses are killed, manually clear queues
@@ -301,4 +301,3 @@ if __name__ == "__main__":
             writer.terminate()
             writer.clear_queues()
             det_loader.clear_queues()
-

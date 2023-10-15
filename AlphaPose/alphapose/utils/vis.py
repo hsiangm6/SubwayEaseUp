@@ -9,7 +9,6 @@ import logging
 
 import matplotlib.pyplot as plt
 import numpy as np
-import PIL.Image as pil_img
 import torch
 from ..utils.act_recog_get_label import get_label
 

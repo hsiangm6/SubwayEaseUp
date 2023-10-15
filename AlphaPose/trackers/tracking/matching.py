@@ -4,19 +4,48 @@ import scipy
 from scipy.spatial.distance import cdist
 from scipy.optimize import linear_sum_assignment
 
-from cython_bbox import bbox_overlaps as bbox_ious
 from trackers.utils import kalman_filter
-import time
+
+
+def bbox_ious(
+        boxes,
+        query_boxes):
+    N = boxes.shape[0]
+    K = query_boxes.shape[0]
+    overlaps = np.zeros((N, K), dtype=np.float)
+    for k in range(K):
+        box_area = (
+            (query_boxes[k, 2] - query_boxes[k, 0] + 1) *
+            (query_boxes[k, 3] - query_boxes[k, 1] + 1)
+        )
+        for n in range(N):
+            iw = (
+                min(boxes[n, 2], query_boxes[k, 2]) -
+                max(boxes[n, 0], query_boxes[k, 0]) + 1
+            )
+            if iw > 0:
+                ih = (
+                    min(boxes[n, 3], query_boxes[k, 3]) -
+                    max(boxes[n, 1], query_boxes[k, 1]) + 1
+                )
+                if ih > 0:
+                    ua = float(
+                        (boxes[n, 2] - boxes[n, 0] + 1) *
+                        (boxes[n, 3] - boxes[n, 1] + 1) +
+                        box_area - iw * ih
+                    )
+                    overlaps[n, k] = iw * ih / ua
+
 
 def merge_matches(m1, m2, shape):
-    O,P,Q = shape
+    O, P, Q = shape
     m1 = np.asarray(m1)
     m2 = np.asarray(m2)
 
     M1 = scipy.sparse.coo_matrix((np.ones(len(m1)), (m1[:, 0], m1[:, 1])), shape=(O, P))
     M2 = scipy.sparse.coo_matrix((np.ones(len(m2)), (m2[:, 0], m2[:, 1])), shape=(P, Q))
 
-    mask = M1*M2
+    mask = M1 * M2
     match = mask.nonzero()
     match = list(zip(match[0], match[1]))
     unmatched_O = tuple(set(range(O)) - set([i for i, j in match]))
@@ -82,7 +111,8 @@ def iou_distance(atracks, btracks):
     :rtype cost_matrix np.ndarray
     """
 
-    if (len(atracks)>0 and isinstance(atracks[0], np.ndarray)) or (len(btracks) > 0 and isinstance(btracks[0], np.ndarray)):
+    if (len(atracks) > 0 and isinstance(atracks[0], np.ndarray)) or (
+        len(btracks) > 0 and isinstance(btracks[0], np.ndarray)):
         atlbrs = atracks
         btlbrs = btracks
     else:
@@ -92,6 +122,7 @@ def iou_distance(atracks, btracks):
     cost_matrix = 1 - _ious
 
     return cost_matrix
+
 
 def embedding_distance(tracks, detections, metric='cosine'):
     """
@@ -106,7 +137,7 @@ def embedding_distance(tracks, detections, metric='cosine'):
         return cost_matrix
     det_features = np.asarray([track.curr_feat for track in detections], dtype=np.float64)
     for i, track in enumerate(tracks):
-        cost_matrix[i, :] = np.maximum(0.0, cdist(track.smooth_feat.reshape(1,-1), det_features, metric))
+        cost_matrix[i, :] = np.maximum(0.0, cdist(track.smooth_feat.reshape(1, -1), det_features, metric))
     return cost_matrix
 
 
@@ -122,6 +153,7 @@ def gate_cost_matrix(kf, cost_matrix, tracks, detections, only_position=False):
         cost_matrix[row, gating_distance > gating_threshold] = np.inf
     return cost_matrix
 
+
 def fuse_motion(kf, cost_matrix, tracks, detections, only_position=False, lambda_=0.98):
     if cost_matrix.size == 0:
         return cost_matrix
@@ -132,5 +164,5 @@ def fuse_motion(kf, cost_matrix, tracks, detections, only_position=False, lambda
         gating_distance = kf.gating_distance(
             track.mean, track.covariance, measurements, only_position, metric='maha')
         cost_matrix[row, gating_distance > gating_threshold] = np.inf
-        cost_matrix[row] = lambda_ * cost_matrix[row] + (1-lambda_)* gating_distance
+        cost_matrix[row] = lambda_ * cost_matrix[row] + (1 - lambda_) * gating_distance
     return cost_matrix

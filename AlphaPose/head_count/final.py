@@ -53,7 +53,7 @@ def head_count(img_path="", hc_save_img=False):
             square_right = image_center_x + square_half_width
             square_bottom = image_center_y + square_half_height
 
-            draw.rectangle([square_left, square_top, square_right, square_bottom], outline=(255, 0, 0),
+            draw.rectangle((square_left, square_top, square_right, square_bottom), outline=(255, 0, 0),
                            width=line_width)
 
             # 初始化计数
@@ -196,13 +196,14 @@ def head_count_in_multi(input_dir="", hc_save_img=False):
                 square_right = image_center_x + square_half_width
                 square_bottom = image_center_y + square_half_height
 
-                draw.rectangle([square_left, square_top, square_right, square_bottom], outline=(255, 0, 0),
+                draw.rectangle((square_left, square_top, square_right, square_bottom), outline=(255, 0, 0),
                                width=line_width)
 
                 # 初始化计数
                 item_count = 0
                 person_count = 0
                 chair_count = 0
+                object_area = 0
 
                 # 遍历检测到的物体并绘制边界框
                 for det in results.pred[0]:
@@ -346,7 +347,7 @@ def head_count_v1(img_path="", hc_save_img=False):
                             text += f'高度: {bbox_height:.2f}\n'
                             draw.text((bbox[0], bbox[1]), text, fill=class_colors[class_index], font=font)
                         elif results.names[class_index] == "person" and not (
-                                bbox_width * bbox_height <= 27500 and center_x_min <= object_center_x <= center_x_max):
+                            bbox_width * bbox_height <= 27500 and center_x_min <= object_center_x <= center_x_max):
                             person_count += 1
                             # 绘制边界框
                             draw.rectangle(bbox, outline=class_colors[class_index], width=line_width)
@@ -475,7 +476,7 @@ def head_count_in_multi_v1(input_dir="", hc_save_img=False):
                                 text += f'高度: {bbox_height:.2f}\n'
                                 draw.text((bbox[0], bbox[1]), text, fill=class_colors[class_index], font=font)
                             elif results.names[class_index] == "person" and not (
-                                    bbox_width * bbox_height <= 27500 and center_x_min <= object_center_x <= center_x_max):
+                                bbox_width * bbox_height <= 27500 and center_x_min <= object_center_x <= center_x_max):
                                 person_count += 1
                                 # 绘制边界框
                                 draw.rectangle(bbox, outline=class_colors[class_index], width=line_width)
