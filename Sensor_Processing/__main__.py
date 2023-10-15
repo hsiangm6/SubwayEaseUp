@@ -35,6 +35,7 @@ def transfer_data():
         result = capture_and_save_image()
         if result:
             print("Image captured and saved successfully.")
+
         else:
             print("Failed to capture and save the image.")
 
