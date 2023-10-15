@@ -11,5 +11,10 @@ static int sound_loop() {
     sound_value = analogRead(SoundSensorPin);  //set the value as the value read from A2
     Serial.print("\tSound: ");
     Serial.println(sound_value, DEC);  //print the value and line wrap
-    return sound_value;
+
+    if (sound_value > 800) {
+        return 1;
+    } else {
+        return 0;
+    } 
 }

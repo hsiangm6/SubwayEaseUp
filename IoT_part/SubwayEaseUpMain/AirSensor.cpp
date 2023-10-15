@@ -18,5 +18,10 @@ static float air_loop() {
     Serial.print("\tCO2 ppm value: ");
     float ppm = gasSensor.getPPM();
     Serial.print(ppm);
-    return ppm;
+
+    if (ppm > 0.5) {
+        return 1;
+    } else {
+        return 0;
+    } 
 }
