@@ -24,3 +24,7 @@
 
 ### 四、系統架構
 ![image](./Report/image.png)
+
+### 五、環境設置
+因檔案過大，請自行根據連結 route.txt 下載檔案
+https://drive.google.com/drive/folders/1rAnlEGZ5xYrZRq3a7nz___BgsAYRr7O0?usp=sharing
