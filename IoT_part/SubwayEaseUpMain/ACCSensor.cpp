@@ -56,11 +56,17 @@ static float acceleration_loop(int count) {
     }
     if (acc_sum > 3) {
         digitalWrite(8, HIGH);
-        status = ~status;
+        if (status==2){
+          status=1;
+        }else if(status==1){
+          status = 0;
+        }
+        
     } else {
         digitalWrite(8, LOW);
         status = 2;
     }
-
+  Serial.print("status: ");
+  Serial.println(status);
     return status;
 }

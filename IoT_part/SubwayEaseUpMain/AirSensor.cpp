@@ -19,7 +19,7 @@ static float air_loop() {
     float ppm = gasSensor.getPPM();
     Serial.print(ppm);
 
-    if (ppm > 0.5) {
+    if (ppm > 300) {
         return 1;
     } else {
         return 0;

@@ -12,7 +12,7 @@ static int sound_loop() {
     Serial.print("\tSound: ");
     Serial.println(sound_value, DEC);  //print the value and line wrap
 
-    if (sound_value > 800) {
+    if (sound_value > 200) {
         return 1;
     } else {
         return 0;
