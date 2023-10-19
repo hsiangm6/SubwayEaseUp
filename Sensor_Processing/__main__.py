@@ -1,7 +1,8 @@
 import requests
 from flask import Flask, render_template, request
-from HumanScreamDetect.RecordSound import record_sound
-# from camera import capture_and_save_image
+#from HumanScreamDetect.RecordSound import record_sound
+from HumanScreamDetect.RecordSound2 import record_sound
+from camera import capture_and_save_image
 import os
 
 app = Flask(__name__, template_folder='./templates')
@@ -15,7 +16,7 @@ is_recording = False
 previous_acc = 0
 previous_sound = 0
 
-TARGET_IP = '172.20.12.161'
+TARGET_IP = '172.20.10.6'
 TARGET_PORT = 5050
 
 def capture_image():
@@ -28,8 +29,9 @@ def capture_image():
     # Send the captured image to the other server
     if result:
         image_filename = "Sensor_Processing/static/images/test-python.jpg"
+        
         files = {'file': open(image_filename, 'rb')}
-        response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/upload', files=files)
+        response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/Uploads', files=files)
         if response.status_code == 200:
             print("Image uploaded to the other server successfully.")
         else:
@@ -38,19 +40,20 @@ def capture_image():
 def record():
     global is_recording
     is_recording = True  # Lock recording to prevent multiple simultaneous recordings
-    record_sound(44100, 10)
+    #record_sound(44100, 10)
+    record_sound()
     is_recording = False  # Unlock recording after it has ended
 
     # Send the recorded sound to the other server
-    sound_filename = "HumanScreamDetect/SoundRecord/recorded.wav"
+    sound_filename = "Sensor_Processing/HumanScreamDetect/SoundRecord/recorded.wav"
     files = {'file': open(sound_filename, 'rb')}
-    response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/upload', files=files)
+    response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/Uploads', files=files)
     if response.status_code == 200:
         print("Sound uploaded to the other server successfully.")
     else:
         print("Failed to upload the sound to the other server.")
 
-@app.route('/manual_capture_image')
+@app.route('/manual_capture_image', methods=['GET', 'POST'])
 def manual_capture_image():
     capture_image()
 

@@ -179,7 +179,7 @@ function worker() {
             console.log(data['car_info']);
             present_car(data['car_info'], data['all_carriage_info']);
             present_arrivedTime(data['car_info']);
-            demo_insert_carriage_info();
+            // demo_insert_carriage_info();
             setTimeout(worker, 5000);
         })
         .catch(error => {
@@ -380,7 +380,7 @@ function get_station() {
 
             // Insert Data For Demo or Test
             // setTimeout(demo_insert, 120000);
-            setTimeout(demo_insert, 10000);
+            // setTimeout(demo_insert, 10000);
         })
         .catch(error => {
             console.error('Error:', error);

@@ -240,79 +240,79 @@ def get_arrived_time_interval():
     return jsonify(data)
 
 
-# async def send_access_signal_to_station(access_signal_param):
-#     url = 'http://127.0.0.1:5001/access_signal'  # 替换成目标服务器的URL
-#
-#     async with aiohttp.ClientSession() as session:
-#         async with session.get(url, params=access_signal_param) as response:
-#             return await response.text()
+def send_access_signal_to_station(access_signal_param):
+    url = 'http://127.0.0.1:5001/access_signal'  # 替换成目标服务器的URL
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=access_signal_param) as response:
+            return response.text()
 
 
 # 車廂內進站訊號api
-# @app.route('/access_signal', methods=['POST'])
-# async def access_signal():
-#     c_id = request.form.get('c_id')  # 車次
-#     route_way = request.form.get('route_way')  # 路線方向
-#     leave_station = request.form.get('leave_station')  # 離站數
-#     enter_station = request.form.get('enter_station')  # 進站數
-#     timestamp = int(datetime.datetime.now().timestamp())
-#
-#     insert_sql = text(
-#         'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`, `timestamp`) '
-#         'VALUES (:cid, :route_way, :leave, :enter, :timestamp);')
-#
-#     db.session.execute(insert_sql, {
-#         'cid': c_id,
-#         'route_way': route_way,
-#         'leave': leave_station,
-#         'enter': enter_station,
-#         'timestamp': timestamp})
-#
-#     db.session.commit()
-#     access_signal_param = {'cid': c_id, 'route_way': route_way, 'leave_station': leave_station,
-#                            'enter_station': enter_station, 'timestamp': timestamp}
-#     target_response = await send_access_signal_to_station(access_signal_param)
-#     return f'Target Server Response: {target_response}'
-#
-#
-# async def send_carriage_info_to_station(carriage_info_param):
-#     url = 'http://127.0.0.1:5001/carriage_info'  # 替换成目标服务器的URL
-#
-#     async with aiohttp.ClientSession() as session:
-#         async with session.get(url, params=carriage_info_param) as response:
-#             return await response.text()
-#
-#
-# # 車廂內部資訊api
-# @app.route('/carriage_info', methods=['POST'])
-# async def carriage_info():
-#     c_id = request.args.get('c_id')  # 車次
-#     c_no = request.args.get('c_no')  # 車廂號
-#     d_no = request.args.get('d_no')  # 車廂號
-#     p_num = request.args.get('pNum')  # 壅擠程度
-#     air = request.args.get('air')  # 有毒氣體
-#     volume = request.args.get('volume')  # 異常聲音
-#     timestamp = int(datetime.datetime.now().timestamp())
-#
-#     insert_sql = text(
-#         'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`, `timestamp`) '
-#         'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume, :timestamp);')
-#
-#     db.session.execute(insert_sql, {
-#         'cid': c_id,
-#         'cNo': c_no,
-#         'dNo': d_no,
-#         'pNum': p_num,
-#         'air': air,
-#         'volume': volume,
-#         'timestamp': timestamp})
-#
-#     db.session.commit()
-#
-#     carriage_info_param = {'cid': c_id, 'c_no': c_no, 'd_no': d_no, 'p_num': p_num, 'air': air, 'volume': volume,
-#                            'timestamp': timestamp}
-#     target_response = await send_carriage_info_to_station(carriage_info_param)
-#     return f'Target Server Response: {target_response}'
+@app.route('/access_signal', methods=['POST'])
+def access_signal():
+    c_id = request.form.get('c_id')  # 車次
+    route_way = request.form.get('route_way')  # 路線方向
+    leave_station = request.form.get('leave_station')  # 離站數
+    enter_station = request.form.get('enter_station')  # 進站數
+    timestamp = int(datetime.datetime.now().timestamp())
+
+    insert_sql = text(
+        'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`, `timestamp`) '
+        'VALUES (:cid, :route_way, :leave, :enter, :timestamp);')
+
+    db.session.execute(insert_sql, {
+        'cid': c_id,
+        'route_way': route_way,
+        'leave': leave_station,
+        'enter': enter_station,
+        'timestamp': timestamp})
+
+    db.session.commit()
+    access_signal_param = {'cid': c_id, 'route_way': route_way, 'leave_station': leave_station,
+                           'enter_station': enter_station, 'timestamp': timestamp}
+    target_response = send_access_signal_to_station(access_signal_param)
+    return f'Target Server Response: {target_response}'
+
+
+def send_carriage_info_to_station(carriage_info_param):
+    url = 'http://127.0.0.1:5001/carriage_info'  # 替换成目标服务器的URL
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=carriage_info_param) as response:
+            return response.text()
+
+
+# 車廂內部資訊api
+@app.route('/carriage_info', methods=['POST'])
+def carriage_info():
+    c_id = request.args.get('c_id')  # 車次
+    c_no = request.args.get('c_no')  # 車廂號
+    d_no = request.args.get('d_no')  # 車廂號
+    p_num = request.args.get('pNum')  # 壅擠程度
+    air = request.args.get('air')  # 有毒氣體
+    volume = request.args.get('volume')  # 異常聲音
+    timestamp = int(datetime.datetime.now().timestamp())
+
+    insert_sql = text(
+        'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`, `timestamp`) '
+        'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume, :timestamp);')
+
+    db.session.execute(insert_sql, {
+        'cid': c_id,
+        'cNo': c_no,
+        'dNo': d_no,
+        'pNum': p_num,
+        'air': air,
+        'volume': volume,
+        'timestamp': timestamp})
+
+    db.session.commit()
+
+    carriage_info_param = {'cid': c_id, 'c_no': c_no, 'd_no': d_no, 'p_num': p_num, 'air': air, 'volume': volume,
+                           'timestamp': timestamp}
+    target_response = send_carriage_info_to_station(carriage_info_param)
+    return f'Target Server Response: {target_response}'
 
 
 # demo_insert insert access signal
@@ -392,4 +392,6 @@ if __name__ == '__main__':
     # asyncio.run(run_flask())
     app.debug = True
     app.run(port=5000, host="0.0.0.0")  # 允許外部設備連接
+    # https://127.0.0.1/5000/access_signal
+    # https://127.0.0.1/5000/carriage_info
     # app.run(port=5000)
