@@ -23,4 +23,8 @@
 最後，我們想藉此機會，強化安全預警。我們利用分析車廂音頻，找出可能發生異常危害狀況車廂，並及時顯示在面板並放出警告，讓歹徒的危害降至最小，並給其他車廂乘客增加反應時間。
 
 ### 四、系統架構
-![image](./Report/image.png)
+![image](./Report/system_structure.png)
+
+### 五、環境設置
+因檔案過大，請自行根據連結 route.txt 下載檔案
+https://drive.google.com/drive/folders/1rAnlEGZ5xYrZRq3a7nz___BgsAYRr7O0?usp=sharing
