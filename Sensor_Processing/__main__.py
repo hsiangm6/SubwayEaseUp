@@ -91,6 +91,13 @@ def transfer_data():
     sound = float(request.args.get('s'))
     acc = float(request.args.get('a'))
 
+    response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/data?p={ppm}')
+
+    if response.status_code == 200:
+        print("Update server successfully.")
+    else:
+        print("Failed to update to the server.")
+
     # Check if 'acc' changed from 2 to 0 or 2 to 1
     if (previous_acc == 2 and acc == 0) or (previous_acc == 2 and acc == 1):
         capture_image()
