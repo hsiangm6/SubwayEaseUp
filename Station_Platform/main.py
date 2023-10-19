@@ -125,59 +125,59 @@ def get_arrived_time_interval():
 
 
 # 進站訊號api
-# @app.route('/access_signal', methods=['POST'])
-# async def access_signal():
-#     access_signal_param = request.args.to_dict()
-#     c_id = access_signal_param.get('c_id')  # 車號
-#     route_way = access_signal_param.get('route_way')  # 線路
-#     leave_station = access_signal_param.get('leave_station')  # 離站數
-#     enter_station = access_signal_param.get('enter_station')  # 進站數
-#     timestamp = access_signal_param.get('timestamp')
-#
-#     insert_sql = text(
-#         'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`, `timestamp`) '
-#         'VALUES (:cid, :route_way, :leave, :enter, :timestamp);')
-#
-#     db.session.execute(insert_sql, {
-#         'cid': c_id,
-#         'route_way': route_way,
-#         'leave': leave_station,
-#         'enter': enter_station,
-#         'timestamp': timestamp})
-#
-#     db.session.commit()
-#
-#     return jsonify({'message': 'Success'})
-#
-#
-# # 車廂內部資訊api
-# @app.route('/carriage_info', methods=['POST'])
-# async def carriage_info():
-#     carriage_info_param = request.args.to_dict()
-#     c_id = carriage_info_param.get('c_id')  # 車次
-#     c_no = carriage_info_param.get('c_no')  # 車廂號
-#     d_no = carriage_info_param.get('d_no')  # 車廂號
-#     p_num = carriage_info_param.get('p_num')  # 壅擠程度
-#     air = carriage_info_param.get('air')  # 有毒氣體
-#     volume = carriage_info_param.get('volume')  # 異常聲音
-#     timestamp = carriage_info_param.get('timestamp')  # 異常聲音
-#
-#     insert_sql = text(
-#         'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`, `timestamp`) '
-#         'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume, :timestamp);')
-#
-#     db.session.execute(insert_sql, {
-#         'cid': c_id,
-#         'cNo': c_no,
-#         'dNo': d_no,
-#         'pNum': p_num,
-#         'air': air,
-#         'volume': volume,
-#         'timestamp': timestamp})
-#
-#     db.session.commit()
-#
-#     return jsonify({'message': 'Success'})
+@app.route('/access_signal', methods=['POST'])
+def access_signal():
+    access_signal_param = request.args.to_dict()
+    c_id = access_signal_param.get('c_id')  # 車號
+    route_way = access_signal_param.get('route_way')  # 線路
+    leave_station = access_signal_param.get('leave_station')  # 離站數
+    enter_station = access_signal_param.get('enter_station')  # 進站數
+    timestamp = access_signal_param.get('timestamp')
+
+    insert_sql = text(
+        'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`, `timestamp`) '
+        'VALUES (:cid, :route_way, :leave, :enter, :timestamp);')
+
+    db.session.execute(insert_sql, {
+        'cid': c_id,
+        'route_way': route_way,
+        'leave': leave_station,
+        'enter': enter_station,
+        'timestamp': timestamp})
+
+    db.session.commit()
+
+    return jsonify({'message': 'Success'})
+
+
+# 車廂內部資訊api
+@app.route('/carriage_info', methods=['POST'])
+def carriage_info():
+    carriage_info_param = request.args.to_dict()
+    c_id = carriage_info_param.get('c_id')  # 車次
+    c_no = carriage_info_param.get('c_no')  # 車廂號
+    d_no = carriage_info_param.get('d_no')  # 車廂號
+    p_num = carriage_info_param.get('p_num')  # 壅擠程度
+    air = carriage_info_param.get('air')  # 有毒氣體
+    volume = carriage_info_param.get('volume')  # 異常聲音
+    timestamp = carriage_info_param.get('timestamp')  # 異常聲音
+
+    insert_sql = text(
+        'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`, `timestamp`) '
+        'VALUES (:cid, :cNo, :dNo, :pNum, :air, :volume, :timestamp);')
+
+    db.session.execute(insert_sql, {
+        'cid': c_id,
+        'cNo': c_no,
+        'dNo': d_no,
+        'pNum': p_num,
+        'air': air,
+        'volume': volume,
+        'timestamp': timestamp})
+
+    db.session.commit()
+
+    return jsonify({'message': 'Success'})
 
 
 @app.route('/demo_insert', methods=['POST'])
