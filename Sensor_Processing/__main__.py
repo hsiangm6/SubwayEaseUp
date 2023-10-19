@@ -88,8 +88,8 @@ def transfer_data():
 
     # Get the query parameters from the request
     ppm = request.args.get('p')
-    sound = int(request.args.get('s'))
-    acc = int(request.args.get('a'))
+    sound = float(request.args.get('s'))
+    acc = float(request.args.get('a'))
 
     # Check if 'acc' changed from 2 to 0 or 2 to 1
     if (previous_acc == 2 and acc == 0) or (previous_acc == 2 and acc == 1):
