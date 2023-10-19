@@ -45,7 +45,7 @@ class WandbLogger():
     def __init__(self, opt, run_id=None, job_type='Training'):
         """
         - Initialize WandbLogger instance
-        - Upload dataset if opt.upload_dataset is True
+        - Uploads dataset if opt.upload_dataset is True
         - Setup training processes if job_type is 'Training'
 
         arguments:

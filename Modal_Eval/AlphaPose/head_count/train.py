@@ -478,7 +478,7 @@ def parse_opt(known=False):
 
     # Logger arguments
     parser.add_argument('--entity', default=None, help='Entity')
-    parser.add_argument('--upload_dataset', nargs='?', const=True, default=False, help='Upload data, "val" option')
+    parser.add_argument('--upload_dataset', nargs='?', const=True, default=False, help='Uploads data, "val" option')
     parser.add_argument('--bbox_interval', type=int, default=-1, help='Set bounding-box image logging interval')
     parser.add_argument('--artifact_alias', type=str, default='latest', help='Version of dataset artifact to use')
 
