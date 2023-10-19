@@ -139,7 +139,7 @@ def upload_file():
     else:
         return "This file type is not allowed to be uploaded"
 
-@app.route('/data')
+@app.route('/data', methods=['POST', 'GET'])
 def transfer_data():
     """
     Handle data transfer and control recording and image capture.
@@ -149,7 +149,7 @@ def transfer_data():
     global crown, scream
 
     # Get the query parameters from the request
-    ppm = request.args.get('p')
+    ppm = request.get_json()['p']
 
     send_info = {
         'c_id': c_id,
@@ -160,10 +160,10 @@ def transfer_data():
     }
 
     print(send_info)
+    return {'success': 'true'}
 
     # Send the POST request
     try:
-        raise requests.exceptions.RequestException
         response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/carriage_info', json=send_info)
         if response.status_code == 200:
             print("Request sent successfully.")

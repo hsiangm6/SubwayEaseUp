@@ -94,7 +94,7 @@ def transfer_data():
     sound = float(request.args.get('s'))
     acc = float(request.args.get('a'))
 
-    response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/data?p={ppm}')
+    response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/data', json={'p': ppm})
 
     if response.status_code == 200:
         print("Update server successfully.")
