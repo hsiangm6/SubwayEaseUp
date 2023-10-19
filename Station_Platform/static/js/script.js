@@ -174,7 +174,7 @@ function get_arrivedTimeInterval() {
         .then(data => {
             // 在這裡使用data，它是解析後的JSON物件
             arrivedTimeArr = data;
-            demo_insert(0, 0);
+            // demo_insert(0, 0);
             worker();
         })
         .catch(error => {

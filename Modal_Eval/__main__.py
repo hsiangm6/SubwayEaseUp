@@ -30,7 +30,7 @@ UPLOAD_FOLDER = 'Uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # File types allowed to be uploaded
-ALLOWED_EXTENSIONS = {'wav', 'jpeg'}
+ALLOWED_EXTENSIONS = {'wav', 'jpg'}
 
 
 # Check whether the file extension is legal
@@ -39,7 +39,7 @@ def allowed_file(filename):
 
 
 # File upload route
-@app.route('/upload', methods=['POST'])
+@app.route('/Uploads', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
         return "No file selected"
@@ -49,7 +49,7 @@ def upload_file():
     if file.filename == '':
         return "No file selected"
 
-    if file and allowed_file(file.filename):
+    if file and allowed_file(file.filename): 
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return "File uploaded successfully"
