@@ -160,7 +160,6 @@ def transfer_data():
     }
 
     print(send_info)
-    return {'success': 'true'}
 
     # Send the POST request
     try:
@@ -172,11 +171,35 @@ def transfer_data():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
+@app.route('/update_variables', methods=['POST', 'GET'])
+def update_variables():
+    global c_id, c_no
+
+    # Get the new values from the form
+    new_c_id = int(request.form.get('c_id'))
+    new_c_no = int(request.form.get('c_no'))
+
+    # Update the backend variables
+    c_id = new_c_id
+    c_no = new_c_no
+
+    print(f'Update Car ID: {c_id}')
+    print(f'Update Car Number: {c_no}')
+
+    # Redirect back to the form page
+    return render_template(
+        'index.html',
+        c_id=c_id,
+        c_no=c_no
+    )
+
 @app.route('/')
 @app.route('/home')
 def index():
     return render_template(
-        'index.html'
+        'index.html',
+        c_id = c_id,
+        c_no = c_no
     )
 
 
