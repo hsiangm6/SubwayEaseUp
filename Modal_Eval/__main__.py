@@ -43,11 +43,33 @@ is_leaving = True
 leave_station_count = 0
 enter_station_count = 0
 
-# Check whether the file extension is legal
 def allowed_file(filename):
+    """
+    Check if the File Type is Allowed.
+
+    This function checks whether the given filename has an allowed file extension.
+
+    Parameters:
+        - filename (str): The name of the file to be checked.
+
+    Returns:
+        - bool: True if the file extension is allowed, False otherwise.
+    """
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 def process_image():
+    """
+    Process Image.
+
+    This function processes an image, primarily for detecting crowd congestion levels and managing station counts.
+
+    Parameters:
+        - None (Assumes the necessary variables and directories are set up.)
+
+    Returns:
+        - None (Updates global variables 'crown,' 'leave_station_count,' and 'enter_station_count' based on image processing results.)
+    """
     global crown, leave_station_count, enter_station_count
 
     print("Processing Image.")
@@ -62,19 +84,19 @@ def process_image():
     )
 
     try:
-        print(f'擁擠程度: {result["test-python.jpg"]["final_level"]}')
+        print(f'Congestion Level: {result["test-python.jpg"]["final_level"]}')
         print(result)
         crown = result['test-python.jpg']["final_level"]
     except KeyError:
-        print(f'Detect Fail: {result}')
+        print(f'Detection Failed: {result}')
 
-    # The leaving and enter signal
+    # Update leaving and entering station counts
     if is_leaving:
         leave_station_count += 1
     else:
         enter_station_count += 1
 
-    # Send the POST request
+    # Send a POST request to update station information
     try:
         send_info = {
             'c_id': c_id,
@@ -91,9 +113,18 @@ def process_image():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
-
-
 def process_sound():
+    """
+    Process Sound.
+
+    This function is responsible for processing sound data from an uploaded file. It uses a machine learning model to detect specific sound features, such as screams.
+
+    Parameters:
+        - None (Assumes the sound file is located at 'Uploads/recorded.wav' and uses a global 'model' variable for processing.)
+
+    Returns:
+        - None (Updates the global 'scream' variable with the result of the sound processing.)
+    """
     global scream
 
     print("Processing Sound.")
@@ -103,13 +134,23 @@ def process_sound():
     # Convert NumPy boolean to Python boolean
     evaluation_result = bool(valuation_result)
 
-    print(f'尖叫檢測: {evaluation_result}')
+    print(f'Scream Detection: {evaluation_result}')
     scream = evaluation_result
-
 
 # File upload route
 @app.route('/Uploads', methods=['POST'])
 def upload_file():
+    """
+    Handle File Upload.
+
+    This function handles the file upload process, including validation, storage, and processing based on the file type.
+
+    Parameters:
+        - None (Uses values from the request object)
+
+    Returns:
+        - A success message if the file is uploaded and processed successfully, or an error message if there are issues.
+    """
     if 'file' not in request.files:
         return "No file selected"
 
@@ -118,7 +159,7 @@ def upload_file():
     if file.filename == '':
         return "No file selected"
 
-    if file and allowed_file(file.filename): 
+    if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
@@ -138,6 +179,7 @@ def upload_file():
         return "File uploaded successfully"
     else:
         return "This file type is not allowed to be uploaded"
+
 
 @app.route('/data', methods=['POST', 'GET'])
 def transfer_data():
@@ -171,8 +213,20 @@ def transfer_data():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
+
 @app.route('/update_variables', methods=['POST', 'GET'])
 def update_variables():
+    """
+    Update Car Variables.
+
+    This function handles the update of car-related variables, specifically Car ID (c_id) and Car Number (c_no).
+
+    Parameters:
+        - None (Uses values from the request form)
+
+    Returns:
+        - None (Redirects to the 'index.html' page after the variables are updated.)
+    """
     global c_id, c_no
 
     # Get the new values from the form
@@ -196,10 +250,21 @@ def update_variables():
 @app.route('/')
 @app.route('/home')
 def index():
+    """
+    Display Home Page.
+
+    This function is responsible for rendering the home page, which displays Car ID (c_id) and Car Number (c_no).
+
+    Parameters:
+        - None
+
+    Returns:
+        - HTML template for the home page with Car ID and Car Number variables.
+    """
     return render_template(
         'index.html',
-        c_id = c_id,
-        c_no = c_no
+        c_id=c_id,
+        c_no=c_no
     )
 
 
