@@ -26,7 +26,8 @@ function present_car(all_carriage_info) {
     for (let i = 0; i < all_carriage_info.length; i++) {
         let dNoContainer = document.getElementById(`dNo-${all_carriage_info[i]['dNo']}`);
 
-        if (all_carriage_info[i]['air'] > 2 || all_carriage_info[i]['volume'] > 2) {
+        // Open carriage warning
+        if (all_carriage_info[i]['air'] === 1 || all_carriage_info[i]['volume'] === 1) {
             dNoContainer.style.backgroundColor = "rgba(255, 0, 0, 0.9)";
             if (all_carriage_info[i]['dNo'] >= 1 && all_carriage_info[i]['dNo'] <= 4) {
                 warningContainer_1.style.display = "";

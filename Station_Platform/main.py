@@ -127,12 +127,12 @@ def get_arrived_time_interval():
 # 進站訊號api
 @app.route('/access_signal', methods=['POST'])
 def access_signal():
-    access_signal_param = request.args.to_dict()
-    c_id = access_signal_param.get('c_id')  # 車號
-    route_way = access_signal_param.get('route_way')  # 線路
-    leave_station = access_signal_param.get('leave_station')  # 離站數
-    enter_station = access_signal_param.get('enter_station')  # 進站數
-    timestamp = access_signal_param.get('timestamp')
+    access_signal_param = request.get_json()
+    c_id = access_signal_param['cid']  # 車號
+    route_way = access_signal_param['route_way']  # 線路
+    leave_station = access_signal_param['leave_station']  # 離站數
+    enter_station = access_signal_param['enter_station']  # 進站數
+    timestamp = access_signal_param['timestamp']
 
     insert_sql = text(
         'INSERT INTO `access_signal`(`cid`, `route_way`, `leave_station`, `enter_station`, `timestamp`) '
@@ -147,20 +147,20 @@ def access_signal():
 
     db.session.commit()
 
-    return jsonify({'message': 'Success'})
+    return 'Success'
 
 
 # 車廂內部資訊api
 @app.route('/carriage_info', methods=['POST'])
 def carriage_info():
-    carriage_info_param = request.args.to_dict()
-    c_id = carriage_info_param.get('c_id')  # 車次
-    c_no = carriage_info_param.get('c_no')  # 車廂號
-    d_no = carriage_info_param.get('d_no')  # 車廂號
-    p_num = carriage_info_param.get('p_num')  # 壅擠程度
-    air = carriage_info_param.get('air')  # 有毒氣體
-    volume = carriage_info_param.get('volume')  # 異常聲音
-    timestamp = carriage_info_param.get('timestamp')  # 異常聲音
+    carriage_info_param = request.get_json()
+    c_id = carriage_info_param['c_id']  # 車次
+    c_no = carriage_info_param['c_no']  # 車廂號
+    d_no = carriage_info_param['d_no']  # 車廂號
+    p_num = carriage_info_param['p_num']  # 壅擠程度
+    air = carriage_info_param['air']  # 有毒氣體
+    volume = carriage_info_param['volume']  # 異常聲音
+    timestamp = carriage_info_param['timestamp']  # 異常聲音
 
     insert_sql = text(
         'INSERT INTO `carriage_info`(`cid`, `cNo`, `dNo`, `pNum`, `air`, `volume`, `timestamp`) '
@@ -177,7 +177,7 @@ def carriage_info():
 
     db.session.commit()
 
-    return jsonify({'message': 'Success'})
+    return 'Success'
 
 
 @app.route('/demo_insert', methods=['POST'])

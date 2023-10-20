@@ -244,14 +244,14 @@ def vis_frame_fast(frame, im_res, opt, vis_thres, format='coco'):
 
             label, left_leg_angle, right_leg_angle = get_label(kp_preds, 145)
             area=(int(bbox[3])-int(bbox[2]))*(int(bbox[1])-int(bbox[0]))
-            if area > 23000:
-                cv2.rectangle(img, (int(bbox[0]), int(bbox[2])), (int(bbox[1]), int(bbox[3])), color, 2)
-                # test
-                x_min = "{:.2f}".format(bbox[0])
-                x_max = "{:.2f}".format(bbox[1])
-                y_min = "{:.2f}".format(bbox[2])
-                y_max = "{:.2f}".format(bbox[3])
-                cv2.putText(img, f'area: {area}, label: {label}', (int(bbox[0]), int((bbox[2] + 26))), DEFAULT_FONT, 1, (255, 0, 0), 2)
+            # if area > 23000:
+            #     cv2.rectangle(img, (int(bbox[0]), int(bbox[2])), (int(bbox[1]), int(bbox[3])), color, 2)
+            #     # test
+            #     x_min = "{:.2f}".format(bbox[0])
+            #     x_max = "{:.2f}".format(bbox[1])
+            #     y_min = "{:.2f}".format(bbox[2])
+            #     y_max = "{:.2f}".format(bbox[3])
+            #     cv2.putText(img, f'area: {area}, label: {label}', (int(bbox[0]), int((bbox[2] + 26))), DEFAULT_FONT, 1, (255, 0, 0), 2)
                 # cv2.putText(img, f'x_min: {x_min}\nx_max{x_max}\ny_min{y_min}\ny_max: {y_max}', (int(bbox[0]), int((bbox[2] + 26))), DEFAULT_FONT, 1, (0, 255, 255), 2)
 
             if opt.tracking:

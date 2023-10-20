@@ -79,7 +79,7 @@ function present_car(data, all_carriage_info) {
     let warningContainer = document.getElementById('warning-container');
     warningContainer.innerHTML = "";
     for (let i = 0; i < all_carriage_info.length; i++) {
-        if (all_carriage_info[i]['air'] > 2 || all_carriage_info[i]['volume'] > 2) {
+        if (all_carriage_info[i]['air'] === 1 || all_carriage_info[i]['volume'] === 1) {
             let warning = document.createElement('div');
             warning.className = "d-flex position-relative flex-row align-items-center justify-content-center mx-3 p-1 bg-white rounded-3 warning flashingColon";
             warning.innerHTML = `<i class="bi bi-exclamation-triangle-fill text-danger h55"></i>
@@ -93,7 +93,7 @@ function present_car(data, all_carriage_info) {
     // degree_of_congestion.innerText = data[0]['pNum'];
     // air_quality.innerText = data[0]['air'].toFixed(2);
     // volume.innerText = data[0]['volume'];
-    if (data[0]['pNum'] === "不壅擠") {
+    if (data[0]['pNum'] === "不壅擠" || data[0]['pNum'] === "unknown") {
         degree_of_congestion.innerHTML = `<img
         class="img-fluid person-fill"
         src="${baseStaticUrl}images/person-green.svg"

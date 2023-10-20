@@ -22,66 +22,69 @@ function present_car(data) {
     carrWarn_1.style.display = "none";
     carrWarn_2.style.display = "none";
     carrWarn_3.style.display = "none";
-    data.forEach((data) => { //stationContainer(stationName, routeBlock)
+    if(data.length > 0){
+        data.forEach((data) => { //stationContainer(stationName, routeBlock)
 
-        //Show warning icon
-        if (data['air'] > 2 || data['volume'] > 2) {
-            if (data['cNo'] === 1) {
-                carrWarn_1.style.display = "";
-            } else if (data['cNo'] === 2) {
-                carrWarn_2.style.display = "";
-            } else {
-                carrWarn_3.style.display = "";
+            //Show warning icon
+            if (data['air'] === 1 || data['volume'] === 1) {
+                if (data['cNo'] === 1) {
+                    carrWarn_1.style.display = "";
+                } else if (data['cNo'] === 2) {
+                    carrWarn_2.style.display = "";
+                } else {
+                    carrWarn_3.style.display = "";
+                }
             }
-        }
 
-        // Show degree of congestion in every carriage
-        let perFillContainer = document.createElement('div');
-        if (data['pNum'] === "不壅擠") {
-            perFillContainer.innerHTML = `<img
-            class="img-fluid person-fill"
-            src="${baseStaticUrl}images/person-green.svg"
-            alt="person-fill">`;
-        } else if (data['pNum'] === "尚可") {
-            perFillContainer.innerHTML = `<img
-            class="img-fluid person-fill"
-            src="${baseStaticUrl}images/person-yellow.svg"
-            alt="person-fill">
-            <img
-            class="img-fluid person-fill"
-            src="${baseStaticUrl}images/person-yellow.svg"
-            alt="person-fill">`;
+            // Show degree of congestion in every carriage
+            let perFillContainer = document.createElement('div');
+            if (data['pNum'] === "不壅擠" || data['pNum'] === "unknown") {
+                perFillContainer.innerHTML = `<img
+                class="img-fluid person-fill"
+                src="${baseStaticUrl}images/person-green.svg"
+                alt="person-fill">`;
+            } else if (data['pNum'] === "尚可") {
+                perFillContainer.innerHTML = `<img
+                class="img-fluid person-fill"
+                src="${baseStaticUrl}images/person-yellow.svg"
+                alt="person-fill">
+                <img
+                class="img-fluid person-fill"
+                src="${baseStaticUrl}images/person-yellow.svg"
+                alt="person-fill">`;
 
-        } else if (data['pNum'] === "壅擠") {
-            perFillContainer.innerHTML = `<img
-            class="img-fluid person-fill"
-            src="${baseStaticUrl}images/person-red.svg"
-            alt="person-fill">
-            <img
-            class="img-fluid person-fill"
-            src="${baseStaticUrl}images/person-red.svg"
-            alt="person-fill">
-            <img
-            class="img-fluid person-fill"
-            src="${baseStaticUrl}images/person-red.svg"
-            alt="person-fill">`;
-        }
-
-        if (data["cNo"] === 1) {
-            if (carriage_1.innerHTML === "") {
-                carriage_1.appendChild(perFillContainer)
+            } else if (data['pNum'] === "壅擠") {
+                perFillContainer.innerHTML = `<img
+                class="img-fluid person-fill"
+                src="${baseStaticUrl}images/person-red.svg"
+                alt="person-fill">
+                <img
+                class="img-fluid person-fill"
+                src="${baseStaticUrl}images/person-red.svg"
+                alt="person-fill">
+                <img
+                class="img-fluid person-fill"
+                src="${baseStaticUrl}images/person-red.svg"
+                alt="person-fill">`;
             }
-        } else if (data["cNo"] === 2) {
-            if (carriage_2.innerHTML === "") {
-                carriage_2.appendChild(perFillContainer)
-            }
-        } else if (data["cNo"] === 3) {
-            if (carriage_3.innerHTML === "") {
-                carriage_3.appendChild(perFillContainer)
-            }
-        }
 
-    });
+            if (data["cNo"] === 1) {
+                if (carriage_1.innerHTML === "") {
+                    carriage_1.appendChild(perFillContainer)
+                }
+            } else if (data["cNo"] === 2) {
+                if (carriage_2.innerHTML === "") {
+                    carriage_2.appendChild(perFillContainer)
+                }
+            } else if (data["cNo"] === 3) {
+                if (carriage_3.innerHTML === "") {
+                    carriage_3.appendChild(perFillContainer)
+                }
+            }
+
+        });
+    }
+
 }
 
 function presentArrivedTime(data) {
@@ -150,14 +153,19 @@ function worker() {
             console.log("accs", data['access_signal']);
             console.log("carInfo", data['car_info']);
 
-            if (data['access_signal'].length === 0 && data['car_info'].length === 0) {
-                presentArrivedTime(data['access_signal']);
-                setTimeout(worker, 5000);
-            } else {
-                presentArrivedTime(data['access_signal']);
-                present_car(data['car_info']);
-                setTimeout(worker, 5000);
-            }
+
+            presentArrivedTime(data['access_signal']);
+            present_car(data['car_info']);
+            setTimeout(worker, 5000);
+            // if (data['access_signal'].length === 0 && data['car_info'].length === 0) {
+            //     presentArrivedTime(data['access_signal']);
+            //     present_car(data['car_info']);
+            //     setTimeout(worker, 5000);
+            // } else {
+            //     presentArrivedTime(data['access_signal']);
+            //     present_car(data['car_info']);
+            //     setTimeout(worker, 5000);
+            // }
 
 
         })
