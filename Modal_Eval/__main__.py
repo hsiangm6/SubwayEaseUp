@@ -70,7 +70,7 @@ def process_image():
     Returns:
         - None (Updates global variables 'crown,' 'leave_station_count,' and 'enter_station_count' based on image processing results.)
     """
-    global crown, leave_station_count, enter_station_count
+    global crown, leave_station_count, enter_station_count, is_leaving
 
     print("Processing Image.")
 
@@ -92,8 +92,10 @@ def process_image():
 
     # Update leaving and entering station counts
     if is_leaving:
+        is_leaving = False
         leave_station_count += 1
     else:
+        is_leaving = True
         enter_station_count += 1
 
     # Send a POST request to update station information
