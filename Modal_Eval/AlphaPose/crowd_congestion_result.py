@@ -24,13 +24,13 @@ def comprehensive_evaluation(head_count_level: int, action_recognition_level: in
 
     # Determine the evaluation category based on the comprehensive score
     if 0 < levels_count <= 1:
-        return 'low', levels_count
+        return '不壅擠', levels_count
     elif 1 < levels_count <= 2:
-        return 'medium', levels_count
+        return '尚可', levels_count
     elif 2 < levels_count <= 3.5:
-        return 'high', levels_count
+        return '壅擠', levels_count
     else:
-        return 'error', levels_count
+        return 'unknown', levels_count
 
 
 def crowd_congestion_result(input_img: str='', work_dir: str='', output_dir: str='',hc_save_img: bool=False, ar_save_img: bool=False):
@@ -92,8 +92,13 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', output_dir: str
                 head_count_info = head_count_dict[img_name]
                 # Use get() to avoid errors if img_name is not in act_recog_dict
                 act_recog_info = act_recog_dict.get(img_name, {})
-                final_level, levels_count = comprehensive_evaluation(head_count_info["hc_congestion_level"],
+
+                try:
+                    final_level, levels_count = comprehensive_evaluation(head_count_info["hc_congestion_level"],
                                                                      act_recog_info["ar_congestion_level"])
+                except KeyError:
+                    final_level, levels_count = '不壅擠', 1
+
                 final_result[img_name] = {
                     **head_count_info,
                     **act_recog_info,

@@ -32,9 +32,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # File types allowed to be uploaded
 ALLOWED_EXTENSIONS = {'wav', 'jpg'}
 
-crown = '不擁擠'
+crown = '不壅擠'
 scream = 0
-TARGET_IP = ''
+TARGET_IP = '192.168.230.202'
 TARGET_PORT = 5000
 c_id = 168
 c_no = 1
@@ -105,7 +105,7 @@ def process_image():
             'enter_station': enter_station_count
         }
 
-        response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/access_signals', json=send_info)
+        response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/access_signal', json=send_info)
         if response.status_code == 200:
             print("Request sent successfully.")
         else:
@@ -203,7 +203,6 @@ def transfer_data():
 
     print(send_info)
 
-    return 'Ok'
 
     # Send the POST request
     try:
@@ -214,6 +213,8 @@ def transfer_data():
             print(f"Request failed with status code {response.status_code}.")
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
+
+    return 'Ok'
 
 
 @app.route('/update_variables', methods=['POST', 'GET'])
