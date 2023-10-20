@@ -203,6 +203,8 @@ def transfer_data():
 
     print(send_info)
 
+    return 'Ok'
+
     # Send the POST request
     try:
         response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/carriage_info', json=send_info)

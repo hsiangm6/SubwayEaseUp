@@ -90,7 +90,7 @@ def transfer_data():
     global previous_acc, previous_sound, is_recording  # Ensure we're modifying the global variables
 
     # Get the query parameters from the request
-    ppm = request.args.get('p')
+    ppm = float(request.args.get('p'))
     sound = float(request.args.get('s'))
     acc = float(request.args.get('a'))
 
@@ -113,7 +113,7 @@ def transfer_data():
     previous_acc = acc
     previous_sound = sound
 
-    return render_template('index.html')
+    return 'OK'
 
 
 if __name__ == '__main__':

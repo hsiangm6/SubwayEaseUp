@@ -140,8 +140,13 @@ def crowd_congestion_result(input_img: str='', work_dir: str='', output_dir: str
                 head_count_info = head_count_dict[img_name]
                 # Use get() to avoid errors if img_name is not in act_recog_dict
                 act_recog_info = act_recog_dict.get(img_name, {})
-                final_level = comprehensive_evaluation(head_count_info["hc_congestion_level"],
-                                                       act_recog_info["ar_congestion_level"])
+
+                try:
+                    final_level = comprehensive_evaluation(head_count_info["hc_congestion_level"],
+                                                           act_recog_info["ar_congestion_level"])
+                except KeyError:
+                    final_level = '不壅擠'
+
                 final_result[img_name] = {
                     **head_count_info,
                     **act_recog_info,
