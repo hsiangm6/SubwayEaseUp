@@ -4,6 +4,9 @@ from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 from AlphaPose.crowd_congestion_result import crowd_congestion_result
 from HumanScreamDetect.ModelEval import process_file
+import warnings
+
+warnings.filterwarnings("ignore")
 
 import os
 
@@ -38,6 +41,7 @@ TARGET_IP = '192.168.230.202'
 TARGET_PORT = 5000
 c_id = 168
 c_no = 1
+air = 0.0
 DEFAULT_ROUTE_WAY = 'OT1'
 is_leaving = True
 leave_station_count = 0
@@ -127,7 +131,7 @@ def process_sound():
     Returns:
         - None (Updates the global 'scream' variable with the result of the sound processing.)
     """
-    global scream
+    global scream, air, c_id, c_no, crown
 
     print("Processing Sound.")
 
@@ -138,6 +142,26 @@ def process_sound():
 
     print(f'Scream Detection: {evaluation_result}')
     scream = evaluation_result
+
+    send_info = {
+        'c_id': c_id,
+        'c_no': c_no,
+        'air': air,
+        'volume': scream,
+        'pNum': crown
+    }
+
+    print(send_info)
+
+    # Send the POST request
+    try:
+        response = requests.post(f'http://{TARGET_IP}:{TARGET_PORT}/carriage_info', json=send_info)
+        if response.status_code == 200:
+            print("Request sent successfully.")
+        else:
+            print(f"Request failed with status code {response.status_code}.")
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
 
 # File upload route
 @app.route('/Uploads', methods=['POST'])
@@ -190,15 +214,15 @@ def transfer_data():
 
     This function checks the provided data, controls recording, and captures an image when needed.
     """
-    global crown, scream
+    global scream, air, c_id, c_no, crown
 
     # Get the query parameters from the request
-    ppm = request.get_json()['p']
+    air = float(request.get_json()['p'])
 
     send_info = {
         'c_id': c_id,
         'c_no': c_no,
-        'air': ppm,
+        'air': air,
         'volume': scream,
         'pNum': crown
     }
