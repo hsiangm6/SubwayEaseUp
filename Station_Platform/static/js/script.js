@@ -107,7 +107,7 @@ function presentArrivedTime(data) {
             if (nowInterval >= 0 && remain >= 0) {
                 arrivedTimeContainer.innerText = `${remain}`;
             } else {
-                arrivedTimeContainer.innerText = '未發車';
+                arrivedTimeContainer.innerText = '0';
             }
         } else {
             if (data[0]['leave_station'] !== route_order) {

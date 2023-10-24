@@ -1,0 +1,3 @@
+AlphaPose\detector\yolo\data\yolov3-spp.weights
+
+AlphaPose\pretrained_models\fast_res50_256x192.pth
